@@ -1,0 +1,51 @@
+Title: 潮线之下
+Credit: Written by
+Author: Fixture Writer
+Draft date: 2026-07-11
+
+/* ARTIFACT_ID: SCRIPT-v1.0.0 */
+/* ARTIFACT_TYPE: SCRIPT_MASTER */
+/* PROJECT_ID: PROJECT-FEATURE-001 */
+/* PROJECT_BASELINE: PROJECT-FEATURE-v1.0.0 */
+/* ARTIFACT_VERSION: v1.0.0 */
+/* STATUS: LOCKED */
+/* OWNER: fixture.feature.writer */
+/* REVIEWER: fixture.feature.reviewer */
+/* APPROVER: fixture.feature.approver */
+/* REVIEW_ID: REVIEW-001 */
+/* TEST_RUN_ID: RUN-FEATURE-BASELINE */
+/* CONFORMANCE_LEVEL: HUMAN_REVIEWED */
+/* CONTENT_DIGEST: sha256:473a990a7d3df816e0c62626b26f0301d5d078c7dfe680e87803c0e960a9ef6f */
+/* UPSTREAM_IDS: BIBLE-v1.0.0, DEL-FEATURE-OUTLINE-001 */
+
+/* SC-001 */
+.内景 港口调度室 - 夜
+
+顾岚的右手压在控制台边缘。红色倒计时只剩十四分钟。
+
+@顾岚
+把旧城区重新列入一级路线。
+
+系统拒绝。屏幕上闪过她自己的签署编号。
+
+程野的声音从门外传来。
+
+@程野
+等下一轮排序。你现在没有权限。
+
+顾岚拔下权限卡，转身走向维修船的方向。
+
+/* SC-002 */
+.内景 维修船终端室 - 夜
+
+电源一盏接一盏熄灭。韩宁挡在终端前。
+
+@韩宁
+你先告诉我，为什么录音里有你的声音。
+
+顾岚看着一次性导出按钮。
+
+@顾岚
+因为我签过它。现在让我把它带出去。
+
+录音开始播放。顾岚的旧签名从扬声器里传出。她按下导出。

@@ -1,0 +1,43 @@
+Title: 未登记的妹妹
+Credit: Written by
+Author: Fixture Writer
+Draft date: 2026-07-11
+
+/* ARTIFACT_ID: SCRIPT-v1.0.0 */
+/* ARTIFACT_TYPE: SCRIPT_MASTER */
+/* PROJECT_ID: PROJECT-VERTICAL-001 */
+/* PROJECT_BASELINE: PROJECT-VERTICAL-v1.0.0 */
+/* ARTIFACT_VERSION: v1.0.0 */
+/* STATUS: LOCKED */
+/* OWNER: fixture.vertical.writer */
+/* REVIEWER: fixture.vertical.reviewer */
+/* APPROVER: fixture.vertical.approver */
+/* REVIEW_ID: REVIEW-001 */
+/* TEST_RUN_ID: RUN-VERTICAL-BASELINE */
+/* CONFORMANCE_LEVEL: HUMAN_REVIEWED */
+/* CONTENT_DIGEST: sha256:2e76fb97826af40d12d3bcec6f334bcd3a5823a91f027cc13fa891d4086f7202 */
+/* UPSTREAM_IDS: BIBLE-v1.0.0, DEL-VERTICAL-SEASON-001, EP-001, EP-002 */
+
+/* SC-101 */
+.内景 终端室 - 夜
+
+林夏听着电话里妹妹说医院找不到她的身份。
+
+@林夏
+把通知打印出来。
+
+终端拒绝访问。周明站在门口。
+
+@周明
+你已经没有权限。
+
+林夏刷过旧员工卡。打印机吐出一张红色通知：林澈，身份待清除。底部是林夏的旧签名。
+
+/* SC-102 */
+.内景 档案室 - 夜
+
+林夏把旧门禁卡插入读卡器。绿灯亮起，随后开始闪烁。
+
+她找到林澈的原始日志。屏幕上的删除倒计时从四十八小时跳成六小时。
+
+林夏拔出存储片，门外响起脚步声。
