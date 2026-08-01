@@ -67,7 +67,7 @@ upstream_ids: [BIBLE-[VERSION], DEL-[OUTLINE-ID]]
 |---|---|
 | 项目名称 | [项目名] |
 | 项目 ID | [PROJECT_ID] |
-| 集数/段落 | EP[00] / VE[00] / FEATURE |
+| 集数/段落 | canonical：EP-[NNN]；竖屏展示/文件名别名：VE[集数]（如 VE01 ↔ EP-001）；长片：FEATURE |
 | 场次编号 | SC-[编号] |
 | 当前版本 | v[00] |
 | 状态 | DRAFT / IN_REVIEW / APPROVED / LOCKED / SUPERSEDED / BLOCKED |

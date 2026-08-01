@@ -229,7 +229,7 @@ tests/
 | `BIBLE-` | Bible 事实 | `BIBLE-CHAR-003` |
 | `ARC-` | 人物弧 | `ARC-PROTAG-001` |
 | `BEAT-` | 结构节点 | `BEAT-05` |
-| `EP-` | 集 | `EP-08` |
+| `EP-` | 集 | `EP-008` |
 | `SC-` | 场景卡 | `SC-024` |
 | `SCRIPT-` | 剧本版本 | `SCRIPT-v1.2.0` |
 | `ASSET-` | 生产资产 | `ASSET-PROP-014` |

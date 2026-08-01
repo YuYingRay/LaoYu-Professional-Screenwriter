@@ -23,6 +23,10 @@ upstream_ids: [BIBLE-[VERSION], DEL-SEASON-[NNN]]
 > VE08_BLACKLIST_v03.md
 > ```
 >
+> ID 与文件名映射：`artifact_id` 等 canonical 字段始终使用 `EP-[NNN]`；
+> `VE[集数]` 只用于竖屏单集的文件名与叙述展示。两者集数必须相同并一一对应，
+> 例如 `VE08 ↔ EP-008`；canonical 字段不得写入 `VE*`。
+>
 > 本模板适用于：
 >
 > - 9:16 竖屏微短剧

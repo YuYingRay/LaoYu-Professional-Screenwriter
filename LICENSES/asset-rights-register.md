@@ -723,7 +723,7 @@ ASSET-MODEL-001-CHARACTER-LORA-v01
 | BIBLE-PROP-001 | 关键录音笔 | ASSET-PROP-014 | 第 8 场证据道具 | APPROVED_FOR_USE | 是 |  |
 | SC-024 | 女主听录音 | ASSET-AUDIO-011 | 关键声音证据 | RIGHTS_PENDING | 否 | 阻断剧本锁定 |
 | SHOT-1-024B | 手机 UI 特写 | ASSET-UI-008 | 屏幕文字 | USE_WITH_CONDITIONS | 是 | 需虚构品牌 |
-| EP-08 | 付费点证据公开 | ASSET-VO-002 | 录音回放 | EXPIRING | 有条件 | 到期前续约 |
+| EP-008 | 付费点证据公开 | ASSET-VO-002 | 录音回放 | EXPIRING | 有条件 | 到期前续约 |
 
 ## 7.3 版本一致性测试
 
