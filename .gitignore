@@ -13,3 +13,4 @@ env/
 tests/reports/
 .DS_Store
 Thumbs.db
+/_tmp*
