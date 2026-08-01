@@ -234,5 +234,35 @@ class ChangeLevelSingleSourceTests(unittest.TestCase):
         self.assertEqual({row["decision"] for row in rows}, {"REPLACE_WITH_CONTRACT_POINTER"})
 
 
+class NoticeSingleSourceTests(unittest.TestCase):
+    def test_schema_and_contract_point_to_one_notice_template(self) -> None:
+        import json
+
+        schema = json.loads((ROOT / "governance" / "control-schema.json").read_text(encoding="utf-8"))
+        registered = [path for path in schema["template_closure"] if path.endswith("notice.md")]
+        self.assertEqual(registered, ["templates/notice.md"])
+        template = (ROOT / "templates" / "notice.md").read_text(encoding="utf-8")
+        self.assertIn("governance/notices/NOTICE-<scope>-<NNN>-<slug>.md", template)
+        self.assertIn("文件名必须以 frontmatter 的 `artifact_id` 开头", template)
+
+    def test_notice_instances_have_one_directory_and_hyphenated_names(self) -> None:
+        notice_dir = ROOT / "governance" / "notices"
+        names = {path.name for path in notice_dir.glob("NOTICE-*.md")}
+        self.assertIn("NOTICE-CONTRACT-001.md", names)
+        self.assertIn("NOTICE-LIC-001-formal-licensor.md", names)
+        self.assertFalse((ROOT / "governance" / "upstream-notices").exists())
+        self.assertFalse(any("_" in name for name in names))
+
+    def test_notice_migration_map_records_template_rule_and_instance_move(self) -> None:
+        path = ROOT / "governance" / "wp5-notice-source-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(
+            {row["decision"] for row in rows},
+            {"MERGE_NAMING_RULE_INTO_TEMPLATE", "MOVE_INSTANCE_TO_CANONICAL_DIRECTORY"},
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

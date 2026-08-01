@@ -17,6 +17,14 @@ priority: P0 / P1 / P2
 
 # 上游变更通知
 
+## 使用与命名
+
+- 每次受控变更复制本模板为一个独立文件，统一存放在 `governance/notices/`。
+- 推荐文件名：`governance/notices/NOTICE-<scope>-<NNN>-<slug>.md`；项目内简写可用
+  `governance/notices/NOTICE-<NNN>-<slug>.md`。
+- 文件名必须以 frontmatter 的 `artifact_id` 开头，使用 ASCII 连字符 `-`，不得使用下划线。
+- 一个文件只承载一个 Notice 事务；完成全部下游同步与复验后，才可进入 `VERIFIED` 或 `CLOSED`。
+
 ## 1. 变更前后
 
 | 对象 ID | 旧事实/状态 | 新事实/状态 | 是否锁定事实 | 事实源 |

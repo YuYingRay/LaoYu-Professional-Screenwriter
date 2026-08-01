@@ -1,0 +1,3 @@
+source_path	legacy_content	canonical_target	decision	review_note
+governance/upstream-notices/README.md	Notice filename and instance-directory rule	templates/notice.md#使用与命名	MERGE_NAMING_RULE_INTO_TEMPLATE	Merged into actual schema-registered template; corrected underscore convention to artifact-ID-aligned hyphen convention.
+governance/upstream-notices/NOTICE-LIC-001_formal-licensor.md	Formal licensor Notice instance	governance/notices/NOTICE-LIC-001-formal-licensor.md	MOVE_INSTANCE_TO_CANONICAL_DIRECTORY	Preserved transaction content and added VERIFIED-state affected-set fields required by the contract.

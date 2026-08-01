@@ -118,7 +118,7 @@ class TemplateClosureTests(unittest.TestCase):
         source = (ROOT / "scripts" / "validate_project.py").read_text(encoding="utf-8")
         self.assertNotIn('"README.md"', source)
 
-    def test_hygiene_audit_exposes_the_four_known_readmes(self) -> None:
+    def test_hygiene_audit_exposes_the_three_remaining_readmes(self) -> None:
         findings = hygiene_findings(ROOT, schema())
         self.assertEqual(
             {item.path for item in findings},
@@ -126,7 +126,6 @@ class TemplateClosureTests(unittest.TestCase):
                 "README.md",
                 "tests/README.md",
                 "LICENSES/README.md",
-                "governance/upstream-notices/README.md",
             },
         )
 

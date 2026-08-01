@@ -12,6 +12,11 @@ test_run_id: RUN-LIC-001
 conformance_level: TRACEABILITY_CONFORMANCE
 upstream_ids: []
 notice_status: VERIFIED
+affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER]
+affected_paths: [LICENSE, LICENSES/skill-license.md, README.md, governance/source-links.md, LICENSES/third-party-notices.md]
+coupling: [RIGHTS, BASELINE]
+verification_refs:
+  - RUN-LIC-001
 change_level: L4
 priority: P1
 ---
