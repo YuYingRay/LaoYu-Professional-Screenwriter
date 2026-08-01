@@ -11,8 +11,9 @@ approver: fixture.feature.approver
 review_id: REVIEW-001
 test_run_id: RUN-FEATURE-BASELINE
 conformance_level: HUMAN_REVIEWED
-content_digest: sha256:06d18be095318a6c4ef6bb2bdc8a27acac547d6562216e4877c9253b4e0224dd
+content_digest: sha256:580c817158c37a6ab30bd2a62b304e0bb57e2e14349fe7f1111c5478ce982c40
 upstream_ids: [PROJECT-FEATURE-001]
+continuity_claims: [CLM-CONT-001]
 ---
 
 # Full Bible
@@ -47,8 +48,16 @@ upstream_ids: [PROJECT-FEATURE-001]
 
 - 风险系统每 30 分钟重新排序一次疏散路线。
 - 离线广播线可以绕过系统，但会留下可追溯的人工操作记录。
-- 顾岚右手旧伤从 SC-001 延续到高潮，不能无解释消失。
+- 顾岚右手旧伤在当前 fixture 的 SC-001 至 SC-002 持续可见；完整长片的高潮不在当前实现范围，后续必须另补证据并复审。
 - 原始录音只能从维修船终端导出一次。
+
+```continuity-claim
+claim_id: CLM-CONT-001
+claim: 顾岚右手旧伤在当前fixture的SC-001至SC-002持续可见
+evidence_ref: SCRIPT-v1.0.0#SC-001; SCRIPT-v1.0.0#SC-002
+review_ref: REVIEW-001#FIND-CONT-001
+status: HUMAN_REVIEWED
+```
 
 ## 因果脊柱
 

@@ -15,7 +15,7 @@ CANDIDATE_RE = re.compile(r"(?<!\[)\[([^\[\]\r\n]{1,200})\]")
 CHECKBOX_RE = re.compile(r"(?m)^- \[[ xX]\]")
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]\r\n]+\]\([^\)\r\n]*\)")
 LIST_LINE_RE = re.compile(
-    r"^(upstream_ids|evidence_refs|affected_ids|affected_paths|coupling|migration_tasks):\s*(\[.*\])\s*$"
+    r"^(upstream_ids|evidence_refs|affected_ids|affected_paths|coupling|migration_tasks|findings|continuity_claims):\s*(\[.*\])\s*$"
 )
 FIXED_CHANGELOG_LABELS = {"ARCH-001", "ARCH-002", "ARCH-003", "Unreleased", "v0.1.0"}
 REGEX_CLASSES = {"0-9", "0-9A-Za-z"}

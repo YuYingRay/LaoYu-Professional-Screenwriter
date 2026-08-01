@@ -79,6 +79,19 @@ def metadata(path: Path) -> dict[str, Any]:
     return result
 
 
+def fenced_records(text: str, fence: str) -> list[dict[str, Any]]:
+    records: list[dict[str, Any]] = []
+    pattern = re.compile(rf"```{re.escape(fence)}\s*\n(.*?)\n```", re.DOTALL)
+    for match in pattern.finditer(text):
+        record: dict[str, Any] = {}
+        for line in match.group(1).splitlines():
+            if ":" in line:
+                key, value = line.split(":", 1)
+                record[key.strip()] = scalar(value)
+        records.append(record)
+    return records
+
+
 def canonical_digest(path: Path) -> str:
     text = path.read_text(encoding="utf-8")
     text = re.sub(r"^content_digest:\s*.*$", "content_digest: <excluded>", text, flags=re.MULTILINE)
@@ -135,6 +148,8 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     artifact_ids: dict[str, Path] = {}
     scene_card_ids: set[str] = set()
     script_scene_ids: set[str] = set()
+    finding_records: dict[str, tuple[str, dict[str, Any]]] = {}
+    continuity_records: list[tuple[Path, dict[str, Any]]] = []
 
     for path, meta in metas.items():
         if path.name in {"input-brief.md", "change-log.md", "control-plane-file-map.md"}:
@@ -222,6 +237,47 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
             scene_card_ids.add(str(aid))
         if atype == "SCRIPT_MASTER":
             script_scene_ids.update(SCENE_RE.findall(path.read_text(encoding="utf-8")))
+        if atype == "REVIEW" and "findings" in meta:
+            declared = meta["findings"] if isinstance(meta["findings"], list) else [meta["findings"]]
+            records = fenced_records(path.read_text(encoding="utf-8"), "finding")
+            record_ids = [str(record.get("finding_id", "")) for record in records]
+            if sorted(declared) != sorted(record_ids):
+                findings.append(Finding(
+                    "P0", "FINDING_DECLARATION", rel,
+                    "frontmatter findings must equal structured finding blocks",
+                ))
+            for record in records:
+                finding_id = str(record.get("finding_id", ""))
+                for field in control_schema["finding_required_fields"]:
+                    value = record.get(field)
+                    if field not in record or value is None or value == "" or value == []:
+                        findings.append(Finding(
+                            "P0", "FINDING_FIELD", rel,
+                            f"{finding_id or '<missing-id>'} missing field: {field}",
+                        ))
+                if record.get("status") not in control_schema["finding_statuses"]:
+                    findings.append(Finding(
+                        "P1", "FINDING_STATUS_ENUM", rel,
+                        f"invalid finding status: {record.get('status')}",
+                    ))
+                if finding_id:
+                    if finding_id in finding_records:
+                        findings.append(Finding("P0", "DUPLICATE_FINDING_ID", rel, finding_id))
+                    finding_records[finding_id] = (str(aid), record)
+        if atype == "STORY_BIBLE" and "continuity_claims" in meta:
+            declared = (
+                meta["continuity_claims"]
+                if isinstance(meta["continuity_claims"], list)
+                else [meta["continuity_claims"]]
+            )
+            records = fenced_records(path.read_text(encoding="utf-8"), "continuity-claim")
+            record_ids = [str(record.get("claim_id", "")) for record in records]
+            if sorted(declared) != sorted(record_ids):
+                findings.append(Finding(
+                    "P0", "CONTINUITY_CLAIM_DECLARATION", rel,
+                    "frontmatter continuity_claims must equal structured claim blocks",
+                ))
+            continuity_records.extend((path, record) for record in records)
 
     for path, meta in metas.items():
         if not meta or path.name in {"input-brief.md", "change-log.md"}:
@@ -240,6 +296,51 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
             findings.append(Finding("P1", "SCENE_NOT_IN_SCRIPT", "script", f"scene cards not mapped in script: {', '.join(missing)}"))
         if orphan:
             findings.append(Finding("P0", "ORPHAN_SCRIPT_SCENE", "script", f"script scenes without Scene Cards: {', '.join(orphan)}"))
+
+    for path, record in continuity_records:
+        rel = str(path.relative_to(root))
+        if record.get("status") not in {"HUMAN_REVIEWED", "PRODUCTION_READY"}:
+            findings.append(Finding(
+                "P0", "CONTINUITY_CLAIM_STATUS", rel,
+                f"claim is not human-reviewed: {record.get('claim_id', '<missing-id>')}",
+            ))
+        evidence_ref = record.get("evidence_ref")
+        if not evidence_ref:
+            findings.append(Finding(
+                "P0", "CONTINUITY_EVIDENCE_REF", rel,
+                f"{record.get('claim_id', '<missing-id>')} requires evidence_ref",
+            ))
+        else:
+            for reference in str(evidence_ref).split(";"):
+                artifact_id, separator, locator = reference.strip().partition("#")
+                if artifact_id not in artifact_ids:
+                    findings.append(Finding(
+                        "P0", "CONTINUITY_EVIDENCE_ARTIFACT", rel,
+                        f"unknown evidence artifact: {artifact_id}",
+                    ))
+                if separator and locator.startswith("SC-") and locator not in script_scene_ids:
+                    findings.append(Finding(
+                        "P0", "CONTINUITY_EVIDENCE_SCENE", rel,
+                        f"unknown evidence scene: {locator}",
+                    ))
+        review_ref = record.get("review_ref")
+        if not review_ref:
+            findings.append(Finding("P0", "CONTINUITY_REVIEW_REF", rel, "review_ref is required"))
+        else:
+            review_id, separator, finding_id = str(review_ref).partition("#")
+            linked = finding_records.get(finding_id) if separator else None
+            review_path = artifact_ids.get(review_id)
+            review_meta = metas.get(review_path, {}) if review_path else {}
+            if (
+                not linked
+                or linked[0] != review_id
+                or review_meta.get("conformance_level") not in {"HUMAN_REVIEWED", "PRODUCTION_READY"}
+                or linked[1].get("status") not in {"FIXED", "ACCEPTED_RISK"}
+            ):
+                findings.append(Finding(
+                    "P0", "CONTINUITY_REVIEW_REF", rel,
+                    f"review record is missing or not accepted: {review_ref}",
+                ))
 
     return findings
 
