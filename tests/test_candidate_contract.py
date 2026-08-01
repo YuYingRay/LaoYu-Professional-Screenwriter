@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import subprocess
 import sys
 import unittest
@@ -7,6 +8,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PRE_WP2B_TEMPLATE_SHA256 = {
+    "project-manifest.md": "A0311A7CC3175DEAD528CE35B32C17A1406F2F885F5D428095CBB798A4A003B1",
+    "source-links.md": "EE14A7309E9C4ECCEB504629CFB1CBCB83D9D4FF2F589B76B547D4854C7C065E",
+    "upstream-notices.md": "5CFC171E52A121E2AEF44F2BED7F8E08D1BCE53ADA476F4D14EBC43342399ABE",
+    "change-log.md": "401B5E6A7A6DD0CC885353D099562FFC6B49EC7C93B6FBF9E72ACD4689D3F1DD",
+}
 
 
 def frontmatter(path: Path) -> dict[str, str]:
@@ -68,13 +75,12 @@ class CandidateContractTests(unittest.TestCase):
 
     def test_four_blank_governance_templates_are_separate(self) -> None:
         template_root = ROOT / "templates" / "governance"
-        for name in ["project-manifest.md", "source-links.md", "upstream-notices.md", "change-log.md"]:
+        for name, expected_digest in PRE_WP2B_TEMPLATE_SHA256.items():
             path = template_root / name
             self.assertTrue(path.is_file(), name)
             self.assertIn("PROJECT-[SLUG]", path.read_text(encoding="utf-8"), name)
-            previous = subprocess.check_output(["git", "show", f"HEAD:governance/{name}"], cwd=ROOT)
             current = path.read_bytes().replace(b"\r\n", b"\n")
-            self.assertEqual(current, previous, name)
+            self.assertEqual(hashlib.sha256(current).hexdigest().upper(), expected_digest, name)
         self.assertNotIn("PROJECT-[SLUG]", frontmatter(ROOT / "governance" / "project-manifest.md")["project_id"])
 
     def test_root_governance_instances_use_concrete_identity(self) -> None:
