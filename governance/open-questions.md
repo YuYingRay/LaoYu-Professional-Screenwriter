@@ -23,8 +23,8 @@ upstream_ids: []
 | B6 | 跨集事实注入率尚无完备定义 | 下一轮 | 定义完成前不评分 |
 | B7 | 安装根存在计划未记载的空目录`.agents/`与`.codex/`；二者不受Git跟踪或本地`.gitignore`忽略，且当前ownership规则未声明 | WP1b strict前 | **CLOSED（2026-08-01）**：用户授权条件删除；前置门禁全部通过后以非递归方式删除，删除后不存在且未产生新空目录 |
 | B8 | A1独立枚举总数为37，但示例内分类为“表格24/标题8/正文3”，与冻结计划“表格25/标题8/正文2”不一致 | A1继续前 | **CLOSED（2026-08-01）**：v1.0.7 已按“表格24/标题8/正文3”重新冻结，37处全集与D3-MAP动作不变 |
-| B9 | ownership第1条的`**/__pycache__/**`与`scripts/**`等业务路径必然重叠；按“计算全部匹配”算法，运行Python后会稳定产生`MULTI_OWNED_FILE` | WP1b strict前 | **OPEN**：WP4a audit保留实测Finding；不得以删除缓存伪装修复，strict前须使规则集合本身互斥 |
-| B10 | 安装根存在未跟踪且未忽略的`.claude/scheduled_tasks.lock`，冻结计划的WP0清单未记录该宿主文件 | WP1b strict前 | **OPEN**：如实报`UNDECLARED_INSTALL_CONTENT`；未获包边界裁决前不删除、不白名单、不改归属 |
+| B9 | ownership第1条的`**/__pycache__/**`与`scripts/**`等业务路径必然重叠；按“计算全部匹配”算法，运行Python后会稳定产生`MULTI_OWNED_FILE` | WP1b strict前 | **CLOSED（2026-08-01）**：`OWN-EXCLUDED`先于普通 owner 匹配；非排除规则之间的真实重叠仍阻断，未用删除缓存规避 |
+| B10 | 安装根存在`.claude/scheduled_tasks.lock`，旧文本管道把 Git ignore 结果末尾 CR 误当成路径字符 | WP1b strict前 | **CLOSED（2026-08-01）**：改用 NUL 输入/输出协议后确认该宿主锁已被 Git 排除；未删除文件、未加白名单 |
 
 ## B7实测证据
 
@@ -55,3 +55,5 @@ upstream_ids: []
   filesystem ownership视图仍必须枚举并报告。
 - 两项均处于audit发现阶段，不阻断WP4a；WP1b切strict前必须关闭。当前不把报告删除、
   缓存清理或临时白名单伪记为修复。
+- 关闭证据：`20f148a` 修复排除优先级与 NUL 协议；`ab336d6` 记录 strict 迁移证据。
+  100 项单测与真实安装树 `lint_repo --mode strict` 均通过，Finding 为 0。

@@ -3,18 +3,18 @@ artifact_id: NOTICE-CONTRACT-001
 artifact_type: NOTICE
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.1.12
+artifact_version: v0.1.13
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER]
 review_id: REVIEW-CONTRACT-001
 review_decision: PENDING
-evidence_refs: [PLAN-v1.0.7, PHASE-1-COMPLETE, PHASE-2-COMPLETE, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM, WP4A-OWNERSHIP-AUDIT, WP3A-FEATURE-SCENES, A2-HANDOFF-STRUCTURE, A3B-SKILL-DEDUP, A4-EVIDENCE-CHAIN, A5-LICENSE-BOUNDARY, WP5-SINGLE-SOURCES, WP1B-STRICT-HYGIENE]
+evidence_refs: [PLAN-v1.0.7, PHASE-1-COMPLETE, PHASE-2-COMPLETE, A1-VE-MAPPING, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM, WP4A-OWNERSHIP-AUDIT, WP3A-FEATURE-SCENES, A2-HANDOFF-STRUCTURE, A3B-SKILL-DEDUP, A4-EVIDENCE-CHAIN, A5-LICENSE-BOUNDARY, WP5-SINGLE-SOURCES, WP1B-STRICT-HYGIENE, A6-IDENTIFIER-BOUNDARIES, WP4B-FULL-VALIDATION]
 notice_status: IN_PROGRESS
 affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER, PROJECT-PROFESSIONAL-SCREENWRITER]
 affected_paths: [governance/**, templates/**, scripts/**, tests/**, LICENSES/**, SKILL.md, references/**, examples/**]
 coupling: [BASELINE, SCHEMA, UPSTREAM, RIGHTS, PRODUCTION]
-migration_tasks: [MIG-CONTRACT-001, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-WP3B-PLACEHOLDER-REPAIR, MIG-WP3B-UPSTREAM, MIG-WP4A-OWNERSHIP-AUDIT, MIG-WP3A-FEATURE-SCENES, MIG-A2-HANDOFF-STRUCTURE, MIG-A3B-SKILL-DEDUP, MIG-A4-EVIDENCE-CHAIN, MIG-A5-LICENSE-BOUNDARY, MIG-WP5-SINGLE-SOURCES, MIG-WP1B-STRICT-HYGIENE]
+migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-WP3B-PLACEHOLDER-REPAIR, MIG-WP3B-UPSTREAM, MIG-WP4A-OWNERSHIP-AUDIT, MIG-WP3A-FEATURE-SCENES, MIG-A2-HANDOFF-STRUCTURE, MIG-A3B-SKILL-DEDUP, MIG-A4-EVIDENCE-CHAIN, MIG-A5-LICENSE-BOUNDARY, MIG-WP5-SINGLE-SOURCES, MIG-WP1B-STRICT-HYGIENE, MIG-A6-IDENTIFIER-BOUNDARIES, MIG-WP4B-FULL-VALIDATION]
 ---
 
 # NOTICE-CONTRACT-001：控制契约 v0.2.0 迁移事务
@@ -69,12 +69,21 @@ migration_tasks: [MIG-CONTRACT-001, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-W
 - `MIG-WP5-SINGLE-SOURCES`：`VERIFIED`。规则冲突优先级、四角色审查、STRUCT-LAYERED、
   钩子/付费点、变更等级与 Notice 分别收敛到唯一规范源，并以逐项迁移表保留领域适配；
   过时控制文件映射已删除，Skill 触发词限定在编剧语境。四个 README 按冻结裁决完成迁移、
-  导出、改名或删除，安装树不再含保留文档名；导出包使用说明明确以 schema + WP4b 实现为准，
-  未提前伪造不存在的 CLI；
+  导出、改名或删除，安装树不再含保留文档名；导出包使用说明最初只声明 schema 边界，
+  WP4b 实现落地后已同步为真实 exporter/verifier CLI；
 - `MIG-WP1B-STRICT-HYGIENE`：`VERIFIED`。ownership 的排除规则先于普通 owner 匹配，
   Windows 下 Git ignore 查询改用 NUL 协议，消除 B9 缓存重叠与 B10 宿主锁文件误报；
   未增加 allowlist，也未删除宿主状态。schema enforcement 已切为 `strict`，真实安装树
   `lint_repo --mode strict` 无 Finding；
+- `MIG-A1-VE-MAPPING`：`VERIFIED`。37 处 `VE*` 已按 24 个示例表格、8 个标题、3 个正文
+  独立分类；canonical 字段保持 `EP-*`，展示别名保留并由合同定义单射映射，`EP-08` 已修正补零；
+- `MIG-A6-IDENTIFIER-BOUNDARIES`：`VERIFIED`。场景 ID、legacy Notice ID 与 `TBD` 门禁均改用
+  排除 ASCII 字母数字的左右断言；Python 正负参数化测试为唯一阻断门禁，`rg --pcre2` 本机诊断为
+  `AGREE`，未把第二引擎升级为 CI 依赖；
+- `MIG-WP4B-FULL-VALIDATION`：`VERIFIED`。RUN 九类突变、Notice 反向闭包与 baseline/schema
+  选择器、未接受 P1、三夹具生产证据链、9 行真实 CLI E2E 不变量矩阵、确定性导出/独立验证器及
+  双平台 Python 3.11/3.13 CI 合同均已落地；最终本地总门禁为 125 项单测、strict、E2E 与
+  Skill Creator quick validator 全部通过；
 - 最高可在原子激活前推进至：`VERIFIED`；
 - `CLOSED` 仅允许与 Manifest 切换、合同 `LOCKED`、activation RUN 和 change-log
   最终摘要在同一 staging 事务中发生；
