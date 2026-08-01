@@ -1,0 +1,25 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.11", "3.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Run the aggregate gate
+        run: python -X utf8 scripts/check_all.py .
+      - name: Prove GNU checksum compatibility
+        if: runner.os == 'Linux'
+        working-directory: tests/sha256sum-compat
+        run: sha256sum -c manifest.sha256
