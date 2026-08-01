@@ -118,7 +118,8 @@
     "SCENE_CARD": ["[[BIBLE-ID]]", "[[OUTLINE-OR-EPISODE-ID]]"],
     "REVIEW": ["[[BIBLE-ID]]", "[[REVIEWED-ARTIFACT-ID]]"],
     "NOTICE": ["[[CHANGED-UPSTREAM-ID]]"],
-    "PRODUCTION_HANDOFF": ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"]
+    "PRODUCTION_HANDOFF": ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"],
+    "SCRIPT_MASTER": ["[[BIBLE-ID]]", "[[OUTLINE-ID]]"]
   },
   "template_closure": {
     "templates/governance/project-manifest.md": {"kind": "scenario", "scenario": "project-manifest", "artifact_type": "PROJECT_MANIFEST"},
@@ -132,7 +133,7 @@
     "templates/review-report.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "REVIEW"},
     "templates/notice.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "NOTICE"},
     "templates/production-handoff.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "PRODUCTION_HANDOFF"},
-    "templates/feature-screenplay.fountain": {"kind": "scenario", "scenario": "feature-screenplay", "artifact_type": "SCRIPT_MASTER", "scene_card_policy": "match_script_scenes", "activation": "WP3A_SCENE_IDS"}
+    "templates/feature-screenplay.fountain": {"kind": "scenario", "scenario": "feature-screenplay", "artifact_type": "SCRIPT_MASTER", "scene_card_policy": "match_script_scenes", "activation": "ACTIVE"}
   },
   "id_prefixes": {
     "PROJECT_MANIFEST": {"prefix": "PROJECT-", "example": "PROJECT-TIDELINE-001"},

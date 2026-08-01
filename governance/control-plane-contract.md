@@ -147,6 +147,7 @@ evidence_refs: [NOTICE-CONTRACT-001]
 | `REVIEW` | `[[BIBLE-ID]]`, `[[REVIEWED-ARTIFACT-ID]]` |
 | `NOTICE` | `[[CHANGED-UPSTREAM-ID]]` |
 | `PRODUCTION_HANDOFF` | `[[BIBLE-ID]]`, `[[SCRIPT-ID]]`, `[[REVIEW-ID]]` |
+| `SCRIPT_MASTER` | `[[BIBLE-ID]]`, `[[OUTLINE-ID]]` |
 
 ### Template 实例化闭包
 

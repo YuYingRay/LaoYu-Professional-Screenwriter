@@ -8,6 +8,9 @@ status: DRAFT
 owner: [[OWNER]]
 upstream_ids: ["[[CHANGED-UPSTREAM-ID]]"]
 notice_status: DRAFT
+affected_ids: []
+affected_paths: []
+coupling: []
 change_level: L1 / L2 / L3 / L4
 priority: P0 / P1 / P2
 ---

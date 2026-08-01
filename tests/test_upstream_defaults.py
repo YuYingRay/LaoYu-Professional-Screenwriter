@@ -35,13 +35,14 @@ class UpstreamDefaultTests(unittest.TestCase):
     def test_schema_defines_each_formal_template_default(self) -> None:
         schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
         defaults = schema["upstream_defaults"]
-        self.assertEqual(set(defaults), set(TEMPLATES))
+        self.assertEqual(set(defaults), set(TEMPLATES) | {"SCRIPT_MASTER"})
         self.assertEqual(defaults["PROJECT_MANIFEST"], [])
         self.assertEqual(defaults["STORY_BIBLE"], ["[[PROJECT-ID]]"])
         self.assertEqual(
             defaults["PRODUCTION_HANDOFF"],
             ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"],
         )
+        self.assertEqual(defaults["SCRIPT_MASTER"], ["[[BIBLE-ID]]", "[[OUTLINE-ID]]"])
 
     def test_template_frontmatter_is_rendered_from_schema_defaults(self) -> None:
         defaults = json.loads(SCHEMA.read_text(encoding="utf-8"))["upstream_defaults"]

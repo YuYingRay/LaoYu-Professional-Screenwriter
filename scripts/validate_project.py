@@ -101,12 +101,16 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     findings: list[Finding] = []
     files = sorted(p for p in root.rglob("*") if p.suffix.lower() in {".md", ".fountain"})
     schema_path = root / "governance" / "control-schema.json"
+    control_schema_path = (
+        schema_path if schema_path.is_file()
+        else Path(__file__).resolve().parents[1] / "governance" / "control-schema.json"
+    )
+    control_schema = json.loads(control_schema_path.read_text(encoding="utf-8"))
     if schema_path.is_file():
-        schema = json.loads(schema_path.read_text(encoding="utf-8"))
         files = [
             path for path in files
             if classify_path(
-                path.relative_to(root).as_posix(), schema["ownership"], tracked=True
+                path.relative_to(root).as_posix(), control_schema["ownership"], tracked=True
             )[0].owner == "root-project"
         ]
     manifest_path = root / "governance" / "project-manifest.md"
@@ -161,6 +165,42 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
             findings.append(Finding("P1", "STATUS_ENUM", rel, f"invalid artifact status: {meta.get('status')}"))
         if meta.get("conformance_level") and meta.get("conformance_level") not in CONFORMANCE_LEVELS:
             findings.append(Finding("P1", "CONFORMANCE_ENUM", rel, f"invalid conformance level: {meta.get('conformance_level')}"))
+        if atype == "NOTICE" and baseline_mode == "candidate":
+            notice_status = meta.get("notice_status")
+            if notice_status not in control_schema["notice_statuses"]:
+                findings.append(Finding(
+                    "P1", "NOTICE_STATUS_ENUM", rel, f"invalid notice_status: {notice_status}"
+                ))
+            coupling = meta.get("coupling", [])
+            coupling_values = coupling if isinstance(coupling, list) else [coupling]
+            invalid_coupling = sorted(
+                set(coupling_values) - set(control_schema["notice"]["coupling_values"])
+            )
+            if invalid_coupling:
+                findings.append(Finding(
+                    "P1", "NOTICE_COUPLING_ENUM", rel,
+                    "invalid coupling value(s): " + ", ".join(invalid_coupling),
+                ))
+            for field in control_schema["required_fields"]["by_type"]["NOTICE"]:
+                if field not in meta:
+                    findings.append(Finding(
+                        "P0", "NOTICE_TYPE_FIELD", rel, f"NOTICE requires field: {field}"
+                    ))
+            constraint = next(
+                (
+                    item for item in control_schema["notice"]["constraints"]
+                    if item["notice_status"] == notice_status
+                ),
+                None,
+            )
+            if constraint:
+                for field in constraint["require"]:
+                    value = meta.get(field)
+                    if field not in meta or value is None or value == "" or value == [] or value == ():
+                        findings.append(Finding(
+                            "P0", "NOTICE_STATE_FIELD", rel,
+                            f"{notice_status} notice requires non-empty field: {field}",
+                        ))
         if re.search(r"\bUN-\d+\b", path.read_text(encoding="utf-8")):
             findings.append(Finding("P1", "LEGACY_NOTICE_ID", rel, "legacy UN-* notice ID found; use NOTICE-*"))
         if meta.get("status") in {"LOCKED", "APPROVED"}:
