@@ -6,10 +6,10 @@
 |---|---|
 | protocol_id | `BENCH-PSW-v1.0.0` |
 | protocol_status | `FROZEN_BEFORE_BASELINE_RUN` |
-| frozen_plan | `v1.0.6` |
-| frozen_plan_sha256 | `91FACFEAD36E2D0E3D178C1B00784C4412CFA4F18E7ECFCC34249BA8F64F0693` |
+| frozen_plan | `v1.0.7` |
+| frozen_plan_sha256 | `30C62DB7147B0F3A9CEF2343D471B970AC15478FCA1F4698C0CA0B1D495D2385` |
 | baseline_ref | `v0-baseline` / `f807fcc232fd5c6dcdbd04be14fb672dbea690b3` |
-| decision_evidence | `DEC-20260731-D1-001`、`DEC-20260731-D6-001` |
+| decision_evidence | `v1.0.7 §0.1`冻结快照（原始用户证据：`DEC-20260731-D1-001`、`DEC-20260731-D6-001`） |
 | total_outputs | `24`（4任务 × 2版本 × 3次） |
 | calibration_arm | `NONE`（选择 `E.4.1-C`） |
 
