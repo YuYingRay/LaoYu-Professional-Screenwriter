@@ -90,7 +90,7 @@ def set_digest(path: Path, digest: str) -> None:
     path.write_text(text, encoding="utf-8", newline="\n")
 
 
-def validate(root: Path, write_digests: bool = False) -> list[Finding]:
+def validate(root: Path, write_digests: bool = False, baseline_mode: str = "active") -> list[Finding]:
     findings: list[Finding] = []
     files = sorted(p for p in root.rglob("*") if p.suffix.lower() in {".md", ".fountain"})
     manifest_path = root / "governance" / "project-manifest.md"
@@ -100,9 +100,15 @@ def validate(root: Path, write_digests: bool = False) -> list[Finding]:
     metas: dict[Path, dict[str, Any]] = {p: metadata(p) for p in files}
     manifest = metas[manifest_path]
     project_id = manifest.get("project_id")
-    baseline = manifest.get("project_baseline")
-    if not project_id or not baseline:
+    active_baseline = manifest.get("project_baseline")
+    if not project_id or not active_baseline:
         findings.append(Finding("P0", "MANIFEST_METADATA", str(manifest_path), "project_id and project_baseline are required"))
+    if baseline_mode == "candidate":
+        baseline = manifest.get("candidate_baseline")
+        if not baseline:
+            findings.append(Finding("P0", "CANDIDATE_BASELINE_MISSING", str(manifest_path), "candidate_baseline is required for candidate validation"))
+    else:
+        baseline = active_baseline
     if manifest.get("artifact_type") != "PROJECT_MANIFEST":
         findings.append(Finding("P1", "MANIFEST_TYPE", str(manifest_path), "artifact_type must be PROJECT_MANIFEST"))
 
@@ -132,7 +138,8 @@ def validate(root: Path, write_digests: bool = False) -> list[Finding]:
                 findings.append(Finding("P1", "ID_PREFIX", rel, f"{atype} must use prefix {prefix}: {aid}"))
         if project_id and meta.get("project_id") != project_id:
             findings.append(Finding("P0", "PROJECT_DRIFT", rel, "project_id differs from manifest"))
-        if baseline and meta.get("project_baseline") != baseline:
+        expected_baseline = active_baseline if path == manifest_path else baseline
+        if expected_baseline and meta.get("project_baseline") != expected_baseline:
             findings.append(Finding("P0", "BASELINE_DRIFT", rel, "project_baseline differs from manifest"))
         if meta.get("status") not in ARTIFACT_STATUSES:
             findings.append(Finding("P1", "STATUS_ENUM", rel, f"invalid artifact status: {meta.get('status')}"))
@@ -186,8 +193,11 @@ def main() -> int:
     parser.add_argument("root", type=Path)
     parser.add_argument("--write-digests", action="store_true")
     parser.add_argument("--json", action="store_true")
+    parser.add_argument("--baseline", choices=["active", "candidate"], default="active")
     args = parser.parse_args()
-    findings = validate(args.root.resolve(), write_digests=args.write_digests)
+    findings = validate(
+        args.root.resolve(), write_digests=args.write_digests, baseline_mode=args.baseline
+    )
     if args.json:
         print(json.dumps([asdict(item) for item in findings], ensure_ascii=False, indent=2))
     else:

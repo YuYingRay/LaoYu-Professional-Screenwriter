@@ -45,10 +45,14 @@ def main() -> int:
 
     required = [
         "governance/control-plane-contract.md",
-        "governance/control-plane-file-map.md",
+        "governance/control-schema.json",
         "templates/production-handoff.md",
         "scripts/validate_project.py",
         "scripts/run_e2e.py",
+        "scripts/gen_contract_tables.py",
+        "scripts/lint_repo.py",
+        "scripts/check_all.py",
+        "scripts/test_template_instantiation.py",
         "agents/openai.yaml",
         "tests/feature-project-fixture/governance/project-manifest.md",
         "tests/vertical-project-fixture/governance/project-manifest.md",
