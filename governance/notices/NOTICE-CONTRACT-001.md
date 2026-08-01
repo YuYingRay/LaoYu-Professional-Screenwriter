@@ -3,17 +3,21 @@ artifact_id: NOTICE-CONTRACT-001
 artifact_type: NOTICE
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.1.13
+artifact_version: v0.1.14
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER]
 review_id: REVIEW-CONTRACT-001
 review_decision: PENDING
 evidence_refs: [PLAN-v1.0.7, PHASE-1-COMPLETE, PHASE-2-COMPLETE, A1-VE-MAPPING, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM, WP4A-OWNERSHIP-AUDIT, WP3A-FEATURE-SCENES, A2-HANDOFF-STRUCTURE, A3B-SKILL-DEDUP, A4-EVIDENCE-CHAIN, A5-LICENSE-BOUNDARY, WP5-SINGLE-SOURCES, WP1B-STRICT-HYGIENE, A6-IDENTIFIER-BOUNDARIES, WP4B-FULL-VALIDATION]
-notice_status: IN_PROGRESS
-affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER, PROJECT-PROFESSIONAL-SCREENWRITER]
+notice_status: VERIFIED
+affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER, PROJECT-PROFESSIONAL-SCREENWRITER, DEL-OPEN-QUESTIONS-001, DEL-SOURCE-INDEX-001, DEL-NOTICE-INDEX-001]
 affected_paths: [governance/**, templates/**, scripts/**, tests/**, LICENSES/**, SKILL.md, references/**, examples/**]
 coupling: [BASELINE, SCHEMA, UPSTREAM, RIGHTS, PRODUCTION]
+changed_baseline: CONTRACT-v0.2.0
+changed_schema_sections: [all]
+verification_refs: [WP4B-FULL-VALIDATION, ROOT-CANDIDATE-VALIDATION]
+change_records: [CHG-CONTRACT-001, CHG-MANIFEST-001, CHG-OPEN-QUESTIONS-001, CHG-SOURCE-INDEX-001, CHG-NOTICE-INDEX-001]
 migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-WP3B-PLACEHOLDER-REPAIR, MIG-WP3B-UPSTREAM, MIG-WP4A-OWNERSHIP-AUDIT, MIG-WP3A-FEATURE-SCENES, MIG-A2-HANDOFF-STRUCTURE, MIG-A3B-SKILL-DEDUP, MIG-A4-EVIDENCE-CHAIN, MIG-A5-LICENSE-BOUNDARY, MIG-WP5-SINGLE-SOURCES, MIG-WP1B-STRICT-HYGIENE, MIG-A6-IDENTIFIER-BOUNDARIES, MIG-WP4B-FULL-VALIDATION]
 ---
 
@@ -34,7 +38,7 @@ migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MI
 
 ## 迁移状态
 
-- 当前：`IN_PROGRESS`；
+- 当前：`VERIFIED`；
 - `MIG-WP3B-PLACEHOLDERS`：`VERIFIED`。显式逐处映射见
   `governance/placeholder-migration-map.json`；1199 个可填写槽位已迁为 `[[…]]`，
   复选框、前置列表、Markdown 链接与 Fountain 非占位内容保持不变；
@@ -84,7 +88,9 @@ migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MI
   选择器、未接受 P1、三夹具生产证据链、9 行真实 CLI E2E 不变量矩阵、确定性导出/独立验证器及
   双平台 Python 3.11/3.13 CI 合同均已落地；最终本地总门禁为 125 项单测、strict、E2E 与
   Skill Creator quick validator 全部通过；
-- 最高可在原子激活前推进至：`VERIFIED`；
+- 根候选校验补充了历史 Notice 兼容边界与 Manifest `candidate_baseline` 选择器；旧许可
+  Notice 保持原基线且只读，未完成的旧 Notice 仍然阻断；根项目 candidate strict 校验通过；
+- 原子激活前的最高状态 `VERIFIED` 已达到；
 - `CLOSED` 仅允许与 Manifest 切换、合同 `LOCKED`、activation RUN 和 change-log
   最终摘要在同一 staging 事务中发生；
 - 当前不得写入 reviewer/approver 最终签署，不得宣称新基线已激活。
@@ -93,3 +99,60 @@ migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MI
 
 任一 candidate 门禁失败时，停止后续迁移并回到最近 Phase tag；active baseline 与
 `v0-baseline` 保持可读，不以删除旧历史伪造迁移成功。
+
+## 结构化变更记录
+
+```change-record
+record_id: CHG-CONTRACT-001
+artifact_id: CONTRACT-PROFESSIONAL-SCREENWRITER
+old_version: v0.1.0
+new_version: v0.2.0
+old_digest: sha256:b4ba28e25856bb614d75261d68ff881a01968677ba3d0edf2651f71e9e77bb5c
+new_digest: sha256:4fea5a585da548fcccf8b5a25e6f96794761d4196b8763a2213305c908446039
+disposition: CONTENT_CHANGED
+reason: 控制契约迁移到 v0.2.0，并纳入候选事务、Notice 兼容与影响闭包规则。
+```
+
+```change-record
+record_id: CHG-MANIFEST-001
+artifact_id: PROJECT-PROFESSIONAL-SCREENWRITER
+old_version: v0.1.0
+new_version: v0.2.0
+old_digest: sha256:a0311a7cc3175dead528ce35b32c17a1406f2f885f5d428095cbb798a4a003b1
+new_digest: sha256:5a94f1e571ff70131becb3b495fdcbbb19905994898189c3a06ae9f9edefb1d1
+disposition: CONTENT_CHANGED
+reason: Manifest 保持 active baseline，同时声明 candidate baseline 与当前迁移证据。
+```
+
+```change-record
+record_id: CHG-OPEN-QUESTIONS-001
+artifact_id: DEL-OPEN-QUESTIONS-001
+old_version: v0.1.0
+new_version: v0.2.0
+old_digest: sha256:a650c0034830f6e4802417a35fb5b01119b3aecca2e7e224f63e451d6e9482cd
+new_digest: sha256:46f668a1476a58305b3b9ea3a86cf9e68f2e8308ef81b562c89ddf2b85858769
+disposition: CONTENT_CHANGED
+reason: 候选事务建立后，架构悬题及已关闭实测根因已更新并迁入 v0.2.0。
+```
+
+```change-record
+record_id: CHG-SOURCE-INDEX-001
+artifact_id: DEL-SOURCE-INDEX-001
+old_version: v0.1.0
+new_version: v0.2.0
+old_digest: sha256:ee14a7309e9c4ecceb504629cfb1cbcb83d9d4ff2f589b76b547d4854c7c065e
+new_digest: sha256:0b6b7c70d152ba5d4d71c6d46eadaa46be68be1838367d34e5f5c2e50da8a9bc
+disposition: CONTENT_CHANGED
+reason: 来源与证据索引在候选事务中完成许可边界和方法论证据迁移。
+```
+
+```change-record
+record_id: CHG-NOTICE-INDEX-001
+artifact_id: DEL-NOTICE-INDEX-001
+old_version: v0.1.0
+new_version: v0.2.0
+old_digest: sha256:5cfc171e52a121e2aef44f2bed7f8e08d1bce53ada476f4d14ebc43342399abe
+new_digest: sha256:7a095957a85af809ca460971283158d08f228a6d4f1dbc8ae3d1db1701b9848c
+disposition: CONTENT_CHANGED
+reason: Notice 索引迁入 v0.2.0，并收敛状态、命名与影响传播的规范入口。
+```

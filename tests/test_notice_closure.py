@@ -54,6 +54,7 @@ def write_change_project(
         encoding="utf-8", newline="\n",
     )
     paths = {
+        "PROJECT-CHANGE-001": root / "governance" / "project-manifest.md",
         "BIBLE-CHANGE-001": root / "development" / "story-bible.md",
         "DEL-OUTLINE-001": root / "development" / "outline.md",
         "SC-001": root / "development" / "scene-cards" / "SC-001.md",
@@ -139,7 +140,7 @@ class NoticeClosureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="psw-change-baseline-") as temp_dir:
             root = Path(temp_dir)
             expected = [
-                "BIBLE-CHANGE-001", "DEL-OUTLINE-001", "SC-001",
+                "PROJECT-CHANGE-001", "BIBLE-CHANGE-001", "DEL-OUTLINE-001", "SC-001",
                 "DEL-HANDOFF-001", "ASSET-PROP-001",
             ]
             write_change_project(
@@ -147,6 +148,61 @@ class NoticeClosureTests(unittest.TestCase):
                 changed_baseline="BASELINE-B",
             )
             self.assertIn("NOTICE_AFFECTED_SET_MISSING", codes(root))
+
+    def test_candidate_baseline_selector_includes_manifest(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="psw-change-manifest-") as temp_dir:
+            root = Path(temp_dir)
+            expected = [
+                "PROJECT-CHANGE-001", "BIBLE-CHANGE-001", "DEL-OUTLINE-001", "SC-001",
+                "DEL-HANDOFF-001", "ASSET-PROP-001",
+            ]
+            write_change_project(
+                root, affected_ids=expected, coupling=["UPSTREAM", "BASELINE"],
+                changed_baseline="BASELINE-B",
+            )
+            self.assertFalse(
+                any(code.startswith("NOTICE_AFFECTED_SET") for code in codes(root))
+            )
+
+    def test_completed_notice_on_active_baseline_remains_historical(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="psw-historical-notice-") as temp_dir:
+            root = Path(temp_dir)
+            write_change_project(
+                root,
+                affected_ids=["BIBLE-CHANGE-001", "DEL-OUTLINE-001", "SC-001"],
+                coupling=["UPSTREAM"],
+            )
+            historical = root / "governance" / "notices" / "NOTICE-HISTORY-001.md"
+            historical.write_text(
+                "---\nartifact_id: NOTICE-HISTORY-001\nartifact_type: NOTICE\n"
+                "project_id: PROJECT-CHANGE-001\nproject_baseline: BASELINE-A\n"
+                "artifact_version: v1.0.0\nstatus: APPROVED\nowner: TEST\n"
+                "reviewer: TEST\napprover: TEST\ntest_run_id: RUN-HISTORY-001\n"
+                "conformance_level: TRACEABILITY_CONFORMANCE\nupstream_ids: []\n"
+                "notice_status: VERIFIED\naffected_ids: [BIBLE-OLD-001]\n"
+                "affected_paths: [legacy/**]\ncoupling: [BASELINE]\n---\n"
+                "# Historical notice\n",
+                encoding="utf-8",
+                newline="\n",
+            )
+            historical_findings = [
+                item for item in validate(root, baseline_mode="candidate")
+                if item.path.endswith("NOTICE-HISTORY-001.md")
+            ]
+            self.assertEqual(historical_findings, [])
+
+            historical.write_text(
+                historical.read_text(encoding="utf-8").replace(
+                    "notice_status: VERIFIED", "notice_status: IN_PROGRESS"
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            historical_codes = {
+                item.code for item in validate(root, baseline_mode="candidate")
+                if item.path.endswith("NOTICE-HISTORY-001.md")
+            }
+            self.assertIn("BASELINE_DRIFT", historical_codes)
 
     def test_schema_selector_finds_declared_section_reference(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-change-schema-") as temp_dir:

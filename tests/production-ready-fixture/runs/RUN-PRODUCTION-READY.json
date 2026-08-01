@@ -11,10 +11,10 @@
     "script/master/script.fountain": "sha256:34ec0a8f412dfd0bd81d0548fc622601c328ec5eec53b2351b270dc1fabd9f91"
   },
   "profile": "final",
-  "command": "validate_project strict",
+  "command": "python -X utf8 scripts/validate_project.py tests/production-ready-fixture --baseline active --mode strict",
   "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
-  "schema_digest": "sha256:7f1ac4b232ae74788e6ed070921d9a3d906c4e1c4d7842ccb14ce7296fabedd0",
+  "schema_digest": "sha256:d9a73dbd4de4fa1574b827eb1a3479391072e5baba42e26fe83324a433f4edef",
   "findings": [],
   "result": "PASS",
-  "timestamp": "2026-08-01T06:05:14.198480+00:00"
+  "timestamp": "2026-08-01T06:38:44.282038+00:00"
 }

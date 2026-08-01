@@ -43,7 +43,11 @@ class ControlSchemaTests(unittest.TestCase):
         self.assertEqual(schema["production_ready"]["minimum_project_stage"], "PREP")
         self.assertEqual(
             {item["id"] for item in schema["baseline_impact_selectors"]},
-            {"BASELINE_MATCH", "SCHEMA_SECTION_REF"},
+            {"BASELINE_MATCH", "CANDIDATE_BASELINE_MATCH", "SCHEMA_SECTION_REF"},
+        )
+        self.assertEqual(
+            schema["notice"]["historical_compatibility"]["validation_scope"],
+            "base_fields_and_lock_gate_only",
         )
 
     def test_status_matrix_matches_frozen_plan(self) -> None:

@@ -340,6 +340,17 @@ DRAFT → OPEN → IN_PROGRESS → VERIFIED → CLOSED
 `SCHEMA`、`RIGHTS`、`PRODUCTION` 中选择，并按上方 schema 生成表满足对应状态的
 附加必填字段。
 
+候选基线校验不得重写已经完成的历史事务。一个 Notice 仅在同时满足以下条件时按
+历史记录兼容：它仍绑定 Manifest 的 active baseline，`notice_status` 为 `VERIFIED`
+或 `CLOSED`，且 Artifact `status` 为 `APPROVED`、`LOCKED` 或 `SUPERSEDED`。这类
+Notice 继续接受基础字段与锁定门禁检查，但不被强制迁移到 candidate baseline，也不按
+候选 schema 重新计算旧事务的 affected set。尚未完成的旧基线 Notice 不享受该兼容规则。
+
+`BASELINE` 影响选择器必须同时检查普通 Artifact 的 `project_baseline` 与 Manifest 的
+`candidate_baseline`；否则 Manifest 会从自身候选迁移的 affected set 中消失。`SCHEMA`
+影响选择器按 Artifact 的 `schema_refs` 与 Notice 的 `changed_schema_sections` 求交集。
+选择器命中集与 `upstream_ids` 反向传递闭包取并集，得到唯一的 `affected_ids` 期望集。
+
 ## 7. 权威层级
 
 ```text

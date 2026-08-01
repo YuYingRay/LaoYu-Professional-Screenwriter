@@ -49,6 +49,13 @@ def main() -> int:
 
     commands = [
         ("lint_repo audit" if args.mode == "audit" else "lint_repo strict", [py, str(root / "scripts" / "lint_repo.py"), str(root), "--mode", args.mode]),
+        (
+            f"root project {args.baseline} baseline",
+            [
+                py, str(root / "scripts" / "validate_project.py"), str(root),
+                "--baseline", args.baseline, "--mode", args.mode,
+            ],
+        ),
     ]
     if not args.skip_unit_tests:
         commands.append(("unit tests", [py, "-X", "utf8", "-m", "unittest", "discover", "-s", "tests"]))

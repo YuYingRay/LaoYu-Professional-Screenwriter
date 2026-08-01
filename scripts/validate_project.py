@@ -332,6 +332,17 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                 findings.append(Finding("P0", "MISSING_FIELD", rel, f"missing required field: {field}"))
         aid = meta.get("artifact_id")
         atype = meta.get("artifact_type")
+        historical_policy = control_schema.get("notice", {}).get(
+            "historical_compatibility", {}
+        )
+        historical_notice = (
+            baseline_mode == "candidate"
+            and atype == "NOTICE"
+            and historical_policy.get("baseline") == "active_manifest_baseline"
+            and meta.get("project_baseline") == active_baseline
+            and meta.get("notice_status") in historical_policy.get("notice_statuses", [])
+            and meta.get("status") in historical_policy.get("artifact_statuses", [])
+        )
         if aid:
             if aid in artifact_ids:
                 findings.append(Finding("P0", "DUPLICATE_ID", rel, f"duplicate artifact_id: {aid}"))
@@ -342,13 +353,17 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
         if project_id and meta.get("project_id") != project_id:
             findings.append(Finding("P0", "PROJECT_DRIFT", rel, "project_id differs from manifest"))
         expected_baseline = active_baseline if path == manifest_path else baseline
-        if expected_baseline and meta.get("project_baseline") != expected_baseline:
+        if (
+            expected_baseline
+            and meta.get("project_baseline") != expected_baseline
+            and not historical_notice
+        ):
             findings.append(Finding("P0", "BASELINE_DRIFT", rel, "project_baseline differs from manifest"))
         if meta.get("status") not in ARTIFACT_STATUSES:
             findings.append(Finding("P1", "STATUS_ENUM", rel, f"invalid artifact status: {meta.get('status')}"))
         if meta.get("conformance_level") and meta.get("conformance_level") not in CONFORMANCE_LEVELS:
             findings.append(Finding("P1", "CONFORMANCE_ENUM", rel, f"invalid conformance level: {meta.get('conformance_level')}"))
-        if atype == "NOTICE" and baseline_mode == "candidate":
+        if atype == "NOTICE" and baseline_mode == "candidate" and not historical_notice:
             notice_status = meta.get("notice_status")
             if notice_status not in control_schema["notice_statuses"]:
                 findings.append(Finding(

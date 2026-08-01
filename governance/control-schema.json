@@ -226,6 +226,12 @@
   },
   "notice": {
     "coupling_values": ["UPSTREAM", "BASELINE", "SCHEMA", "RIGHTS", "PRODUCTION"],
+    "historical_compatibility": {
+      "baseline": "active_manifest_baseline",
+      "notice_statuses": ["VERIFIED", "CLOSED"],
+      "artifact_statuses": ["APPROVED", "LOCKED", "SUPERSEDED"],
+      "validation_scope": "base_fields_and_lock_gate_only"
+    },
     "constraints": [
       {"notice_status": "DRAFT", "require": []},
       {"notice_status": "OPEN", "require": ["affected_ids", "affected_paths", "coupling"]},
@@ -333,6 +339,12 @@
       "id": "BASELINE_MATCH",
       "kind": "metadata_equals",
       "field": "project_baseline",
+      "value_from": "changed_baseline"
+    },
+    {
+      "id": "CANDIDATE_BASELINE_MATCH",
+      "kind": "metadata_equals",
+      "field": "candidate_baseline",
       "value_from": "changed_baseline"
     },
     {

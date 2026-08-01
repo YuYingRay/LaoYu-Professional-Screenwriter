@@ -55,16 +55,18 @@ class CandidateContractTests(unittest.TestCase):
         self.assertIn("approver", text)
         self.assertIn("可以是同一人", text)
 
-    def test_migration_notice_is_open_and_coupled(self) -> None:
+    def test_migration_notice_is_verified_and_coupled(self) -> None:
         notice = ROOT / "governance" / "notices" / "NOTICE-CONTRACT-001.md"
         meta = frontmatter(notice)
         self.assertEqual(meta["artifact_id"], "NOTICE-CONTRACT-001")
         self.assertEqual(meta["status"], "IN_REVIEW")
-        self.assertEqual(meta["notice_status"], "IN_PROGRESS")
+        self.assertEqual(meta["notice_status"], "VERIFIED")
         self.assertIn("SCHEMA", meta["coupling"])
         self.assertIn("BASELINE", meta["coupling"])
         self.assertNotEqual(meta["affected_paths"], "[]")
         self.assertNotEqual(meta["migration_tasks"], "[]")
+        self.assertNotEqual(meta["verification_refs"], "[]")
+        self.assertNotEqual(meta["change_records"], "[]")
 
     def test_real_manifest_keeps_active_and_declares_candidate(self) -> None:
         meta = frontmatter(ROOT / "governance" / "project-manifest.md")

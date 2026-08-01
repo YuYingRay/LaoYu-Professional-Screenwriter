@@ -139,6 +139,7 @@ class BootstrapGateTests(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("PASS: lint_repo audit", result.stdout)
+        self.assertIn("PASS: root project candidate baseline", result.stdout)
         self.assertIn("PASS: feature-project-fixture active baseline", result.stdout)
         self.assertIn("PASS: production-ready-fixture active baseline", result.stdout)
         self.assertIn("PASS: vertical-project-fixture active baseline", result.stdout)

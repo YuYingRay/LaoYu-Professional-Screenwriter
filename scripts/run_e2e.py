@@ -87,6 +87,7 @@ def artifact_text(artifact_id: str, artifact_type: str, upstream: list[str] | No
 
 def build_change_project(root: Path, omit: str | None) -> None:
     paths = {
+        "PROJECT-CHANGE-001": root / "governance" / "project-manifest.md",
         "BIBLE-CHANGE-001": root / "development" / "story-bible.md",
         "DEL-CHANGE-OUTLINE-001": root / "development" / "outline.md",
         "ASSET-CHANGE-001": root / "assets" / "downstream.md",
@@ -99,7 +100,7 @@ def build_change_project(root: Path, omit: str | None) -> None:
     (root / "governance" / "project-manifest.md").write_text(
         "---\nartifact_id: PROJECT-CHANGE-001\nartifact_type: PROJECT_MANIFEST\n"
         "project_id: PROJECT-CHANGE-001\nproject_baseline: BASELINE-A\n"
-        "candidate_baseline: BASELINE-B\nartifact_version: v1.0.0\n"
+        "candidate_baseline: BASELINE-B\nartifact_version: v2.0.0\n"
         "status: DRAFT\nowner: E2E\nupstream_ids: []\n---\n",
         encoding="utf-8", newline="\n",
     )
