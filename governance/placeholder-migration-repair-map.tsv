@@ -1,0 +1,5 @@
+path	line	token	old	new	reason
+templates/episode-outline.md	9	VERSION	[VERSION]	[[VERSION]]	nested final token was hidden by obsolete right-lookahead
+templates/review-report.md	9	VERSION	[VERSION]	[[VERSION]]	nested final token was hidden by obsolete right-lookahead
+templates/scene-card.md	9	OUTLINE-ID	[OUTLINE-ID]	[[OUTLINE-ID]]	nested final token was hidden by obsolete right-lookahead
+templates/vertical-episode.md	9	NNN	[NNN]	[[NNN]]	nested final token was hidden by obsolete right-lookahead

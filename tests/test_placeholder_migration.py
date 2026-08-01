@@ -49,6 +49,21 @@ class PlaceholderMigrationTests(unittest.TestCase):
         self.assertIn("SC-[[NNN]]", template)
         self.assertNotIn("PROJECT-[SLUG]-001", template)
 
+    def test_nested_final_list_slots_are_not_missed(self) -> None:
+        expected = {
+            "episode-outline.md": "BIBLE-[[VERSION]]",
+            "review-report.md": "SCRIPT-[[VERSION]]",
+            "scene-card.md": "DEL-[[OUTLINE-ID]]",
+            "vertical-episode.md": "DEL-SEASON-[[NNN]]",
+        }
+        for name, token in expected.items():
+            text = (ROOT / "templates" / name).read_text(encoding="utf-8")
+            self.assertIn(token, text, name)
+        repair_map = ROOT / "governance" / "placeholder-migration-repair-map.tsv"
+        with repair_map.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(len(rows), 4)
+
     def test_open_notice_tracks_placeholder_migration(self) -> None:
         notice = (ROOT / "governance" / "notices" / "NOTICE-CONTRACT-001.md").read_text(
             encoding="utf-8"

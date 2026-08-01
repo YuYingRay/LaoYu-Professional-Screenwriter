@@ -11,7 +11,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 
-CANDIDATE_RE = re.compile(r"(?<!\[)\[([^\[\]\r\n]{1,200})\](?!\])")
+CANDIDATE_RE = re.compile(r"(?<!\[)\[([^\[\]\r\n]{1,200})\]")
 CHECKBOX_RE = re.compile(r"(?m)^- \[[ xX]\]")
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]\r\n]+\]\([^\)\r\n]*\)")
 LIST_LINE_RE = re.compile(
