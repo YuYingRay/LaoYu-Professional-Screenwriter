@@ -34,18 +34,18 @@ def assert_failure(name: str, root: Path, code: str) -> None:
 
 
 def mutate_orphan_scene(root: Path) -> None:
-    path = root / "script" / "script.fountain"
+    path = root / "script" / "master" / "script.fountain"
     path.write_text(path.read_text(encoding="utf-8") + "\n/* SC-999 */\n", encoding="utf-8")
 
 
 def mutate_baseline(root: Path) -> None:
-    path = root / "production" / "handoff.md"
+    path = root / "production" / "handoff" / "handoff.md"
     text = path.read_text(encoding="utf-8")
     path.write_text(text.replace("PROJECT-FEATURE-v1.0.0", "PROJECT-FEATURE-v9.0.0"), encoding="utf-8")
 
 
 def mutate_placeholder(root: Path) -> None:
-    path = root / "production" / "handoff.md"
+    path = root / "production" / "handoff" / "handoff.md"
     path.write_text(path.read_text(encoding="utf-8") + "\n[[未填写字段]]\n", encoding="utf-8")
 
 

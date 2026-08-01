@@ -22,8 +22,8 @@ class A4EvidenceChainTests(unittest.TestCase):
     def test_feature_fixture_has_structured_claim_and_nine_field_findings(self) -> None:
         findings = validate(FIXTURE, baseline_mode="active")
         self.assertFalse(findings, "\n".join(f"{item.code}: {item.message}" for item in findings))
-        bible = (FIXTURE / "story" / "story-bible.md").read_text(encoding="utf-8")
-        review = (FIXTURE / "reviews" / "REVIEW-001.md").read_text(encoding="utf-8")
+        bible = (FIXTURE / "development" / "story-bible.md").read_text(encoding="utf-8")
+        review = (FIXTURE / "development" / "review-reports" / "REVIEW-001.md").read_text(encoding="utf-8")
         self.assertIn("```continuity-claim", bible)
         self.assertEqual(review.count("```finding"), 2)
 
@@ -31,7 +31,7 @@ class A4EvidenceChainTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="psw-a4-") as temp_dir:
             project = Path(temp_dir) / "fixture"
             shutil.copytree(FIXTURE, project)
-            bible = project / "story" / "story-bible.md"
+            bible = project / "development" / "story-bible.md"
             text = bible.read_text(encoding="utf-8")
             text = "\n".join(
                 line for line in text.splitlines() if not line.startswith("evidence_ref:")
@@ -44,7 +44,7 @@ class A4EvidenceChainTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="psw-a4-") as temp_dir:
             project = Path(temp_dir) / "fixture"
             shutil.copytree(FIXTURE, project)
-            bible = project / "story" / "story-bible.md"
+            bible = project / "development" / "story-bible.md"
             text = bible.read_text(encoding="utf-8").replace(
                 "SCRIPT-v1.0.0#SC-002", "SCRIPT-v1.0.0#SC-999"
             ).replace("REVIEW-001#FIND-CONT-001", "REVIEW-001#FIND-MISSING")

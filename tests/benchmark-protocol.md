@@ -33,7 +33,7 @@
 
 ### T2 存量剧本诊断
 
-输入：`tests/feature-project-fixture/script/script.fountain`及请求“诊断结构问题”。
+输入：`tests/feature-project-fixture/script/master/script.fountain`及请求“诊断结构问题”。
 
 必需交付：
 
@@ -55,7 +55,7 @@
 
 ### T4 AI生产交接
 
-输入：`tests/feature-project-fixture/script/script.fountain`及请求“生成AI视频交接包”。
+输入：`tests/feature-project-fixture/script/master/script.fountain`及请求“生成AI视频交接包”。
 
 必需交付：
 

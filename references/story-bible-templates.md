@@ -206,51 +206,8 @@
 
 # 3. 文件与版本架构
 
-推荐项目结构：
-
-```text
-project/
-├── 00_admin/
-│   ├── README.md
-│   ├── project-status.md
-│   ├── decision-log.md
-│   └── version-log.md
-├── 01_core/
-│   ├── creative-brief.md
-│   ├── story-bible.md
-│   ├── story-engine.md
-│   ├── world-rules.md
-│   ├── theme-and-tone.md
-│   └── terminology.md
-├── 02_characters/
-│   ├── character-directory.md
-│   ├── char-protagonist.md
-│   ├── char-antagonist.md
-│   └── relationship-map.md
-├── 03_structure/
-│   ├── causal-spine.md
-│   ├── season-arc.md
-│   ├── episode-directory.md
-│   ├── scene-directory.md
-│   └── mystery-map.md
-├── 04_continuity/
-│   ├── timeline.md
-│   ├── knowledge-matrix.md
-│   ├── prop-log.md
-│   ├── wardrobe-injury-log.md
-│   └── unresolved-threads.md
-├── 05_scripts/
-│   ├── screenplay-master.md
-│   ├── episodes/
-│   └── archived-drafts/
-├── 06_production/
-│   ├── asset-register.md
-│   ├── scene-breakdown.csv
-│   └── shotlists/
-└── 99_archive/
-    ├── superseded/
-    └── rejected-options/
-```
+唯一项目结构见 `references/project-directory-structure.md` 的
+`# 1. 唯一结构`；本文件不再维护独立目录树。
 
 小型项目可合并文件；大型项目不可把所有内容塞进单一 `story-bible.md`。
 
@@ -261,7 +218,7 @@ project/
 保存为：
 
 ```text
-00_admin/project-status.md
+governance/project-status.md
 ```
 
 ```md
@@ -314,7 +271,7 @@ project/
 保存为：
 
 ```text
-01_core/story-bible.md
+development/story-bible.md
 ```
 
 ```md
@@ -548,7 +505,7 @@ REPLACED
 每个主要角色单独建文件：
 
 ```text
-02_characters/char-[[id]].md
+development/characters/char-[[id]].md
 ```
 
 ```md
@@ -699,7 +656,7 @@ REPLACED
 保存为：
 
 ```text
-02_characters/relationship-map.md
+development/characters/relationship-map.md
 ```
 
 ```md
@@ -730,7 +687,7 @@ REPLACED
 保存为：
 
 ```text
-01_core/world-rules.md
+development/world-rules.md
 ```
 
 ```md
@@ -778,7 +735,7 @@ REPLACED
 保存为：
 
 ```text
-04_continuity/timeline.md
+development/timeline.md
 ```
 
 ```md
@@ -820,7 +777,7 @@ REPLACED
 保存为：
 
 ```text
-04_continuity/knowledge-matrix.md
+development/information-matrix.md
 ```
 
 ```md
@@ -861,7 +818,7 @@ F = 知道错误信息
 保存为：
 
 ```text
-04_continuity/prop-log.md
+development/prop-log.md
 ```
 
 ```md
@@ -881,7 +838,7 @@ F = 知道错误信息
 保存为：
 
 ```text
-04_continuity/wardrobe-injury-log.md
+development/wardrobe-injury-log.md
 ```
 
 ```md
@@ -904,7 +861,7 @@ F = 知道错误信息
 保存为：
 
 ```text
-03_structure/mystery-map.md
+development/mystery-map.md
 ```
 
 ```md
@@ -945,7 +902,7 @@ THEMATIC_SETUP
 保存为：
 
 ```text
-03_structure/feature-arc.md
+development/feature-outline.md
 ```
 
 ```md
@@ -993,7 +950,7 @@ THEMATIC_SETUP
 保存为：
 
 ```text
-03_structure/season-arc.md
+development/season-outline.md
 ```
 
 ```md
@@ -1051,7 +1008,7 @@ THEMATIC_SETUP
 保存为：
 
 ```text
-03_structure/episode-directory.md
+development/episode-outlines/episode-directory.md
 ```
 
 ```md
@@ -1108,7 +1065,7 @@ hook-paywall-engine.md
 保存为：
 
 ```text
-00_admin/decision-log.md
+governance/decision-log.md
 ```
 
 ```md
@@ -1145,7 +1102,7 @@ REJECTED
 保存为：
 
 ```text
-00_admin/version-log.md
+governance/change-log.md
 ```
 
 ```md

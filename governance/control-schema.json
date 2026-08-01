@@ -284,20 +284,17 @@
   "run_payload": {
     "include": [
       "governance/**",
-      "story/**",
-      "structure/**",
-      "scenes/**",
-      "episodes/**",
+      "development/**",
       "script/**",
       "production/**",
-      "reviews/**",
-      "assets/**"
+      "assets/**",
+      "archive/**"
     ],
     "exclude": [
       ".git/**",
       "**/__pycache__/**",
       "runs/**",
-      "exports/**"
+      "script/exports/**"
     ],
     "managed_extensions": [".md", ".fountain", ".json", ".yaml", ".yml"],
     "untracked_policy": "include_or_block",
@@ -313,7 +310,7 @@
     },
     "closure_edge": "upstream_ids",
     "path_mapping": "preserve_relative_posix_path",
-    "fixed_exclude": ["runs/**", "reviews/**", "governance/authorizations/**"],
+    "fixed_exclude": ["runs/**", "development/review-reports/**", "governance/authorizations/**"],
     "reject_source_output_nesting": true,
     "reject_path_escape": true,
     "reject_links": true

@@ -34,7 +34,7 @@ def instantiate(root: Path, baseline_mode: str) -> list:
     with tempfile.TemporaryDirectory(prefix="psw-template-test-") as temp_dir:
         project = Path(temp_dir)
         (project / "governance").mkdir()
-        (project / "episodes").mkdir()
+        (project / "development" / "episode-outlines").mkdir(parents=True)
         candidate_line = f"candidate_baseline: {candidate}\n" if baseline_mode == "candidate" else ""
         (project / "governance" / "project-manifest.md").write_text(
             "---\n"
@@ -64,7 +64,7 @@ def instantiate(root: Path, baseline_mode: str) -> list:
             "upstream_ids: []\n"
             "---\n"
         )
-        (project / "episodes" / "EP-001.md").write_text(
+        (project / "development" / "episode-outlines" / "EP-001.md").write_text(
             replace_frontmatter(template, episode_frontmatter), encoding="utf-8", newline="\n"
         )
         return validate(project, baseline_mode=baseline_mode)
@@ -77,8 +77,8 @@ def instantiate_feature(root: Path, baseline_mode: str) -> list:
     with tempfile.TemporaryDirectory(prefix="psw-feature-template-test-") as temp_dir:
         project = Path(temp_dir)
         (project / "governance").mkdir()
-        (project / "script").mkdir()
-        (project / "scenes").mkdir()
+        (project / "script" / "master").mkdir(parents=True)
+        (project / "development" / "scene-cards").mkdir(parents=True)
         candidate_line = f"candidate_baseline: {candidate}\n" if baseline_mode == "candidate" else ""
         (project / "governance" / "project-manifest.md").write_text(
             "---\n"
@@ -109,12 +109,12 @@ def instantiate_feature(root: Path, baseline_mode: str) -> list:
                 rf"^/\* {field}:.*?\*/$", f"/* {field}: {value} */", script,
                 flags=re.MULTILINE,
             )
-        (project / "script" / "script.fountain").write_text(
+        (project / "script" / "master" / "script.fountain").write_text(
             script, encoding="utf-8", newline="\n"
         )
         scene_ids = re.findall(r"^/\*\s*(SC-\d{3,})\s*\*/$", script, flags=re.MULTILINE)
         for scene_id in scene_ids:
-            (project / "scenes" / f"{scene_id}.md").write_text(
+            (project / "development" / "scene-cards" / f"{scene_id}.md").write_text(
                 "---\n"
                 f"artifact_id: {scene_id}\n"
                 "artifact_type: SCENE_CARD\n"

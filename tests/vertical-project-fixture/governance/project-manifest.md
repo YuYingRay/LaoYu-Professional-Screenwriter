@@ -10,7 +10,7 @@ reviewer: fixture.vertical.reviewer
 approver: fixture.vertical.approver
 test_run_id: RUN-VERTICAL-BASELINE
 conformance_level: PRODUCTION_READY
-content_digest: sha256:7f29e8a52ec3b807b92bbfcd906c7c82a7962300244d2708e4d9bf0da7ae3b7f
+content_digest: sha256:2c3def5c8dfaf0b20f413753027848145411ce896ff136bb9172b36bfed1ccd5
 upstream_ids: []
 project_stage: DEVELOPMENT
 ---
@@ -30,9 +30,9 @@ project_stage: DEVELOPMENT
 
 ## 当前权威文件
 
-- Full Bible：`story/story-bible.md`
-- 季图：`structure/season-map.md`
-- 单集文件：`episodes/EP-001.md`、`episodes/EP-002.md`
-- 剧本主源：`script/script.fountain`
-- 审查报告：`reviews/REVIEW-001.md`
-- 交接包：`production/handoff.md`
+- Full Bible：`development/story-bible.md`
+- 季图：`development/season-outline.md`
+- 单集文件：`development/episode-outlines/EP-001.md`、`development/episode-outlines/EP-002.md`
+- 剧本主源：`script/master/script.fountain`
+- 审查报告：`development/review-reports/REVIEW-001.md`
+- 交接包：`production/handoff/handoff.md`

@@ -102,5 +102,70 @@ class ReviewRolesSingleSourceTests(unittest.TestCase):
         )
 
 
+class DirectoryStructureSingleSourceTests(unittest.TestCase):
+    def test_struct_layered_has_one_canonical_reference(self) -> None:
+        path = ROOT / "references" / "project-directory-structure.md"
+        text = path.read_text(encoding="utf-8")
+        self.assertIn("# STRUCT-LAYERED 项目目录规范", text)
+        for directory in [
+            "governance/", "development/", "script/", "production/", "assets/", "archive/"
+        ]:
+            self.assertIn(directory, text)
+
+    def test_three_conflicting_trees_are_replaced_with_pointer(self) -> None:
+        for path in [
+            "references/story-bible-templates.md",
+            "references/ai-production-handoff.md",
+            "references/short-drama-playbook.md",
+        ]:
+            text = (ROOT / path).read_text(encoding="utf-8")
+            self.assertIn("references/project-directory-structure.md", text, path)
+        self.assertNotIn("00_admin/", (ROOT / "references/story-bible-templates.md").read_text(encoding="utf-8"))
+        self.assertNotIn("01_script/", (ROOT / "references/ai-production-handoff.md").read_text(encoding="utf-8"))
+
+    def test_schema_run_payload_uses_layered_roots(self) -> None:
+        import json
+
+        schema = json.loads((ROOT / "governance" / "control-schema.json").read_text(encoding="utf-8"))
+        includes = set(schema["run_payload"]["include"])
+        self.assertTrue({"governance/**", "development/**", "script/**", "production/**", "assets/**", "archive/**"} <= includes)
+        self.assertFalse({"story/**", "structure/**", "scenes/**", "episodes/**", "reviews/**"} & includes)
+        self.assertIn("development/review-reports/**", schema["export_scope"]["fixed_exclude"])
+
+    def test_both_fixtures_are_legal_layered_subsets(self) -> None:
+        expected = {
+            "feature-project-fixture": [
+                "development/story-bible.md",
+                "development/feature-outline.md",
+                "development/scene-cards/SC-001.md",
+                "development/review-reports/REVIEW-001.md",
+                "script/master/script.fountain",
+                "production/handoff/handoff.md",
+            ],
+            "vertical-project-fixture": [
+                "development/story-bible.md",
+                "development/season-outline.md",
+                "development/episode-outlines/EP-001.md",
+                "development/scene-cards/SC-101.md",
+                "development/review-reports/REVIEW-001.md",
+                "script/master/script.fountain",
+                "production/handoff/handoff.md",
+            ],
+        }
+        legacy = {"story", "structure", "scenes", "episodes", "reviews"}
+        for fixture, paths in expected.items():
+            root = ROOT / "tests" / fixture
+            self.assertFalse(legacy & {path.name for path in root.iterdir()}, fixture)
+            for path in paths:
+                self.assertTrue((root / path).is_file(), f"{fixture}/{path}")
+
+    def test_directory_migration_map_covers_three_conflicts(self) -> None:
+        path = ROOT / "governance" / "wp5-directory-structure-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(len(rows), 3)
+        self.assertEqual({row["decision"] for row in rows}, {"REPLACE_WITH_STRUCT_LAYERED_POINTER"})
+
+
 if __name__ == "__main__":
     unittest.main()

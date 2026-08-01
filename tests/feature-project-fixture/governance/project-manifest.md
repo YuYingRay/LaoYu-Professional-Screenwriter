@@ -10,7 +10,7 @@ reviewer: fixture.feature.reviewer
 approver: fixture.feature.approver
 test_run_id: RUN-FEATURE-BASELINE
 conformance_level: PRODUCTION_READY
-content_digest: sha256:22b51acafe36979f06403859f738294085460568d16bb131aad7841bc44f98f8
+content_digest: sha256:fa6e44aa78661e283409f24aab30b398843a62387771c6c965317875dd98f635
 upstream_ids: []
 project_stage: DEVELOPMENT
 ---
@@ -30,11 +30,11 @@ project_stage: DEVELOPMENT
 
 ## 当前权威文件
 
-- Story Bible：`story/story-bible.md`
-- 结构大纲：`structure/outline.md`
-- 剧本主源：`script/script.fountain`
-- 审查报告：`reviews/REVIEW-001.md`
-- Production Handoff：`production/handoff.md`
+- Story Bible：`development/story-bible.md`
+- 结构大纲：`development/feature-outline.md`
+- 剧本主源：`script/master/script.fountain`
+- 审查报告：`development/review-reports/REVIEW-001.md`
+- Production Handoff：`production/handoff/handoff.md`
 
 ## 锁定范围
 

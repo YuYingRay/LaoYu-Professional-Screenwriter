@@ -109,25 +109,25 @@ tests/
 ├── feature-project-fixture/
 │   ├── input-brief.md
 │   ├── governance/project-manifest.md
-│   ├── story/story-bible.md
-│   ├── structure/outline.md
-│   ├── scenes/SC-*.md
-│   ├── script/script.fountain
-│   ├── reviews/REVIEW-001.md
+│   ├── development/story-bible.md
+│   ├── development/feature-outline.md
+│   ├── development/scene-cards/SC-*.md
+│   ├── script/master/script.fountain
+│   ├── development/review-reports/REVIEW-001.md
 │   ├── governance/notices/NOTICE-001.md
-│   └── production/handoff.md
+│   └── production/handoff/handoff.md
 │
 └── vertical-project-fixture/
     ├── input-brief.md
     ├── governance/project-manifest.md
-    ├── story/story-bible.md
-    ├── structure/season-map.md
-    ├── episodes/EP-*.md
-    ├── scenes/SC-*.md
-    ├── script/script.fountain
-    ├── reviews/REVIEW-001.md
+    ├── development/story-bible.md
+    ├── development/season-outline.md
+    ├── development/episode-outlines/EP-*.md
+    ├── development/scene-cards/SC-*.md
+    ├── script/master/script.fountain
+    ├── development/review-reports/REVIEW-001.md
     ├── governance/notices/NOTICE-001.md
-    └── production/handoff.md
+    └── production/handoff/handoff.md
 ```
 
 > 夹具必须是原创的、虚构的、低风险的测试项目。

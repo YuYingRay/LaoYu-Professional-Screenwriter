@@ -1,0 +1,4 @@
+source_path	source_location	old_structure	selected_structure	target_anchor	decision	reviewer
+references/story-bible-templates.md	9311138:207-257	00_admin+01_core+02_characters+03_structure+04_continuity+05_scripts+06_production+99_archive	STRUCT-LAYERED	references/project-directory-structure.md#1	REPLACE_WITH_STRUCT_LAYERED_POINTER	Codex-semantic-review
+references/ai-production-handoff.md	9311138:159-197	00_admin+01_script+02_assets+03_preproduction+04_generation+05_post+06_delivery	STRUCT-LAYERED	references/project-directory-structure.md#1	REPLACE_WITH_STRUCT_LAYERED_POINTER	Codex-semantic-review
+references/short-drama-playbook.md	9311138:933-971	flat-root+review+episodes+production+export	STRUCT-LAYERED	references/project-directory-structure.md#1	REPLACE_WITH_STRUCT_LAYERED_POINTER	Codex-semantic-review

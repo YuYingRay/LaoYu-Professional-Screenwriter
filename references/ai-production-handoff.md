@@ -158,42 +158,9 @@ last-one-2.mp4
 
 推荐目录：
 
-```text
-project/
-├── 00_admin/
-│   ├── project-brief.md
-│   ├── version-log.md
-│   └── rights-and-risk.md
-├── 01_script/
-│   ├── screenplay-lock-v03.md
-│   ├── story-bible-v03.md
-│   └── continuity-log-v03.md
-├── 02_assets/
-│   ├── characters/
-│   ├── locations/
-│   ├── props/
-│   ├── style/
-│   └── audio/
-├── 03_preproduction/
-│   ├── scene-breakdown.csv
-│   ├── shotlist.csv
-│   ├── storyboard/
-│   └── prompt-library/
-├── 04_generation/
-│   ├── stills/
-│   ├── video-drafts/
-│   ├── approved-shots/
-│   └── rejects/
-├── 05_post/
-│   ├── edit/
-│   ├── sound/
-│   ├── subtitles/
-│   └── color/
-└── 06_delivery/
-    ├── masters/
-    ├── social/
-    └── archives/
-```
+统一采用 `references/project-directory-structure.md` 的 `STRUCT-LAYERED`；
+本手册的资产、预制作、生成与后期文件分别落入其中的 `assets/`、`production/`、
+`script/exports/`与`archive/`职责目录。
 
 ---
 
@@ -223,7 +190,7 @@ project/
 每个主要角色建立独立文件，例如：
 
 ```text
-02_assets/characters/char-lin-xia.md
+assets/characters/char-lin-xia.md
 ```
 
 模板：

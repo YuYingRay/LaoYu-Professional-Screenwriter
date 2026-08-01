@@ -932,31 +932,8 @@ references/screenplay-format-cn-en.md
 
 # 18. 交付物与文件建议
 
-短剧项目建议维护以下结构：
-
-```text
-project/
-├── story-bible.md
-├── creative-plan.md
-├── characters.md
-├── episode-directory.md
-├── continuity-log.md
-├── hooks-and-paywalls.md
-├── review/
-│   ├── review-001-005.md
-│   └── review-006-010.md
-├── episodes/
-│   ├── ep001.md
-│   ├── ep002.md
-│   └── ...
-├── production/
-│   ├── asset-register.md
-│   ├── character-consistency.md
-│   ├── location-register.md
-│   └── shotlists/
-└── export/
-    └── title-master-script.md
-```
+短剧项目统一采用 `references/project-directory-structure.md` 的 `STRUCT-LAYERED`，
+并把季图、分集、Scene Card 与审查报告作为 `development/` 下的合法子集维护。
 
 ## 必须维护的连续性日志
 
