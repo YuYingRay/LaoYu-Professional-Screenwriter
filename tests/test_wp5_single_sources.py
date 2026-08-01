@@ -264,5 +264,12 @@ class NoticeSingleSourceTests(unittest.TestCase):
         )
 
 
+class ControlPlaneMapBoundaryTests(unittest.TestCase):
+    def test_stale_manual_control_plane_map_is_removed(self) -> None:
+        self.assertFalse((ROOT / "governance" / "control-plane-file-map.md").exists())
+        validator = (ROOT / "scripts" / "validate_skill.py").read_text(encoding="utf-8")
+        self.assertNotIn("control-plane-file-map.md", validator)
+
+
 if __name__ == "__main__":
     unittest.main()
