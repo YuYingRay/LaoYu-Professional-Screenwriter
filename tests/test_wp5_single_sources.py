@@ -271,5 +271,20 @@ class ControlPlaneMapBoundaryTests(unittest.TestCase):
         self.assertNotIn("control-plane-file-map.md", validator)
 
 
+class SkillTriggerBoundaryTests(unittest.TestCase):
+    def test_frontmatter_description_is_two_sentences_and_contextual(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        description = next(line for line in skill.splitlines() if line.startswith("description: "))
+        value = description.removeprefix("description: ")
+        self.assertEqual(value.count("."), 2)
+        self.assertIn("screenwriting, story-development, or screen-production context", value)
+        self.assertNotIn("review, ultrathink, or adversarial review", value)
+
+    def test_openai_metadata_matches_the_same_trigger_boundary(self) -> None:
+        metadata = (ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")
+        self.assertIn("剧本与影视故事语境", metadata)
+        self.assertIn("ultrathink as a review trigger only within this context", metadata)
+
+
 if __name__ == "__main__":
     unittest.main()

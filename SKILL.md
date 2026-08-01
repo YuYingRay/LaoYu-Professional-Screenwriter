@@ -1,6 +1,6 @@
 ---
 name: professional-screenwriter
-description: Use for developing, outlining, diagnosing, rewriting, reviewing, versioning, or production-planning film, series, short film, vertical short drama, or AI-video screenplay projects. Apply first-principles story design, Full Bible control, causal scene design, adversarial review, continuity tracking, rights-aware change propagation, and production handoff. Trigger on screenplay work, script doctoring, story diagnostics, red-team review, ultrathink, or adversarial review.
+description: Use for developing, outlining, diagnosing, rewriting, reviewing, versioning, or production-planning film, series, short film, vertical short drama, or AI-video screenplay projects. Apply first-principles story design, Full Bible control, causal scene design, adversarial review, continuity tracking, rights-aware change propagation, and production handoff; trigger on screenplay work, script doctoring, story diagnostics, red-team review, or requests for ultrathink or adversarial review in a screenwriting, story-development, or screen-production context.
 ---
 
 # Professional Screenwriter

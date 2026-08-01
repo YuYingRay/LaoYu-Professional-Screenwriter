@@ -1,4 +1,4 @@
 interface:
   display_name: "Professional Screenwriter"
-  short_description: "因果驱动、可追溯的剧本开发、审查与制作交接控制工作台"
-  default_prompt: "Use $professional-screenwriter to develop a traceable screenplay package with a Full Bible, scene cards, adversarial review, and production handoff."
+  short_description: "剧本与影视故事语境下的因果开发、对抗审查和可追溯制作交接"
+  default_prompt: "Use $professional-screenwriter for screenplay, story-development, or screen-production work. Apply first-principles causal design, adversarial review, Full Bible control, and production handoff; treat ultrathink as a review trigger only within this context."
