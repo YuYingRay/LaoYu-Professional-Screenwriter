@@ -195,5 +195,44 @@ class HookPaywallSingleSourceTests(unittest.TestCase):
         self.assertEqual({row["decision"] for row in rows}, {"MERGE_ADAPTATION_THEN_POINTER"})
 
 
+class ChangeLevelSingleSourceTests(unittest.TestCase):
+    duplicate_sources = [
+        "README.md",
+        "references/story-bible-templates.md",
+        "templates/story-bible.md",
+        "templates/governance/project-manifest.md",
+        "governance/project-manifest.md",
+        "templates/governance/upstream-notices.md",
+        "governance/upstream-notices.md",
+    ]
+
+    def test_contract_holds_all_four_change_levels_and_gates(self) -> None:
+        text = (ROOT / "governance" / "control-plane-contract.md").read_text(encoding="utf-8")
+        self.assertEqual(text.count("### 7.2 变更等级与最低门禁"), 1)
+        for required in [
+            "L1：表达级",
+            "L2：局部剧情级",
+            "L3：结构级",
+            "L4：项目级",
+            "项目只能加严",
+        ]:
+            self.assertIn(required, text)
+
+    def test_previous_definitions_are_contract_pointers(self) -> None:
+        for path in self.duplicate_sources:
+            text = (ROOT / path).read_text(encoding="utf-8")
+            self.assertIn("control-plane-contract.md#72-变更等级与最低门禁", text, path)
+            self.assertNotIn("| L1 表达级 | 非事实性的台词压缩", text, path)
+            self.assertNotIn("### L1：表层变更", text, path)
+            self.assertNotIn("## L1：文字或表达级", text, path)
+
+    def test_change_level_map_covers_every_previous_definition(self) -> None:
+        path = ROOT / "governance" / "wp5-change-level-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual({row["source_path"] for row in rows}, set(self.duplicate_sources))
+        self.assertEqual({row["decision"] for row in rows}, {"REPLACE_WITH_CONTRACT_POINTER"})
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,8 @@
+source_path	legacy_content	canonical_target	decision	review_note
+README.md	L1-L4 summary table	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Summary omitted L2-L4 approval detail; canonical contract now carries merged minimum gates.
+references/story-bible-templates.md	L1-L3 Story Bible definitions	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Story Bible-specific affected facts remain as adaptation text.
+templates/story-bible.md	L1-L4 update table	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Template records project effects rather than redefining levels.
+templates/governance/project-manifest.md	L1-L4 approval table	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Blank project-only tightening table retained.
+governance/project-manifest.md	L1-L4 approval table	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Current package instance follows the same canonical threshold.
+templates/governance/upstream-notices.md	L1-L4 definitions and checklists	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Notice template retains transaction fields and delegates classification.
+governance/upstream-notices.md	L1-L4 definitions and checklists	governance/control-plane-contract.md#72-变更等级与最低门禁	REPLACE_WITH_CONTRACT_POINTER	Package instance retains transaction records and delegates classification.
