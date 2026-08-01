@@ -6,7 +6,7 @@ project_baseline: PROJECT-[[SLUG]]-v1.0.0
 artifact_version: v1.0.0
 status: DRAFT
 owner: [[OWNER]]
-upstream_ids: [BIBLE-v1.0.0]
+upstream_ids: ["[[CHANGED-UPSTREAM-ID]]"]
 notice_status: DRAFT
 change_level: L1 / L2 / L3 / L4
 priority: P0 / P1 / P2

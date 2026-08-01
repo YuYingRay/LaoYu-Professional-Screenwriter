@@ -6,7 +6,7 @@ project_baseline: PROJECT-[[SLUG]]-v0.1.0
 artifact_version: v0.1.0
 status: DRAFT
 owner: [[OWNER]]
-upstream_ids: [BIBLE-[[VERSION]], SCRIPT-[[VERSION]]]
+upstream_ids: ["[[BIBLE-ID]]", "[[REVIEWED-ARTIFACT-ID]]"]
 ---
 
 # 剧本与故事开发审查报告

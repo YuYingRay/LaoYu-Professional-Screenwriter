@@ -107,6 +107,19 @@
     "ARCHIVED",
     "DO_NOT_USE"
   ],
+  "upstream_defaults": {
+    "PROJECT_MANIFEST": [],
+    "SOURCE_REGISTER": ["[[PROJECT-ID]]"],
+    "NOTICE_INDEX": ["[[PROJECT-ID]]"],
+    "CHANGE_LOG": ["[[PROJECT-ID]]", "[[NOTICE-INDEX-ID]]"],
+    "STORY_BIBLE": ["[[PROJECT-ID]]"],
+    "OUTLINE": ["[[BIBLE-ID]]"],
+    "VERTICAL_EPISODE": ["[[BIBLE-ID]]", "[[SEASON-MAP-ID]]"],
+    "SCENE_CARD": ["[[BIBLE-ID]]", "[[OUTLINE-OR-EPISODE-ID]]"],
+    "REVIEW": ["[[BIBLE-ID]]", "[[REVIEWED-ARTIFACT-ID]]"],
+    "NOTICE": ["[[CHANGED-UPSTREAM-ID]]"],
+    "PRODUCTION_HANDOFF": ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"]
+  },
   "id_prefixes": {
     "PROJECT_MANIFEST": {"prefix": "PROJECT-", "example": "PROJECT-TIDELINE-001"},
     "CONSTRAINT": {"prefix": "CON-", "example": "CON-001"},

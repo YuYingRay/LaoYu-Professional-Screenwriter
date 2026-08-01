@@ -6,7 +6,7 @@ project_baseline: PROJECT-[[SLUG]]-v0.1.0
 artifact_version: v0.1.0
 status: DRAFT
 owner: [[OWNER]]
-upstream_ids: [BIBLE-[[VERSION]]]
+upstream_ids: ["[[BIBLE-ID]]"]
 ---
 
 # 单集剧情大纲

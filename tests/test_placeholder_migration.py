@@ -7,6 +7,8 @@ import sys
 import unittest
 from pathlib import Path
 
+from scripts.migrate_placeholders import scan
+
 
 ROOT = Path(__file__).resolve().parents[1]
 MAP = ROOT / "governance" / "placeholder-migration-map.json"
@@ -50,15 +52,16 @@ class PlaceholderMigrationTests(unittest.TestCase):
         self.assertNotIn("PROJECT-[SLUG]-001", template)
 
     def test_nested_final_list_slots_are_not_missed(self) -> None:
-        expected = {
-            "episode-outline.md": "BIBLE-[[VERSION]]",
-            "review-report.md": "SCRIPT-[[VERSION]]",
-            "scene-card.md": "DEL-[[OUTLINE-ID]]",
-            "vertical-episode.md": "DEL-SEASON-[[NNN]]",
+        cases = {
+            "episode-outline.md": "upstream_ids: [BIBLE-[VERSION]]",
+            "review-report.md": "upstream_ids: [BIBLE-v1, SCRIPT-[VERSION]]",
+            "scene-card.md": "upstream_ids: [BIBLE-v1, DEL-[OUTLINE-ID]]",
+            "vertical-episode.md": "upstream_ids: [BIBLE-v1, DEL-SEASON-[NNN]]",
         }
-        for name, token in expected.items():
-            text = (ROOT / "templates" / name).read_text(encoding="utf-8")
-            self.assertIn(token, text, name)
+        for name, source in cases.items():
+            results = scan(Path("templates") / name, source)
+            self.assertEqual(len(results), 1, name)
+            self.assertEqual(results[0]["action"], "MIGRATE", name)
         repair_map = ROOT / "governance" / "placeholder-migration-repair-map.tsv"
         with repair_map.open(encoding="utf-8", newline="") as handle:
             rows = list(csv.DictReader(handle, delimiter="\t"))

@@ -28,6 +28,7 @@ def load_schema(path: Path) -> dict[str, Any]:
         "decision_statuses",
         "deprecation_statuses",
         "rights_statuses",
+        "upstream_defaults",
         "id_prefixes",
         "required_fields",
         "finding_required_fields",
@@ -110,6 +111,18 @@ def render_schema_tables(schema: dict[str, Any]) -> str:
         "rights_statuses",
     ):
         lines.append(f"| `{name}` | {code_list(schema[name])} |")
+
+    lines.extend([
+        "",
+        "### Template upstream 默认值",
+        "",
+        "> 这里只声明上游。下游关系由验证器反向生成，禁止模板手工维护反向清单。",
+        "",
+        "| Artifact 类型 | `upstream_ids` 默认槽位 |",
+        "|---|---|",
+    ])
+    for artifact_type, values in schema["upstream_defaults"].items():
+        lines.append(f"| `{artifact_type}` | {code_list(values)} |")
 
     lines.extend([
         "",

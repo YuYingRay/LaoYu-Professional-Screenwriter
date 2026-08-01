@@ -6,7 +6,7 @@ project_baseline: PROJECT-v1.0.0
 artifact_version: v1.0.0
 status: DRAFT
 owner: [[ROLE]]
-upstream_ids: [SCRIPT-v1.0.0, BIBLE-v1.0.0, REVIEW-001]
+upstream_ids: ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"]
 conformance_level: STRUCTURAL_CONFORMANCE
 ---
 

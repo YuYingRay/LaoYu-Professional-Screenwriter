@@ -6,7 +6,7 @@ project_baseline: PROJECT-[[SLUG]]-v0.1.0
 artifact_version: v0.1.0
 status: DRAFT
 owner: [[OWNER]]
-upstream_ids: []
+upstream_ids: ["[[PROJECT-ID]]"]
 ---
 
 # 上游变更通知与下游同步日志

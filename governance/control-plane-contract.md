@@ -130,6 +130,24 @@ evidence_refs: [NOTICE-CONTRACT-001]
 | `deprecation_statuses` | `OPEN`, `IN_PROGRESS`, `VERIFIED`, `REMOVED` |
 | `rights_statuses` | `CANDIDATE`, `INTERNAL_ONLY`, `RIGHTS_PENDING`, `LICENSE_REQUESTED`, `LICENSED_LIMITED`, `OPEN_LICENSE_VERIFIED`, `PUBLIC_DOMAIN_CONFIRMED`, `PROJECT_ORIGINAL`, `CLIENT_PROVIDED`, `TALENT_RELEASED`, `APPROVED_FOR_USE`, `RESTRICTED`, `EXPIRING`, `EXPIRED`, `DISPUTED`, `REPLACEMENT_REQUIRED`, `REMOVED`, `ARCHIVED`, `DO_NOT_USE` |
 
+### Template upstream 默认值
+
+> 这里只声明上游。下游关系由验证器反向生成，禁止模板手工维护反向清单。
+
+| Artifact 类型 | `upstream_ids` 默认槽位 |
+|---|---|
+| `PROJECT_MANIFEST` | — |
+| `SOURCE_REGISTER` | `[[PROJECT-ID]]` |
+| `NOTICE_INDEX` | `[[PROJECT-ID]]` |
+| `CHANGE_LOG` | `[[PROJECT-ID]]`, `[[NOTICE-INDEX-ID]]` |
+| `STORY_BIBLE` | `[[PROJECT-ID]]` |
+| `OUTLINE` | `[[BIBLE-ID]]` |
+| `VERTICAL_EPISODE` | `[[BIBLE-ID]]`, `[[SEASON-MAP-ID]]` |
+| `SCENE_CARD` | `[[BIBLE-ID]]`, `[[OUTLINE-OR-EPISODE-ID]]` |
+| `REVIEW` | `[[BIBLE-ID]]`, `[[REVIEWED-ARTIFACT-ID]]` |
+| `NOTICE` | `[[CHANGED-UPSTREAM-ID]]` |
+| `PRODUCTION_HANDOFF` | `[[BIBLE-ID]]`, `[[SCRIPT-ID]]`, `[[REVIEW-ID]]` |
+
 ### Notice 状态与耦合
 
 notice_status：`DRAFT`, `OPEN`, `IN_PROGRESS`, `VERIFIED`, `CLOSED`

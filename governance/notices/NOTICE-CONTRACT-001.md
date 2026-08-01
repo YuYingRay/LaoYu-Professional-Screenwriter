@@ -3,18 +3,18 @@ artifact_id: NOTICE-CONTRACT-001
 artifact_type: NOTICE
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.1.3
+artifact_version: v0.1.4
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER]
 review_id: REVIEW-CONTRACT-001
 review_decision: PENDING
-evidence_refs: [PLAN-v1.0.7, PHASE-1-COMPLETE, PHASE-2-COMPLETE, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR]
+evidence_refs: [PLAN-v1.0.7, PHASE-1-COMPLETE, PHASE-2-COMPLETE, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM]
 notice_status: IN_PROGRESS
 affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER, PROJECT-PROFESSIONAL-SCREENWRITER]
 affected_paths: [governance/**, templates/**, scripts/**, tests/**, LICENSES/**, SKILL.md, references/**, examples/**]
 coupling: [BASELINE, SCHEMA, UPSTREAM, RIGHTS, PRODUCTION]
-migration_tasks: [MIG-CONTRACT-001, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-WP3B-PLACEHOLDER-REPAIR]
+migration_tasks: [MIG-CONTRACT-001, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-WP3B-PLACEHOLDER-REPAIR, MIG-WP3B-UPSTREAM]
 ---
 
 # NOTICE-CONTRACT-001：控制契约 v0.2.0 迁移事务
@@ -44,6 +44,8 @@ migration_tasks: [MIG-CONTRACT-001, MIG-WP3B-PLACEHOLDERS, MIG-WP3B-ENUMS, MIG-W
 - `MIG-WP3B-PLACEHOLDER-REPAIR`：`VERIFIED`。上游核对发现旧扫描器漏掉列表末尾
   的四个嵌套 token；失败证据、四处修复与原因见
   `governance/placeholder-migration-repair-map.tsv`，规范占位符累计1203处；
+- `MIG-WP3B-UPSTREAM`：`VERIFIED`。11类正式模板的默认`upstream_ids`由schema生成表
+  定义并逐模板一致；只保留上游方向，下游依赖继续由验证器反向生成，未制造双向循环；
 - 最高可在原子激活前推进至：`VERIFIED`；
 - `CLOSED` 仅允许与 Manifest 切换、合同 `LOCKED`、activation RUN 和 change-log
   最终摘要在同一 staging 事务中发生；
