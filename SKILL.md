@@ -219,16 +219,16 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 
 ## 参考资料路由
 
-| 任务 | 读取 |
-|---|---|
-| 电影/剧集结构 | `references/film-series-format.md` |
-| Story Bible | `references/story-bible-templates.md`、`templates/story-bible.md` |
-| 竖屏短剧 | `references/short-drama-playbook.md`、`references/hook-paywall-engine.md` |
-| 剧本格式 | `references/screenplay-format-cn-en.md` |
-| 审查重写 | `references/adversarial-review-rubric.md`、`templates/review-report.md` |
-| AI/实拍交接 | `references/ai-production-handoff.md`、`templates/production-handoff.md` |
-| 项目治理 | `governance/control-plane-contract.md`、`governance/project-manifest.md` |
-| 验证与 E2E | `scripts/validate_project.py`、`tests/README.md` |
+| 任务 | 读取 | ATX grep 锚点 |
+|---|---|---|
+| 电影/剧集结构 | `references/film-series-format.md` | `^# 5\. 电影长片$`；`^# 7\. 连续剧与季播剧$` |
+| Story Bible | `references/story-bible-templates.md`、`templates/story-bible.md` | `^# 5\. 核心故事圣经模板$` |
+| 竖屏短剧 | `references/short-drama-playbook.md`、`references/hook-paywall-engine.md` | 前者：`^# 6\. 分集结构$`；后者：`^# 5\. 结尾钩子$` |
+| 剧本格式 | `references/screenplay-format-cn-en.md` | `^# 3\. 中文文学剧本格式$` |
+| 审查重写 | `references/adversarial-review-rubric.md`、`templates/review-report.md` | `^# 9\. 审查报告模板$` |
+| AI/实拍交接 | `references/ai-production-handoff.md`、`templates/production-handoff.md` | `^# 5\. 镜头表$` |
+| 项目治理 | `governance/control-plane-contract.md`、`governance/project-manifest.md` | — |
+| 验证与 E2E | `scripts/validate_project.py`、`tests/README.md` | — |
 
 ## 命令意图
 
