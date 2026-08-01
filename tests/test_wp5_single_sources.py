@@ -220,6 +220,9 @@ class ChangeLevelSingleSourceTests(unittest.TestCase):
 
     def test_previous_definitions_are_contract_pointers(self) -> None:
         for path in self.duplicate_sources:
+            if not (ROOT / path).exists():
+                self.assertEqual(path, "README.md")
+                continue
             text = (ROOT / path).read_text(encoding="utf-8")
             self.assertIn("control-plane-contract.md#72-变更等级与最低门禁", text, path)
             self.assertNotIn("| L1 表达级 | 非事实性的台词压缩", text, path)
@@ -284,6 +287,42 @@ class SkillTriggerBoundaryTests(unittest.TestCase):
         metadata = (ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")
         self.assertIn("剧本与影视故事语境", metadata)
         self.assertIn("ultrathink as a review trigger only within this context", metadata)
+
+
+class PackageReadmeBoundaryTests(unittest.TestCase):
+    def test_reserved_readme_files_are_removed_or_renamed(self) -> None:
+        self.assertFalse((ROOT / "README.md").exists())
+        self.assertFalse((ROOT / "LICENSES" / "README.md").exists())
+        self.assertFalse((ROOT / "tests" / "README.md").exists())
+        self.assertTrue((ROOT / "tests" / "testing-guide.md").is_file())
+        self.assertEqual(list(ROOT.rglob("README.md")), [])
+
+    def test_runtime_content_survives_root_readme_removal(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        for required in [
+            "## 使用边界",
+            "未经结构开发就直接索要",
+            "## 典型输入与产出顺序",
+            "长片开发",
+            "竖屏付费短剧",
+            "场景或对白重写",
+            "tests/testing-guide.md",
+        ]:
+            self.assertIn(required, skill)
+        rubric = (ROOT / "references" / "adversarial-review-rubric.md").read_text(encoding="utf-8")
+        self.assertIn("## 7.7.1 场景与对白重写七问", rubric)
+        self.assertIn("这场如何迫使下一场发生", rubric)
+
+    def test_readme_migration_map_records_every_disposition(self) -> None:
+        path = ROOT / "governance" / "wp5-readme-boundary-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(
+            {row["source_path"] for row in rows},
+            {"README.md", "tests/README.md", "LICENSES/README.md", "governance/upstream-notices/README.md"},
+        )
+        self.assertIn("EXPORT_MAINTAINER_CONTENT", {row["decision"] for row in rows})
+        self.assertIn("RENAME_TESTING_GUIDE", {row["decision"] for row in rows})
 
 
 if __name__ == "__main__":

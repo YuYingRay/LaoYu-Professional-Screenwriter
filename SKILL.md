@@ -13,6 +13,16 @@ description: Use for developing, outlining, diagnosing, rewriting, reviewing, ve
 
 本 Skill 的原创内容默认采用 CC BY 4.0；第三方材料、用户输入、项目内容和外部资产不因使用本 Skill 自动获得同一许可。
 
+## 使用边界
+
+本 Skill 不适合：
+
+- 未经结构开发就直接索要“完整长篇剧本”；
+- 将真实医疗、法律、执法、安全或历史信息当作无需核验的剧情事实；
+- 复制受版权保护的剧本、台词、角色、镜头、视觉资产或其他受保护表达；
+- 用“更大反转”或“更惨人物”替代因果、人物选择与主题兑现；
+- 把已生成资产、旧 PDF、聊天记忆或单一搜索结果当作项目事实源。
+
 ## 第一性原理
 
 故事是人物在压力下不断选择并承担后果的因果系统。
@@ -213,7 +223,17 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 | 权利清理 | `references/rights-clearance-guide.md`、`references/asset-rights-method.md`、`references/third-party-rights-method.md` | `^# 权利清理与 LICENSES 使用方法$`；`^# 资产权利审查方法$`；`^# 第三方材料权利审查方法$` |
 | 项目目录 | `references/project-directory-structure.md` | `^# 1\. 唯一结构$`；`^# 2\. 合法子集$` |
 | 项目治理 | `governance/control-plane-contract.md`、`governance/project-manifest.md` | — |
-| 验证与 E2E | `scripts/validate_project.py`、`tests/README.md` | — |
+| 验证与 E2E | `scripts/validate_project.py`、`tests/testing-guide.md` | — |
+
+## 典型输入与产出顺序
+
+| 典型输入 | 产出顺序 |
+|---|---|
+| 长片开发：题材、主角、目标受众、预算或时长约束 | Manifest → Story Bible → 长片因果大纲 → Scene Cards → Fountain 剧本 → Review → Production Handoff |
+| 竖屏付费短剧：集数、单集时长、画幅、付费节点 | Manifest → Story Bible → 钩子/兑现/付费地图 → 单集大纲 → Scene Cards → Review → 9:16 Production Handoff |
+| 场景或对白重写：场景文本及其剧情位置 | 定位当前基线 → Scene Card → 场景七问与对白审查 → Revision Map → 重写 → 局部回归 |
+
+这些顺序是交付依赖，不代表必须一次生成全部文件；先完成当前任务所需的最小闭包。
 
 ## 命令意图
 
