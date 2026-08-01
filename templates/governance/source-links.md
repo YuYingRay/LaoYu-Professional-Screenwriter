@@ -1,11 +1,11 @@
 ---
 artifact_id: DEL-SOURCE-INDEX-001
 artifact_type: SOURCE_REGISTER
-project_id: PROJECT-PROFESSIONAL-SCREENWRITER
-project_baseline: CONTRACT-v0.1.0
+project_id: PROJECT-[SLUG]-001
+project_baseline: PROJECT-[SLUG]-v0.1.0
 artifact_version: v0.1.0
 status: DRAFT
-owner: LaoYu-Professional-Screenwriter
+owner: [OWNER]
 upstream_ids: []
 ---
 

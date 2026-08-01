@@ -10,7 +10,9 @@ from pathlib import Path
 
 
 def run(label: str, command: list[str], cwd: Path) -> bool:
-    result = subprocess.run(command, cwd=cwd, text=True, capture_output=True, check=False)
+    result = subprocess.run(
+        command, cwd=cwd, text=True, encoding="utf-8", errors="replace", capture_output=True, check=False
+    )
     if result.stdout:
         print(result.stdout.rstrip())
     if result.stderr:

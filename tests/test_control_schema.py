@@ -68,6 +68,8 @@ class ControlSchemaTests(unittest.TestCase):
         self.assertIn("| `IN_REVIEW` |", first)
         self.assertIn("| `EP-` | `VERTICAL_EPISODE` |", first)
         self.assertIn("finding_id", first)
+        self.assertIn("| `IN_PROGRESS` |", first)
+        self.assertIn("migration_tasks", first)
         self.assertIn("<!-- GENERATED:schema END -->", first)
 
     def test_check_rejects_a_hand_edited_generated_block(self) -> None:

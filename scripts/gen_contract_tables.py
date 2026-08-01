@@ -92,6 +92,15 @@ def render_schema_tables(schema: dict[str, Any]) -> str:
         "",
         f"coupling：{code_list(schema['notice']['coupling_values'])}",
         "",
+        "| `notice_status` | 附加必填字段 |",
+        "|---|---|",
+    ])
+    for constraint in schema["notice"]["constraints"]:
+        lines.append(
+            f"| `{constraint['notice_status']}` | {code_list(constraint['require'])} |"
+        )
+    lines.extend([
+        "",
         END_MARKER,
     ])
     return "\n".join(lines)

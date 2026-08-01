@@ -117,7 +117,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     script_scene_ids: set[str] = set()
 
     for path, meta in metas.items():
-        if path.name in {"input-brief.md", "README.md", "change-log.md", "control-plane-contract.md", "control-plane-file-map.md"}:
+        if path.name in {"input-brief.md", "README.md", "change-log.md", "control-plane-file-map.md"}:
             continue
         if not meta:
             continue

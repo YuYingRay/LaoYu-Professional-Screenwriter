@@ -21,6 +21,8 @@ def lint(root: Path) -> list[LintFinding]:
     validate_skill = subprocess.run(
         [sys.executable, str(root / "scripts" / "validate_skill.py"), str(root)],
         text=True,
+        encoding="utf-8",
+        errors="replace",
         capture_output=True,
         check=False,
     )
@@ -31,6 +33,8 @@ def lint(root: Path) -> list[LintFinding]:
     generated = subprocess.run(
         [sys.executable, str(root / "scripts" / "gen_contract_tables.py"), str(root), "--check"],
         text=True,
+        encoding="utf-8",
+        errors="replace",
         capture_output=True,
         check=False,
     )

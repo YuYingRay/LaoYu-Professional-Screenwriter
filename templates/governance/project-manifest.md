@@ -1,17 +1,13 @@
 ---
-artifact_id: PROJECT-PROFESSIONAL-SCREENWRITER
+artifact_id: PROJECT-[SLUG]-001
 artifact_type: PROJECT_MANIFEST
-project_id: PROJECT-PROFESSIONAL-SCREENWRITER
-project_baseline: CONTRACT-v0.1.0
-candidate_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.0
-status: IN_REVIEW
-owner: LaoYu-Professional-Screenwriter
+project_id: PROJECT-[SLUG]-001
+project_baseline: PROJECT-[SLUG]-v0.1.0
+artifact_version: v0.1.0
+status: DRAFT
+owner: [OWNER]
 upstream_ids: []
-review_id: REVIEW-CONTRACT-001
-review_decision: PENDING
-evidence_refs: [NOTICE-CONTRACT-001]
-project_stage: DEVELOPMENT
+project_stage: CONCEPT
 ---
 
 # 项目清单与协作入口

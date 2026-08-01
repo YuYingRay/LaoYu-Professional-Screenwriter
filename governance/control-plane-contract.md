@@ -2,24 +2,26 @@
 artifact_id: CONTRACT-PROFESSIONAL-SCREENWRITER
 artifact_type: CONTROL_PLANE_CONTRACT
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
-project_baseline: CONTRACT-v0.1.0
-artifact_version: v0.1.0
-status: LOCKED
+project_baseline: CONTRACT-v0.2.0
+artifact_version: v0.2.0
+status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 maintainer: YuYingRay
 license: CC BY 4.0
 official_source: https://github.com/YuYingRay/LaoYu-Professional-Screenwriter
-reviewer: HUMAN_REVIEW_REQUIRED
 upstream_ids: []
+review_id: REVIEW-CONTRACT-001
+review_decision: PENDING
+evidence_refs: [NOTICE-CONTRACT-001]
 ---
 
 # Professional Screenwriter 控制平面契约
 
-> 版本：`CONTRACT-v0.1.0`  
+> 版本：`CONTRACT-v0.2.0`
 > 许可方：`LaoYu-Professional-Screenwriter`  
 > 官方来源：`https://github.com/YuYingRay/LaoYu-Professional-Screenwriter`  
 > 许可：CC BY 4.0（Skill 原创内容；第三方材料另行标记）  
-> 状态：LOCKED
+> 状态：IN_REVIEW
 
 ## 0. 契约目的
 
@@ -55,6 +57,81 @@ upstream_ids: []
 | `PRODUCTION_READY` | 下游制作包可基于当前基线执行 | 兼容性矩阵、权利记录、生产批准 |
 
 低等级通过不得宣称高等级完成。
+
+## 2.1 Schema 生成投影
+
+<!-- GENERATED:schema START -->
+
+> 生成源：`governance/control-schema.json`（`PSW-CONTROL-SCHEMA-v0.2.0`）。
+> 本区块禁止手改；运行 `python -X utf8 scripts/gen_contract_tables.py . --check` 对账。
+
+### 状态必填字段
+
+| 状态 | 基本字段 | 状态附加字段 |
+|---|---|---|
+| `DRAFT` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | — |
+| `IN_REVIEW` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | `review_id`, `review_decision`, `evidence_refs` |
+| `APPROVED` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | `reviewer`, `approver`, `test_run_id`, `conformance_level` |
+| `LOCKED` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | `lock_scope`, `content_digest` |
+| `SUPERSEDED` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | `superseded_by` |
+| `BLOCKED` | `artifact_id`, `artifact_type`, `project_id`, `project_baseline`, `artifact_version`, `status`, `owner`, `upstream_ids` | `blocked_reason` |
+
+### 类型附加字段
+
+| Artifact 类型 | 附加字段 |
+|---|---|
+| `NOTICE` | `notice_status`, `affected_ids`, `affected_paths`, `coupling` |
+| `PRODUCTION_HANDOFF` | — |
+| `REVIEW` | `findings` |
+
+### ID 前缀
+
+| 前缀 | Artifact 类型 | 示例 |
+|---|---|---|
+| `ARC-` | `CHARACTER_ARC` | `ARC-PROTAG-001` |
+| `ASM-` | `ASSUMPTION` | `ASM-001` |
+| `ASSET-` | `ASSET` | `ASSET-PROP-001` |
+| `AUDIO-` | `AUDIO` | `AUDIO-001` |
+| `BEAT-` | `BEAT` | `BEAT-001` |
+| `BIBLE-` | `STORY_BIBLE` | `BIBLE-CHAR-001` |
+| `CLM-` | `CLAIM` | `CLM-001` |
+| `CON-` | `CONSTRAINT` | `CON-001` |
+| `DEL-` | `OUTLINE` | `DEL-OUTLINE-001` |
+| `DEL-` | `PRODUCTION_HANDOFF` | `DEL-HANDOFF-001` |
+| `DEL-` | `SEASON_MAP` | `DEL-SEASON-001` |
+| `EP-` | `VERTICAL_EPISODE` | `EP-001` |
+| `LOCK-` | `LOCK` | `LOCK-001` |
+| `MIG-` | `MIGRATION` | `MIG-001` |
+| `NOTICE-` | `NOTICE` | `NOTICE-001` |
+| `PROJECT-` | `PROJECT_MANIFEST` | `PROJECT-TIDELINE-001` |
+| `REVIEW-` | `REVIEW` | `REVIEW-001` |
+| `RGT-` | `RIGHTS_ITEM` | `RGT-001` |
+| `SC-` | `SCENE_CARD` | `SC-001` |
+| `SCRIPT-` | `SCRIPT_MASTER` | `SCRIPT-v1.0.0` |
+| `SHOT-` | `SHOT` | `SHOT-001` |
+| `SRC-` | `SOURCE` | `SRC-001` |
+| `SUB-` | `SUBTITLE_UI` | `SUB-001` |
+| `TP-` | `THIRD_PARTY_MATERIAL` | `TP-001` |
+
+### Review Finding 九字段
+
+`finding_id`, `severity`, `evidence_location`, `failure_mechanism`, `downstream_impact`, `minimum_fix`, `verification_method`, `owner`, `status`
+
+### Notice 状态与耦合
+
+notice_status：`DRAFT`, `OPEN`, `IN_PROGRESS`, `VERIFIED`, `CLOSED`
+
+coupling：`UPSTREAM`, `BASELINE`, `SCHEMA`, `RIGHTS`, `PRODUCTION`
+
+| `notice_status` | 附加必填字段 |
+|---|---|
+| `DRAFT` | — |
+| `OPEN` | `affected_ids`, `affected_paths`, `coupling` |
+| `IN_PROGRESS` | `affected_ids`, `affected_paths`, `coupling`, `migration_tasks` |
+| `VERIFIED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs` |
+| `CLOSED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs`, `closed_by_run_id` |
+
+<!-- GENERATED:schema END -->
 
 ## 3. ID 规则
 
@@ -126,6 +203,9 @@ conformance_level
 
 只声明 `upstream_ids`。下游依赖由验证器根据上游关系生成，不允许人工维护两套相互矛盾的依赖清单。
 
+单人项目中，`reviewer` 与 `approver` 可以是同一人；但两个字段、审查证据与批准
+证据仍必须分别存在，不能因为角色由同一人承担就省略任一门禁。
+
 ## 5. 字段状态
 
 ```text
@@ -189,13 +269,16 @@ OPEN → MITIGATING → MITIGATED → ACCEPTED → CLOSED
 
 `ACCEPTED` 不等于 `CLOSED`。P0 风险即使被接受，也不能放行生产和发布。
 
-### Notice 状态
+### Notice 状态与耦合
 
 ```text
-DRAFT → TRIAGE → APPROVED → IN_PROGRESS → VERIFIED → CLOSED
+DRAFT → OPEN → IN_PROGRESS → VERIFIED → CLOSED
 ```
 
-异常状态：`BLOCKED`、`ROLLED_BACK`。
+`status` 表示 Notice Artifact 本身的审查生命周期；`notice_status` 表示该变更传播
+事务的推进状态，两者不得混用。`coupling` 必须从 `UPSTREAM`、`BASELINE`、
+`SCHEMA`、`RIGHTS`、`PRODUCTION` 中选择，并按上方 schema 生成表满足对应状态的
+附加必填字段。
 
 ## 7. 权威层级
 

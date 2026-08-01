@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -96,14 +97,27 @@ class BootstrapGateTests(unittest.TestCase):
             self.assertIn("CANDIDATE_BASELINE_MISSING", result.stdout)
 
     def test_lint_audit_reports_but_does_not_block(self) -> None:
-        result = subprocess.run(
-            [sys.executable, str(SCRIPTS / "lint_repo.py"), str(ROOT), "--mode", "audit"],
-            text=True,
-            capture_output=True,
-            check=False,
-        )
+        with tempfile.TemporaryDirectory(prefix="psw-lint-audit-") as temp_dir:
+            copy = Path(temp_dir) / "skill"
+            shutil.copytree(
+                ROOT,
+                copy,
+                ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc"),
+            )
+            contract = copy / "governance" / "control-plane-contract.md"
+            contract.write_text(
+                contract.read_text(encoding="utf-8").replace("finding_id", "finding_id_manual", 1),
+                encoding="utf-8",
+                newline="\n",
+            )
+            result = subprocess.run(
+                [sys.executable, str(copy / "scripts" / "lint_repo.py"), str(copy), "--mode", "audit"],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        self.assertIn("GENERATED_BLOCK_MISSING", result.stdout)
+        self.assertIn("GENERATED_BLOCK_DRIFT", result.stdout)
         self.assertNotIn("control-plane-file-map.md is missing", result.stdout)
 
     def test_minimum_template_instantiation_passes(self) -> None:
