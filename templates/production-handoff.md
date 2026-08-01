@@ -1,5 +1,5 @@
 ---
-artifact_id: HANDOFF-[PROJECT_ID]-[NNN]
+artifact_id: DEL-[PROJECT_ID]-[NNN]
 artifact_type: PRODUCTION_HANDOFF
 project_id: PROJECT-[SLUG]-001
 project_baseline: PROJECT-v1.0.0
