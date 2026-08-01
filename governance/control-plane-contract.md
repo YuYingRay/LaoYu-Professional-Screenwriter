@@ -117,6 +117,19 @@ evidence_refs: [NOTICE-CONTRACT-001]
 
 `finding_id`, `severity`, `evidence_location`, `failure_mechanism`, `downstream_impact`, `minimum_fix`, `verification_method`, `owner`, `status`
 
+### 领域枚举
+
+| 枚举域 | 合法值 |
+|---|---|
+| `project_stages` | `CONCEPT`, `DEVELOPMENT`, `OUTLINE`, `SCRIPT`, `PREP`, `PRODUCTION`, `POST`, `RELEASE`, `ARCHIVED` |
+| `work_actions` | `DISCOVER`, `BUILD_BIBLE`, `STRUCTURE`, `OUTLINE`, `DRAFT`, `REVIEW`, `REWRITE`, `CONTINUITY_CHECK`, `BUILD_HANDOFF` |
+| `finding_statuses` | `OPEN`, `IN_PROGRESS`, `FIXED`, `ACCEPTED_RISK`, `REGRESSED` |
+| `source_statuses` | `ACTIVE`, `PENDING_REVIEW`, `PARTIALLY_VERIFIED`, `VERIFIED`, `DISPUTED`, `OUTDATED`, `PAYWALLED`, `MOVED`, `ARCHIVED`, `SUPERSEDED`, `DO_NOT_USE` |
+| `mystery_statuses` | `PLANTED`, `ACTIVE`, `PARTIALLY_PAID`, `PAID`, `DROPPED`, `REPLACED` |
+| `decision_statuses` | `ACTIVE`, `SUPERSEDED`, `REVISIT`, `REJECTED` |
+| `deprecation_statuses` | `OPEN`, `IN_PROGRESS`, `VERIFIED`, `REMOVED` |
+| `rights_statuses` | `CANDIDATE`, `INTERNAL_ONLY`, `RIGHTS_PENDING`, `LICENSE_REQUESTED`, `LICENSED_LIMITED`, `OPEN_LICENSE_VERIFIED`, `PUBLIC_DOMAIN_CONFIRMED`, `PROJECT_ORIGINAL`, `CLIENT_PROVIDED`, `TALENT_RELEASED`, `APPROVED_FOR_USE`, `RESTRICTED`, `EXPIRING`, `EXPIRED`, `DISPUTED`, `REPLACEMENT_REQUIRED`, `REMOVED`, `ARCHIVED`, `DO_NOT_USE` |
+
 ### Notice 状态与耦合
 
 notice_status：`DRAFT`, `OPEN`, `IN_PROGRESS`, `VERIFIED`, `CLOSED`

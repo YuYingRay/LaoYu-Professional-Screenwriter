@@ -20,6 +20,14 @@ def load_schema(path: Path) -> dict[str, Any]:
         "contract_id",
         "artifact_statuses",
         "notice_statuses",
+        "project_stages",
+        "work_actions",
+        "finding_statuses",
+        "source_statuses",
+        "mystery_statuses",
+        "decision_statuses",
+        "deprecation_statuses",
+        "rights_statuses",
         "id_prefixes",
         "required_fields",
         "finding_required_fields",
@@ -85,6 +93,25 @@ def render_schema_tables(schema: dict[str, Any]) -> str:
         "### Review Finding 九字段",
         "",
         code_list(schema["finding_required_fields"]),
+        "",
+        "### 领域枚举",
+        "",
+        "| 枚举域 | 合法值 |",
+        "|---|---|",
+    ])
+    for name in (
+        "project_stages",
+        "work_actions",
+        "finding_statuses",
+        "source_statuses",
+        "mystery_statuses",
+        "decision_statuses",
+        "deprecation_statuses",
+        "rights_statuses",
+    ):
+        lines.append(f"| `{name}` | {code_list(schema[name])} |")
+
+    lines.extend([
         "",
         "### Notice 状态与耦合",
         "",

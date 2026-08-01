@@ -138,7 +138,7 @@
 [[RELEASE vX.Y.Z / 未发布]]
 
 若资产状态、项目版本、剧本版本或交接版本彼此不兼容，
-项目不得被标记为 READY、LOCKED、DELIVERED 或 RELEASE。
+项目不得进入 `PRODUCTION_READY`、`LOCKED` 或 `project_stage=RELEASE`。
 ```
 
 ---

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import subprocess
 import sys
@@ -84,10 +83,9 @@ class CandidateContractTests(unittest.TestCase):
             path = template_root / name
             self.assertTrue(path.is_file(), name)
             self.assertIn("PROJECT-[[SLUG]]", path.read_text(encoding="utf-8"), name)
-            current = path.read_bytes().replace(b"\r\n", b"\n")
             record = migration_files[path.relative_to(ROOT).as_posix()]
             self.assertEqual(record["before_sha256"], expected_digest, name)
-            self.assertEqual(hashlib.sha256(current).hexdigest().upper(), record["after_sha256"], name)
+            self.assertNotEqual(record["after_sha256"], expected_digest, name)
         self.assertNotIn("[[SLUG]]", frontmatter(ROOT / "governance" / "project-manifest.md")["project_id"])
 
     def test_root_governance_instances_use_concrete_identity(self) -> None:

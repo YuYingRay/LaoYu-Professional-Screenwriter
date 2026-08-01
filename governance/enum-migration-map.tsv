@@ -1,0 +1,60 @@
+path	line	token	action	target	domain	reason
+LICENSES/asset-rights-register.md	141	DELIVERED	MIGRATE	RELEASE	project_stages	delivery is represented by locked artifact plus release stage
+LICENSES/asset-rights-register.md	141	READY	MIGRATE	PRODUCTION_READY	conformance_levels	ambiguous readiness spelling
+LICENSES/asset-rights-register.md	242	ARCHIVED	PRESERVE	ARCHIVED	rights_statuses	valid rights lifecycle state
+SKILL.md	67	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+governance/change-log.md	328	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+governance/change-log.md	452	ACTIVE	MIGRATE	OPEN	deprecation_statuses	deprecation lifecycle uses typed status
+governance/change-log.md	458	ARCHIVED	MIGRATE	SUPERSEDED	artifact_statuses	artifact history uses SUPERSEDED rather than ARCHIVED
+governance/change-log.md	588	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+governance/control-plane-contract.md	233	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+governance/project-manifest.md	137	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+governance/project-manifest.md	686	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+governance/project-manifest.md	807	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+governance/source-links.md	20	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+governance/source-links.md	264	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+governance/source-links.md	269	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+governance/source-links.md	277	ARCHIVED	PRESERVE	ARCHIVED	source_statuses	valid source lifecycle state
+references/adversarial-review-rubric.md	999	IN PROGRESS	MIGRATE	IN_PROGRESS	finding_statuses	space-separated finding status
+references/adversarial-review-rubric.md	1001	ACCEPTED RISK	MIGRATE	ACCEPTED_RISK	finding_statuses	space-separated finding disposition
+references/ai-production-handoff.md	1213	PRODUCTION_PACKAGE	MIGRATE	PREP	project_stages	non-schema project stage
+references/short-drama-playbook.md	997	ADVERSARIAL_REVIEW	MIGRATE	REVIEW	work_actions	obsolete work-action spelling
+references/short-drama-playbook.md	997	INTAKE	MIGRATE	DISCOVER	work_actions	obsolete work-action spelling
+references/story-bible-templates.md	529	ACTIVE	PRESERVE	ACTIVE	mystery_statuses	valid mystery lifecycle state
+references/story-bible-templates.md	530	PARTIALLY PAID	MIGRATE	PARTIALLY_PAID	mystery_statuses	space-separated mystery status
+references/story-bible-templates.md	1123	ACTIVE	PRESERVE	ACTIVE	decision_statuses	valid decision lifecycle state
+references/story-bible-templates.md	1161	IN REVIEW	MIGRATE	IN_REVIEW	artifact_statuses	space-separated artifact status
+references/story-bible-templates.md	1164	ARCHIVED	MIGRATE	SUPERSEDED	artifact_statuses	artifact history uses SUPERSEDED rather than ARCHIVED
+templates/episode-outline.md	844	ACCEPTED RISK	MIGRATE	ACCEPTED_RISK	finding_statuses	space-separated finding disposition
+templates/governance/change-log.md	328	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+templates/governance/change-log.md	452	ACTIVE	MIGRATE	OPEN	deprecation_statuses	deprecation lifecycle uses typed status
+templates/governance/change-log.md	458	ARCHIVED	MIGRATE	SUPERSEDED	artifact_statuses	artifact history uses SUPERSEDED rather than ARCHIVED
+templates/governance/change-log.md	588	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+templates/governance/project-manifest.md	133	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+templates/governance/project-manifest.md	682	ARCHIVED	PRESERVE	ARCHIVED	project_stages	valid terminal project stage
+templates/governance/project-manifest.md	803	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+templates/governance/source-links.md	20	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+templates/governance/source-links.md	264	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+templates/governance/source-links.md	269	ACTIVE	PRESERVE	ACTIVE	source_statuses	valid source lifecycle state
+templates/governance/source-links.md	277	ARCHIVED	PRESERVE	ARCHIVED	source_statuses	valid source lifecycle state
+templates/story-bible.md	520	ACTIVE	PRESERVE	ACTIVE	mystery_statuses	valid mystery lifecycle state
+templates/story-bible.md	817	ACTIVE	PRESERVE	ACTIVE	decision_statuses	valid decision lifecycle state
+templates/story-bible.md	822	ACTIVE	PRESERVE	ACTIVE	decision_statuses	valid decision lifecycle state
+tests/README.md	519	DELIVERED	MIGRATE	RELEASE	project_stages	delivery is represented by locked artifact plus release stage
+tests/expected-deliverables.md	160	ARCHIVED	MIGRATE	SUPERSEDED	artifact_statuses	artifact history uses SUPERSEDED rather than ARCHIVED
+tests/expected-deliverables.md	272	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+tests/expected-deliverables.md	273	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+tests/expected-deliverables.md	274	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+tests/expected-deliverables.md	275	REVIEWED	MIGRATE	APPROVED	artifact_statuses	untyped deliverable status
+tests/expected-deliverables.md	276	REVIEWED	MIGRATE	APPROVED	artifact_statuses	untyped deliverable status
+tests/expected-deliverables.md	277	REVIEWED	MIGRATE	APPROVED	artifact_statuses	untyped deliverable status
+tests/expected-deliverables.md	278	REVIEWED	MIGRATE	APPROVED	artifact_statuses	untyped deliverable status
+tests/expected-deliverables.md	279	REVIEWED	MIGRATE	APPROVED	artifact_statuses	untyped deliverable status
+tests/expected-deliverables.md	280	REVIEWED	MIGRATE	LOCKED	artifact_statuses	script minimum state must be explicit
+tests/expected-deliverables.md	282	CLOSED/ACCEPTED	MIGRATE	CLOSED	notice_statuses	notice lifecycle has no ACCEPTED state
+tests/expected-deliverables.md	283	ACTIVE	MIGRATE	APPROVED	artifact_statuses	artifact readiness was mislabeled ACTIVE
+tests/expected-deliverables.md	284	REVIEWED	MIGRATE	LOCKED	artifact_statuses	handoff uses locked artifact plus conformance
+tests/expected-deliverables.md	285	DELIVERED	MIGRATE	RELEASE	project_stages	delivery is represented by locked artifact plus release stage
+tests/expected-deliverables.md	631	DELIVERED	MIGRATE	RELEASE	project_stages	delivery is represented by locked artifact plus release stage
+tests/expected-deliverables.md	1360	DELIVERED	MIGRATE	RELEASE	project_stages	delivery is represented by locked artifact plus release stage
+tests/expected-deliverables.md	1360	READY	MIGRATE	PRODUCTION_READY	conformance_levels	ambiguous readiness spelling

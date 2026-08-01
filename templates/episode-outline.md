@@ -841,7 +841,7 @@ P0 结构问题未修
 
 | 问题 ID | 原问题 | 本轮修改 | 是否解决 | 新引入风险 | 复审结论 | 状态 |
 |---|---|---|---|---|---|---|
-|  |  |  |  |  |  | OPEN / FIXED / REGRESSED / ACCEPTED RISK |
+|  |  |  |  |  |  | OPEN / FIXED / REGRESSED / ACCEPTED_RISK |
 
 ## 锁定门禁
 

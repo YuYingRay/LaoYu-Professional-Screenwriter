@@ -516,7 +516,7 @@ Manifest
 复验一致性；
 更新 Change Log；
 让 Manifest 指向新基线；
-在未完成同步时正确阻断 LOCKED/DELIVERED。
+在未完成同步时正确阻断 `LOCKED` 或 `project_stage=RELEASE`。
 ```
 
 ## 5. 执行对抗式审查

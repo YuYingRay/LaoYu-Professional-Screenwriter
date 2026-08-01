@@ -994,7 +994,7 @@ project/
 
 加载本文件时：
 
-1. 仍先遵循主 `SKILL.md` 的 `INTAKE → DISCOVERY → BIBLE → STRUCTURE → OUTLINE → DRAFT → ADVERSARIAL_REVIEW → REWRITE` 工作流。
+1. 仍先遵循主 `SKILL.md` 的 `DISCOVER → BUILD_BIBLE → STRUCTURE → OUTLINE → DRAFT → REVIEW → REWRITE` 工作动作。
 2. 只有在确认项目为微短剧后，才使用本手册的首集、分集、钩子、爽点和付费点规则。
 3. 遇到冲突时，优先级如下：
 
