@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "PSW-CONTROL-SCHEMA-v0.2.0",
+  "schema_version": "v0.2.0",
+  "contract_id": "CONTRACT-v0.2.0",
+  "artifact_statuses": [
+    "DRAFT",
+    "IN_REVIEW",
+    "APPROVED",
+    "LOCKED",
+    "SUPERSEDED",
+    "BLOCKED"
+  ],
+  "notice_statuses": [
+    "DRAFT",
+    "OPEN",
+    "IN_PROGRESS",
+    "VERIFIED",
+    "CLOSED"
+  ],
+  "conformance_levels": [
+    "STRUCTURAL_CONFORMANCE",
+    "TRACEABILITY_CONFORMANCE",
+    "HUMAN_REVIEWED",
+    "PRODUCTION_READY"
+  ],
+  "id_prefixes": {
+    "PROJECT_MANIFEST": {"prefix": "PROJECT-", "example": "PROJECT-TIDELINE-001"},
+    "CONSTRAINT": {"prefix": "CON-", "example": "CON-001"},
+    "ASSUMPTION": {"prefix": "ASM-", "example": "ASM-001"},
+    "CLAIM": {"prefix": "CLM-", "example": "CLM-001"},
+    "SOURCE": {"prefix": "SRC-", "example": "SRC-001"},
+    "RIGHTS_ITEM": {"prefix": "RGT-", "example": "RGT-001"},
+    "THIRD_PARTY_MATERIAL": {"prefix": "TP-", "example": "TP-001"},
+    "STORY_BIBLE": {"prefix": "BIBLE-", "example": "BIBLE-CHAR-001"},
+    "CHARACTER_ARC": {"prefix": "ARC-", "example": "ARC-PROTAG-001"},
+    "BEAT": {"prefix": "BEAT-", "example": "BEAT-001"},
+    "VERTICAL_EPISODE": {"prefix": "EP-", "example": "EP-001"},
+    "SCENE_CARD": {"prefix": "SC-", "example": "SC-001"},
+    "SCRIPT_MASTER": {"prefix": "SCRIPT-", "example": "SCRIPT-v1.0.0"},
+    "ASSET": {"prefix": "ASSET-", "example": "ASSET-PROP-001"},
+    "SHOT": {"prefix": "SHOT-", "example": "SHOT-001"},
+    "AUDIO": {"prefix": "AUDIO-", "example": "AUDIO-001"},
+    "SUBTITLE_UI": {"prefix": "SUB-", "example": "SUB-001"},
+    "NOTICE": {"prefix": "NOTICE-", "example": "NOTICE-001"},
+    "REVIEW": {"prefix": "REVIEW-", "example": "REVIEW-001"},
+    "MIGRATION": {"prefix": "MIG-", "example": "MIG-001"},
+    "LOCK": {"prefix": "LOCK-", "example": "LOCK-001"},
+    "OUTLINE": {"prefix": "DEL-", "example": "DEL-OUTLINE-001"},
+    "SEASON_MAP": {"prefix": "DEL-", "example": "DEL-SEASON-001"},
+    "PRODUCTION_HANDOFF": {"prefix": "DEL-", "example": "DEL-HANDOFF-001"}
+  },
+  "required_fields": {
+    "base": [
+      "artifact_id",
+      "artifact_type",
+      "project_id",
+      "project_baseline",
+      "artifact_version",
+      "status",
+      "owner",
+      "upstream_ids"
+    ],
+    "by_status": {
+      "DRAFT": [],
+      "IN_REVIEW": ["review_id", "review_decision", "evidence_refs"],
+      "APPROVED": ["reviewer", "approver", "test_run_id", "conformance_level"],
+      "LOCKED": ["lock_scope", "content_digest"],
+      "SUPERSEDED": ["superseded_by"],
+      "BLOCKED": ["blocked_reason"]
+    },
+    "by_type": {
+      "NOTICE": ["notice_status", "affected_ids", "affected_paths", "coupling"],
+      "REVIEW": ["findings"],
+      "PRODUCTION_HANDOFF": []
+    },
+    "conditional": [
+      {
+        "id": "LOCKED_INHERITS_APPROVAL",
+        "when": {"status": "LOCKED"},
+        "require": ["reviewer", "approver", "test_run_id", "conformance_level", "lock_scope", "content_digest"]
+      },
+      {
+        "id": "PRODUCTION_READY_HANDOFF",
+        "when": {"artifact_type": "PRODUCTION_HANDOFF", "conformance_level": "PRODUCTION_READY"},
+        "require": ["compatibility_matrix_ref", "rights_register_ref"]
+      }
+    ]
+  },
+  "finding_required_fields": [
+    "finding_id",
+    "severity",
+    "evidence_location",
+    "failure_mechanism",
+    "downstream_impact",
+    "minimum_fix",
+    "verification_method",
+    "owner",
+    "status"
+  ],
+  "notice": {
+    "coupling_values": ["UPSTREAM", "BASELINE", "SCHEMA", "RIGHTS", "PRODUCTION"],
+    "constraints": [
+      {"notice_status": "DRAFT", "require": []},
+      {"notice_status": "OPEN", "require": ["affected_ids", "affected_paths", "coupling"]},
+      {"notice_status": "IN_PROGRESS", "require": ["affected_ids", "affected_paths", "coupling", "migration_tasks"]},
+      {"notice_status": "VERIFIED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs"]},
+      {"notice_status": "CLOSED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs", "closed_by_run_id"]}
+    ]
+  },
+  "ownership": {
+    "view": "installation_root_filesystem",
+    "match_policy": "exactly_one_non_fallback_rule",
+    "rules": [
+      {
+        "id": "OWN-EXCLUDED",
+        "patterns": [".git/**", "**/__pycache__/**", ".gitignore"],
+        "include_gitignored": true,
+        "owner": "excluded",
+        "project_validation": false
+      },
+      {
+        "id": "OWN-FIXTURE",
+        "patterns": ["tests/*-fixture/**"],
+        "owner": "fixture-project:<name>",
+        "project_validation": true
+      },
+      {
+        "id": "OWN-TEMPLATE",
+        "patterns": ["templates/**"],
+        "owner": "template-source",
+        "project_validation": false
+      },
+      {
+        "id": "OWN-REFERENCE",
+        "patterns": ["examples/**", "references/**"],
+        "owner": "repo-source",
+        "project_validation": false
+      },
+      {
+        "id": "OWN-TOOLING",
+        "patterns": ["scripts/**", "agents/**", ".github/**"],
+        "owner": "repo-source",
+        "project_validation": false
+      },
+      {
+        "id": "OWN-PACKAGE",
+        "patterns": ["SKILL.md", "LICENSE", "LICENSES/**"],
+        "owner": "repo-source",
+        "project_validation": false
+      },
+      {
+        "id": "OWN-ROOT-PROJECT",
+        "patterns": ["governance/**"],
+        "owner": "root-project",
+        "project_validation": true
+      }
+    ],
+    "fallback": {
+      "tracked": "repo-source",
+      "untracked": "deny_unless_allowlisted",
+      "untracked_error": "UNDECLARED_INSTALL_CONTENT"
+    },
+    "untracked_allowlist": [],
+    "declared_empty_directories": [],
+    "empty_directory_error": "UNDECLARED_EMPTY_DIR",
+    "multi_match_error": "MULTI_OWNED_FILE"
+  },
+  "run_payload": {
+    "include": [
+      "governance/**",
+      "story/**",
+      "structure/**",
+      "scenes/**",
+      "episodes/**",
+      "script/**",
+      "production/**",
+      "reviews/**",
+      "assets/**"
+    ],
+    "exclude": [
+      ".git/**",
+      "**/__pycache__/**",
+      "runs/**",
+      "exports/**"
+    ],
+    "managed_extensions": [".md", ".fountain", ".json", ".yaml", ".yml"],
+    "untracked_policy": "include_or_block",
+    "self_exclusion": "runs/**"
+  },
+  "export_scope": {
+    "source_root": "project_root",
+    "selectors": ["project", "season", "episode"],
+    "required_artifact_types": {
+      "project": ["PROJECT_MANIFEST", "STORY_BIBLE", "SCRIPT_MASTER", "PRODUCTION_HANDOFF"],
+      "season": ["PROJECT_MANIFEST", "STORY_BIBLE", "SEASON_MAP", "SCRIPT_MASTER", "PRODUCTION_HANDOFF"],
+      "episode": ["PROJECT_MANIFEST", "STORY_BIBLE", "VERTICAL_EPISODE", "SCRIPT_MASTER", "PRODUCTION_HANDOFF"]
+    },
+    "closure_edge": "upstream_ids",
+    "path_mapping": "preserve_relative_posix_path",
+    "fixed_exclude": ["runs/**", "reviews/**", "governance/authorizations/**"],
+    "reject_source_output_nesting": true,
+    "reject_path_escape": true,
+    "reject_links": true
+  },
+  "baseline_impact_selectors": [
+    {
+      "id": "BASELINE_MATCH",
+      "kind": "metadata_equals",
+      "field": "project_baseline",
+      "value_from": "changed_baseline"
+    },
+    {
+      "id": "SCHEMA_SECTION_REF",
+      "kind": "metadata_intersects",
+      "field": "schema_refs",
+      "value_from": "changed_schema_sections"
+    }
+  ]
+}
