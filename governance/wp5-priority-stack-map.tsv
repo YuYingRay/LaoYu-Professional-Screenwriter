@@ -1,0 +1,8 @@
+source_path	source_location	actual_content	equivalence	target_anchor	decision	reason
+references/adversarial-review-rubric.md	2be167f:no-local-stack	无局部优先级栈	NOT_APPLICABLE	governance/control-plane-contract.md#7.1	NO_LOCAL_STACK	该文件只有审查顺序与领域路由，不声称规则冲突优先级
+references/ai-production-handoff.md	2be167f:1222-1231	用户制作约束 > SKILL核心 > AI交接 > 工具官方能力 > 模板偏好	DOMAIN_ADAPTATION	governance/control-plane-contract.md#7.1	MIGRATE_TO_POINTER	工具官方能力归入适用范围内的不可伪造技术事实
+references/film-series-format.md	2be167f:919-927	用户约束 > SKILL核心 > 格式手册 > 其他参考模板示例	EQUIVALENT	governance/control-plane-contract.md#7.1	MIGRATE_TO_POINTER	无独立领域排序需要保留
+references/hook-paywall-engine.md	2be167f:967-976	用户约束 > SKILL核心 > 钩子引擎 > 短剧手册 > 模板数据惯例	DOMAIN_ADAPTATION	governance/control-plane-contract.md#7.1	MIGRATE_TO_POINTER	短剧手册保留为不冲突的分集与生产补充
+references/screenplay-format-cn-en.md	2be167f:1118-1127	用户交付要求 > SKILL核心 > 格式手册 > 软件实际规范 > 模板示例	DOMAIN_ADAPTATION	governance/control-plane-contract.md#7.1	MIGRATE_TO_POINTER	软件实际规范归入适用范围内的不可伪造技术事实
+references/short-drama-playbook.md	2be167f:999-1007	用户约束 > SKILL核心 > 短剧手册 > 模板示例惯例	EQUIVALENT	governance/control-plane-contract.md#7.1	MIGRATE_TO_POINTER	无独立领域排序需要保留
+references/story-bible-templates.md	2be167f:no-local-stack	无局部优先级栈	NOT_APPLICABLE	governance/control-plane-contract.md#7.1	NO_LOCAL_STACK	该文件只有事实维护优先项，不声称规则冲突优先级

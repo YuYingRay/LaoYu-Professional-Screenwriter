@@ -964,14 +964,7 @@ DNA 报告证明孩子不是他的，但报告日期早于两人相识。
 3. 本文件只用于设计和审查入口钩子、过程钩子、结尾钩子、追更循环与候选付费点。
 4. 电影、短片、剧集的格式与结构密度，读取 `film-series-format.md`。
 5. 中文/英文剧本、Fountain 与导出规范，读取 `screenplay-format-cn-en.md`。
-6. 规则冲突时遵循：
-
-```text
-用户明确约束
-> 主 SKILL.md 的安全、因果、人物主动性与对抗审查
-> 本钩子与付费点引擎
-> short-drama-playbook.md
-> 模板、数据实验与行业惯例
-```
+6. 规则冲突统一按
+   `governance/control-plane-contract.md#71-规则冲突优先级`处理；本文件属于“当前任务明确路由到的领域 reference”层，`short-drama-playbook.md`只提供不冲突的分集与生产补充。
 
 7. 禁止将“优化留存”解释为允许欺骗观众、拖延兑现、剥削敏感内容或牺牲人物逻辑。

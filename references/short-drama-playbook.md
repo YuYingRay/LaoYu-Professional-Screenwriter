@@ -996,13 +996,7 @@ project/
 
 1. 仍先遵循主 `SKILL.md` 的 `DISCOVER → BUILD_BIBLE → STRUCTURE → OUTLINE → DRAFT → REVIEW → REWRITE` 工作动作。
 2. 只有在确认项目为微短剧后，才使用本手册的首集、分集、钩子、爽点和付费点规则。
-3. 遇到冲突时，优先级如下：
-
-```text
-用户明确约束
-> 主 SKILL.md 的安全、因果与人物规则
-> 本微短剧生产手册
-> 模板、示例和惯例
-```
+3. 规则冲突统一按
+   `governance/control-plane-contract.md#71-规则冲突优先级`处理；本文件属于“当前任务明确路由到的领域 reference”层。
 
 4. 绝不以“短剧需要快节奏”为理由，跳过人物动机、因果、主题、连续性或审查。
