@@ -165,6 +165,8 @@ evidence_refs: [NOTICE-CONTRACT-001]
 | `templates/notice.md` | `NOTICE` | `draft-artifact` | `n/a` |
 | `templates/production-handoff.md` | `PRODUCTION_HANDOFF` | `draft-artifact` | `n/a` |
 | `templates/feature-screenplay.fountain` | `SCRIPT_MASTER` | `feature-screenplay` | `match_script_scenes` |
+| `templates/governance/asset-rights-register.md` | `fragment` | `n/a` | `n/a` |
+| `templates/governance/third-party-notices.md` | `fragment` | `n/a` | `n/a` |
 
 ### Notice 状态与耦合
 

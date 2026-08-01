@@ -133,7 +133,9 @@
     "templates/review-report.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "REVIEW"},
     "templates/notice.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "NOTICE"},
     "templates/production-handoff.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "PRODUCTION_HANDOFF"},
-    "templates/feature-screenplay.fountain": {"kind": "scenario", "scenario": "feature-screenplay", "artifact_type": "SCRIPT_MASTER", "scene_card_policy": "match_script_scenes", "activation": "ACTIVE"}
+    "templates/feature-screenplay.fountain": {"kind": "scenario", "scenario": "feature-screenplay", "artifact_type": "SCRIPT_MASTER", "scene_card_policy": "match_script_scenes", "activation": "ACTIVE"},
+    "templates/governance/asset-rights-register.md": {"kind": "fragment", "reason": "Project-level blank form copied into an actual rights artifact before use."},
+    "templates/governance/third-party-notices.md": {"kind": "fragment", "reason": "Project-level blank form copied into an actual third-party notice artifact before use."}
   },
   "id_prefixes": {
     "PROJECT_MANIFEST": {"prefix": "PROJECT-", "example": "PROJECT-TIDELINE-001"},

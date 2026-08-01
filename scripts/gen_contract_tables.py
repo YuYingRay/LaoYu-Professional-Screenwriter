@@ -134,7 +134,8 @@ def render_schema_tables(schema: dict[str, Any]) -> str:
     ])
     for path, entry in schema["template_closure"].items():
         lines.append(
-            f"| `{path}` | `{entry['artifact_type']}` | `{entry['scenario']}` | "
+            f"| `{path}` | `{entry.get('artifact_type', entry['kind'])}` | "
+            f"`{entry.get('scenario', 'n/a')}` | "
             f"`{entry.get('scene_card_policy', 'n/a')}` |"
         )
 
