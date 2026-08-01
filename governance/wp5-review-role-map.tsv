@@ -1,0 +1,8 @@
+source_path	source_location	actual_responsibility	domain_adaptation	target_method	target_form	decision	reviewer
+templates/episode-outline.md	7c0178e:721-750	分集四角色空白问题清单	前15秒、本集回答、集尾下一问、跨集连续性	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	REPLACE_WITH_POINTER	Codex-semantic-review
+templates/review-report.md	7c0178e:629-672	通用审查角色空白问题清单	节奏编辑改为横切检查	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	REPLACE_WITH_POINTER	Codex-semantic-review
+templates/scene-card.md	7c0178e:633-676	场景四角色空白问题清单	入场离场、场景动作前提、空间方向、制作替代	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	REPLACE_WITH_POINTER	Codex-semantic-review
+templates/story-bible.md	7c0178e:868-897	Bible四角色空白问题清单	可复述发动机、承诺、状态机、资产维护	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	REPLACE_WITH_POINTER	Codex-semantic-review
+templates/vertical-episode.md	7c0178e:694-737	竖屏四角色加两项领域角色空白清单	手机可读性与信任守门改为领域和横切检查	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	REPLACE_WITH_POINTER	Codex-semantic-review
+examples/dialogue-rewrite-example.md	7c0178e:650-694	已填写的场景对白审查结果	保留逐项证据并标注规范来源	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	KEEP_FILLED_RESULT_WITH_POINTER	Codex-semantic-review
+examples/feature-outline-example.md	7c0178e:610-657	已填写的长片大纲审查结果	保留逐项证据并标注规范来源	references/adversarial-review-rubric.md#3	references/adversarial-review-rubric.md#9	KEEP_FILLED_RESULT_WITH_POINTER	Codex-semantic-review

@@ -46,5 +46,61 @@ class PriorityStackSingleSourceTests(unittest.TestCase):
         )
 
 
+class ReviewRolesSingleSourceTests(unittest.TestCase):
+    templates = [
+        "templates/episode-outline.md",
+        "templates/review-report.md",
+        "templates/scene-card.md",
+        "templates/story-bible.md",
+        "templates/vertical-episode.md",
+    ]
+    examples = [
+        "examples/dialogue-rewrite-example.md",
+        "examples/feature-outline-example.md",
+    ]
+
+    def test_rubric_holds_method_report_and_domain_adaptations(self) -> None:
+        text = (ROOT / "references" / "adversarial-review-rubric.md").read_text(encoding="utf-8")
+        for required in [
+            "# 3. 评审角色",
+            "# 9. 审查报告模板",
+            "## 3.5 领域适配与横切检查",
+            "节奏编辑",
+            "信任守门人",
+            "手机可读性",
+        ]:
+            self.assertIn(required, text)
+
+    def test_templates_point_to_both_distinct_rubric_responsibilities(self) -> None:
+        for path in self.templates:
+            text = (ROOT / path).read_text(encoding="utf-8")
+            self.assertNotIn("## 怀疑观众", text, path)
+            self.assertIn("adversarial-review-rubric.md#3-评审角色", text, path)
+            self.assertIn("adversarial-review-rubric.md#9-审查报告模板", text, path)
+
+    def test_examples_keep_results_but_not_normative_checklists(self) -> None:
+        dialogue = (ROOT / self.examples[0]).read_text(encoding="utf-8")
+        feature = (ROOT / self.examples[1]).read_text(encoding="utf-8")
+        for path, text in [(self.examples[0], dialogue), (self.examples[1], feature)]:
+            self.assertIn("adversarial-review-rubric.md#3-评审角色", text, path)
+            self.assertIn("审查结果", text, path)
+        self.assertIn("18 分钟倒计时与水压窗口", dialogue)
+        self.assertIn("隧道打开但有损失", feature)
+
+    def test_role_migration_map_has_seven_reviewed_locations(self) -> None:
+        path = ROOT / "governance" / "wp5-review-role-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual(len(rows), 7)
+        self.assertEqual(
+            {row["source_path"] for row in rows},
+            set(self.templates + self.examples),
+        )
+        self.assertEqual(
+            {row["decision"] for row in rows},
+            {"REPLACE_WITH_POINTER", "KEEP_FILLED_RESULT_WITH_POINTER"},
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
