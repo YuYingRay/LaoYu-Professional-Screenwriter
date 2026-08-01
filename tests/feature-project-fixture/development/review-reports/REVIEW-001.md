@@ -10,7 +10,8 @@ reviewer: fixture.feature.reviewer
 approver: fixture.feature.approver
 test_run_id: RUN-FEATURE-BASELINE
 conformance_level: HUMAN_REVIEWED
-content_digest: sha256:c42b7dc3da05a5418e90b770b2b060c353b9b95ff3885e1f158c17a9e6f3bdf3
+lock_scope: FULL
+content_digest: sha256:f08237895acbfbe35923d7486e6023b48dd5fcfa40bbb95bf2bd11ba58531ec2
 upstream_ids: [BIBLE-v1.0.0, DEL-FEATURE-OUTLINE-001, SCRIPT-v1.0.0]
 review_decision: RECOMMEND
 findings: [FIND-CONT-001, FIND-FEAT-P1-001]
@@ -51,7 +52,11 @@ downstream_impact: 扩写长片时对手可能退化为只在节点出现的工�
 minimum_fix: 完整长片大纲完成后补反制升级链并重审
 verification_method: 下一轮全片Review逐场核对对手行动是否响应主角策略
 owner: fixture.feature.writer
-status: OPEN
+status: ACCEPTED_RISK
+acceptance_owner: fixture.feature.producer
+acceptance_until: 2026-12-31
+compensation_plan: Keep this two-scene fixture out of full-feature production claims.
+reverification_plan: Re-review after the complete feature outline is added.
 ```
 
 ## 反证测试

@@ -1,0 +1,20 @@
+{
+  "run_id": "RUN-PRODUCTION-READY",
+  "source_snapshot_digest": "sha256:5ebdded2f3f00566ce9981d54d05a6d8dbdc36e6f2c9cf3d2d5c5b66aca453b6",
+  "artifact_digests": {
+    "development/review-reports/REVIEW-PROD-001.md": "sha256:37ca31e52a2dc0430ce2ee2a93a689f918d1e58e32754d77136b532b1412cee2",
+    "development/scene-cards/SC-001.md": "sha256:0925891342d59c7e086ac5e20ffda94798bf1c5ba8de975919d85c335ec31afe",
+    "development/story-bible.md": "sha256:4b6c0c3e77f568b805bedc6024792c5e4fd52243fff92cf78de89ead988ccbf3",
+    "governance/project-manifest.md": "sha256:2efa177db0d74d27eaced5f3113407f4d4b0c3596c30ceb57c03a15add53efac",
+    "governance/rights-register.md": "sha256:b47aec55a502682199f39b1ea650d6e69eb29d3910a4812bf8b3831a5f93f4c5",
+    "production/handoff/handoff.md": "sha256:1d587bfc65389230035e4250467e504fbf2796246103ebf47c1529a848835c6c",
+    "script/master/script.fountain": "sha256:34ec0a8f412dfd0bd81d0548fc622601c328ec5eec53b2351b270dc1fabd9f91"
+  },
+  "profile": "final",
+  "command": "validate_project strict",
+  "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
+  "schema_digest": "sha256:7f1ac4b232ae74788e6ed070921d9a3d906c4e1c4d7842ccb14ce7296fabedd0",
+  "findings": [],
+  "result": "PASS",
+  "timestamp": "2026-08-01T06:05:14.198480+00:00"
+}

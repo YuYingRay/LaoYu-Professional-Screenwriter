@@ -11,7 +11,8 @@ approver: fixture.feature.approver
 review_id: REVIEW-001
 test_run_id: RUN-FEATURE-BASELINE
 conformance_level: HUMAN_REVIEWED
-content_digest: sha256:580c817158c37a6ab30bd2a62b304e0bb57e2e14349fe7f1111c5478ce982c40
+lock_scope: FULL
+content_digest: sha256:e458efff3269a2a8b95e1780de003b85f07a5d91f43c65d13fdf32aaae1f59d0
 upstream_ids: [PROJECT-FEATURE-001]
 continuity_claims: [CLM-CONT-001]
 ---

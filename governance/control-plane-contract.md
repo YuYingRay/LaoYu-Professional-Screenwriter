@@ -117,6 +117,8 @@ evidence_refs: [NOTICE-CONTRACT-001]
 
 `finding_id`, `severity`, `evidence_location`, `failure_mechanism`, `downstream_impact`, `minimum_fix`, `verification_method`, `owner`, `status`
 
+`ACCEPTED_RISK` 附加字段：`acceptance_owner`, `acceptance_until`, `compensation_plan`, `reverification_plan`
+
 ### 领域枚举
 
 | 枚举域 | 合法值 |

@@ -40,6 +40,7 @@ class ControlSchemaTests(unittest.TestCase):
         self.assertEqual(schema["ownership"]["untracked_allowlist"], [])
         self.assertIn("runs/**", schema["run_payload"]["exclude"])
         self.assertEqual(schema["export_scope"]["closure_edge"], "upstream_ids")
+        self.assertEqual(schema["production_ready"]["minimum_project_stage"], "PREP")
         self.assertEqual(
             {item["id"] for item in schema["baseline_impact_selectors"]},
             {"BASELINE_MATCH", "SCHEMA_SECTION_REF"},

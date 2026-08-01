@@ -132,21 +132,22 @@ class BootstrapGateTests(unittest.TestCase):
 
     def test_candidate_check_all_chains_bootstrap_tools(self) -> None:
         result = subprocess.run(
-            [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit"],
+            [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
             text=True,
             capture_output=True,
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("PASS: lint_repo audit", result.stdout)
-        self.assertIn("PASS: feature fixture active baseline", result.stdout)
-        self.assertIn("PASS: vertical fixture active baseline", result.stdout)
+        self.assertIn("PASS: feature-project-fixture active baseline", result.stdout)
+        self.assertIn("PASS: production-ready-fixture active baseline", result.stdout)
+        self.assertIn("PASS: vertical-project-fixture active baseline", result.stdout)
         self.assertIn("PASS: minimum template instantiation", result.stdout)
 
     def test_check_all_is_independent_of_callers_working_directory(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-check-cwd-") as temp_dir:
             result = subprocess.run(
-                [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit"],
+                [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
                 cwd=temp_dir,
                 text=True,
                 capture_output=True,

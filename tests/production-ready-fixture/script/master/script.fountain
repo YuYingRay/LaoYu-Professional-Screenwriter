@@ -1,0 +1,20 @@
+/* ARTIFACT_ID: SCRIPT-PROD-001 */
+/* ARTIFACT_TYPE: SCRIPT_MASTER */
+/* PROJECT_ID: PROJECT-PROD-001 */
+/* PROJECT_BASELINE: PROJECT-PROD-v1.0.0 */
+/* ARTIFACT_VERSION: v1.0.0 */
+/* STATUS: LOCKED */
+/* OWNER: fixture.production.writer */
+/* UPSTREAM_IDS: BIBLE-PROD-001 */
+/* REVIEWER: fixture.production.reviewer */
+/* APPROVER: fixture.production.approver */
+/* TEST_RUN_ID: RUN-PRODUCTION-READY */
+/* CONFORMANCE_LEVEL: HUMAN_REVIEWED */
+/* LOCK_SCOPE: FULL */
+/* CONTENT_DIGEST: sha256:34ec0a8f412dfd0bd81d0548fc622601c328ec5eec53b2351b270dc1fabd9f91 */
+
+Title: Launch Window
+
+INT. CONTROL ROOM - NIGHT /* SC-001 */
+
+Mira presses PUBLISH. The safety report fills every monitor before the countdown stops.

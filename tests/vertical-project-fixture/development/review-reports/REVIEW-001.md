@@ -10,10 +10,28 @@ reviewer: fixture.vertical.reviewer
 approver: fixture.vertical.approver
 test_run_id: RUN-VERTICAL-BASELINE
 conformance_level: HUMAN_REVIEWED
-content_digest: sha256:19b22ce9513515cd3dbb4a9c253c6c301fcd04c9775fb83f70f8d41827777be7
+lock_scope: FULL
+content_digest: sha256:b8b618c3e4995f84b025ed18686a0184f8c003de76bf7777f9536b9b017dfecd
 upstream_ids: [BIBLE-v1.0.0, DEL-VERTICAL-SEASON-001, EP-001, EP-002, SCRIPT-v1.0.0]
 review_decision: RECOMMEND
+findings: [FIND-VERT-P1-001]
 ---
+
+```finding
+finding_id: FIND-VERT-P1-001
+severity: P1
+evidence_location: EP-001; EP-002
+failure_mechanism: The two-episode fixture cannot prove later antagonist escalation.
+downstream_impact: Extending the season without a new review could flatten opposition.
+minimum_fix: Review the escalation chain when later episodes are authored.
+verification_method: Re-run adversarial review before extending this fixture to production.
+owner: fixture.vertical.writer
+status: ACCEPTED_RISK
+acceptance_owner: fixture.vertical.producer
+acceptance_until: 2026-12-31
+compensation_plan: Keep the fixture limited to two episodes and HUMAN_REVIEWED status.
+reverification_plan: Re-review when EP-003 or a production handoff is proposed.
+```
 
 # 竖屏短剧对抗式审查
 

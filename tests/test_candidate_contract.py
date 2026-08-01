@@ -101,7 +101,7 @@ class CandidateContractTests(unittest.TestCase):
 
     def test_candidate_aggregate_gate_is_strict_clean(self) -> None:
         result = subprocess.run(
-            [sys.executable, str(ROOT / "scripts" / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "strict"],
+            [sys.executable, str(ROOT / "scripts" / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "strict", "--skip-unit-tests", "--skip-e2e"],
             cwd=ROOT,
             text=True,
             capture_output=True,

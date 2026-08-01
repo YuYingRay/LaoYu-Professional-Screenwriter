@@ -9,8 +9,9 @@ owner: fixture.feature.producer
 reviewer: fixture.feature.reviewer
 approver: fixture.feature.approver
 test_run_id: RUN-FEATURE-BASELINE
-conformance_level: PRODUCTION_READY
-content_digest: sha256:a3566b5f197a81a72fb29c8b68662e45ecff30fa61bd184532cfc1d6885a1893
+conformance_level: HUMAN_REVIEWED
+lock_scope: FULL
+content_digest: sha256:9981cc7b4654f713db3e5f3550fc978ad631f570e7b2116a0b20e7fa5d6c09ea
 upstream_ids: [BIBLE-v1.0.0, SCRIPT-v1.0.0, REVIEW-001, NOTICE-001]
 ---
 

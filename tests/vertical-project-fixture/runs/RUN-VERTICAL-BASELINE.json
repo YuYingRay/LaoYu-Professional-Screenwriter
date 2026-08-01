@@ -1,0 +1,24 @@
+{
+  "run_id": "RUN-VERTICAL-BASELINE",
+  "source_snapshot_digest": "sha256:e9983e98a02b03c3c25f98058ce51885975f49f77377b3f9bfdfd4a12744b6c0",
+  "artifact_digests": {
+    "development/episode-outlines/EP-001.md": "sha256:3206e6a3276a93503f68019b7e5f813d4b1940aaa3619c29c27ce7071fb74ffe",
+    "development/episode-outlines/EP-002.md": "sha256:2d76e9ded9425a5bb9d03a4291357d0146de1e2281c0860ab8713cf5402584bb",
+    "development/review-reports/REVIEW-001.md": "sha256:b8b618c3e4995f84b025ed18686a0184f8c003de76bf7777f9536b9b017dfecd",
+    "development/scene-cards/SC-101.md": "sha256:8cdbced21781702a70a6e91d7583c3bbd52b3a3f8b3436339f832dd63781d0ea",
+    "development/scene-cards/SC-102.md": "sha256:c1b26ac689d915486b2076ddffa003c11f9a74d8a14cfad3f8d12f1173706f2e",
+    "development/season-outline.md": "sha256:baf657b0f7d914d9e15cf6a64a02543c47c03a70e94f852c97e3da2ab9df8e7b",
+    "development/story-bible.md": "sha256:721eb79d0f177498474ce74226c23573d727426382388bf75be1a5493d77916d",
+    "governance/notices/NOTICE-001.md": "sha256:2fa96bd1fd7dcce2440f4b7658f7ad026b080e01ad30049fa443251b84e8b4ff",
+    "governance/project-manifest.md": "sha256:bdb110b4e237abe1cc8dc87efdc8e75a60a1e7b8b43c976d62f4ffe00539c12c",
+    "production/handoff/handoff.md": "sha256:0ae4991cb39b33962a07e20424d0d349dd1dd247234c51a5bedf3cb298479a5c",
+    "script/master/script.fountain": "sha256:b84368bba3ea9244df900fa8a926b8b24724d291ae5926df52607cec7ba1f007"
+  },
+  "profile": "final",
+  "command": "validate_project strict",
+  "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
+  "schema_digest": "sha256:7f1ac4b232ae74788e6ed070921d9a3d906c4e1c4d7842ccb14ce7296fabedd0",
+  "findings": [],
+  "result": "PASS",
+  "timestamp": "2026-08-01T06:05:13.588126+00:00"
+}

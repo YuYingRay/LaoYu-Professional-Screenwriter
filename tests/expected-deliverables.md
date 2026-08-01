@@ -90,15 +90,15 @@
 
 本 Skill 至少应通过以下工作流测试：
 
-| Test ID | 工作流 | 必须覆盖 |
-|---|---|---|
-| E2E-FEATURE | 长片开发 | 项目定义、Bible、结构、大纲、场景卡、Fountain、审查、变更与交接 |
-| E2E-VERTICAL | 竖屏微短剧开发 | 季级引擎、分集问题、入口钩子、兑现、付费点、9:16 生产约束 |
-| E2E-REWRITE | 场景/对白重写 | 场景目标、对抗、潜台词、转折、知识状态与连续性 |
-| E2E-CHANGE | 上游事实变更 | Notice、影响分析、下游同步、复验、Change Log、Manifest 更新 |
-| E2E-RIGHTS | 权利/来源变化 | Source、TP/资产权利、替换、生产与发布阻断 |
-| E2E-HANDOFF | 制作交接 | 锁定剧本、资产、镜头、声音、字幕、版本与风险一致性 |
-| E2E-ADVERSARIAL | 对抗式审查 | 主动寻找因果、人物、信息、连续性、制作与权利失败点 |
+| Test ID | 状态 | 工作流 | 必须覆盖 |
+|---|---|---|---|
+| E2E-FEATURE | IMPLEMENTED | 长片开发 | 项目定义、Bible、结构、大纲、场景卡、Fountain、审查、变更与交接 |
+| E2E-VERTICAL | IMPLEMENTED | 竖屏微短剧开发 | 季级引擎、分集问题、入口钩子、兑现、付费点、9:16 生产约束 |
+| E2E-REWRITE | PLANNED | 场景/对白重写 | 场景目标、对抗、潜台词、转折、知识状态与连续性 |
+| E2E-CHANGE | IMPLEMENTED | 上游事实变更 | Notice、影响分析、下游同步、复验、Change Log、Manifest 更新 |
+| E2E-RIGHTS | PLANNED | 权利/来源变化 | Source、TP/资产权利、替换、生产与发布阻断 |
+| E2E-HANDOFF | PLANNED | 制作交接 | 锁定剧本、资产、镜头、声音、字幕、版本与风险一致性 |
+| E2E-ADVERSARIAL | PLANNED | 对抗式审查 | 主动寻找因果、人物、信息、连续性、制作与权利失败点 |
 
 ## 1.2 最小测试夹具
 

@@ -11,7 +11,8 @@ approver: fixture.vertical.approver
 review_id: REVIEW-001
 test_run_id: RUN-VERTICAL-BASELINE
 conformance_level: TRACEABILITY_CONFORMANCE
-content_digest: sha256:63bb974c09ee130dde0bbf8b2df79881b121e16ef09c6aa31d061e183cb7df3b
+lock_scope: FULL
+content_digest: sha256:baf657b0f7d914d9e15cf6a64a02543c47c03a70e94f852c97e3da2ab9df8e7b
 upstream_ids: [BIBLE-v1.0.0]
 ---
 

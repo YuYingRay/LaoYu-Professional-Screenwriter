@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bootstrap aggregate gate for repository, fixtures, and one template instance."""
+"""Aggregate strict gate used locally and by CI."""
 
 from __future__ import annotations
 
@@ -28,17 +28,41 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("root", type=Path)
     parser.add_argument("--baseline", choices=["active", "candidate"], default="candidate")
-    parser.add_argument("--mode", choices=["audit", "strict"], default="audit")
+    parser.add_argument("--mode", choices=["audit", "strict"], default="strict")
+    parser.add_argument("--project-only", type=Path)
+    parser.add_argument("--skip-unit-tests", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--skip-e2e", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args()
     root = args.root.resolve()
     py = sys.executable
+    if args.project_only:
+        project = args.project_only.resolve()
+        passed = run(
+            f"project {project.name}",
+            [
+                py, str(root / "scripts" / "validate_project.py"), str(project),
+                "--baseline", args.baseline, "--mode", args.mode,
+            ],
+            root,
+        )
+        return 0 if passed else 1
+
     commands = [
         ("lint_repo audit" if args.mode == "audit" else "lint_repo strict", [py, str(root / "scripts" / "lint_repo.py"), str(root), "--mode", args.mode]),
-        ("control schema unit", [py, "-X", "utf8", "-m", "unittest", "tests.test_control_schema"]),
-        ("feature fixture active baseline", [py, str(root / "scripts" / "validate_project.py"), str(root / "tests" / "feature-project-fixture"), "--baseline", "active"]),
-        ("vertical fixture active baseline", [py, str(root / "scripts" / "validate_project.py"), str(root / "tests" / "vertical-project-fixture"), "--baseline", "active"]),
-        ("minimum template instantiation", [py, str(root / "scripts" / "test_template_instantiation.py"), str(root), "--baseline", args.baseline]),
     ]
+    if not args.skip_unit_tests:
+        commands.append(("unit tests", [py, "-X", "utf8", "-m", "unittest", "discover", "-s", "tests"]))
+    commands.append(("minimum template instantiation", [py, str(root / "scripts" / "test_template_instantiation.py"), str(root), "--baseline", args.baseline]))
+    for fixture in sorted((root / "tests").glob("*-fixture")):
+        commands.append((
+            f"{fixture.name} active baseline",
+            [
+                py, str(root / "scripts" / "validate_project.py"), str(fixture),
+                "--baseline", "active", "--mode", args.mode,
+            ],
+        ))
+    if not args.skip_e2e:
+        commands.append(("E2E invariant matrix", [py, str(root / "scripts" / "run_e2e.py")]))
     passed = True
     for label, command in commands:
         passed = run(label, command, root) and passed

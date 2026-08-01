@@ -11,7 +11,8 @@ approver: fixture.feature.approver
 review_id: REVIEW-001
 test_run_id: RUN-FEATURE-BASELINE
 conformance_level: TRACEABILITY_CONFORMANCE
-content_digest: sha256:78d1b863c55d36a7e6536aebccbcaa89b2de78a9ba4dfddfc6a9826f95bb4480
+lock_scope: FULL
+content_digest: sha256:18ce8076d91f5967227fbca59214cfb9e202abae62f219cbede7a671d2779f07
 upstream_ids: [BIBLE-v1.0.0]
 ---
 

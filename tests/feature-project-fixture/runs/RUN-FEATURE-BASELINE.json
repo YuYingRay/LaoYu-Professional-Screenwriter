@@ -1,0 +1,22 @@
+{
+  "run_id": "RUN-FEATURE-BASELINE",
+  "source_snapshot_digest": "sha256:5afb7e5c7a1d002bf15f89840b5a4e2660c027fe5b831a720d565a77afd21b95",
+  "artifact_digests": {
+    "development/feature-outline.md": "sha256:18ce8076d91f5967227fbca59214cfb9e202abae62f219cbede7a671d2779f07",
+    "development/review-reports/REVIEW-001.md": "sha256:f08237895acbfbe35923d7486e6023b48dd5fcfa40bbb95bf2bd11ba58531ec2",
+    "development/scene-cards/SC-001.md": "sha256:91bf2dbee476a88680495feea2c123cf6fb5ed2f71729fb101448833ce3aecbb",
+    "development/scene-cards/SC-002.md": "sha256:f016873e0d8b643f48e5c0c76675cae3945540390d8e594640caee3edad7711f",
+    "development/story-bible.md": "sha256:e458efff3269a2a8b95e1780de003b85f07a5d91f43c65d13fdf32aaae1f59d0",
+    "governance/notices/NOTICE-001.md": "sha256:8e329136aa57a2ed4fe037013a5cae87c8cc20720a417f9ec90b72d79444677a",
+    "governance/project-manifest.md": "sha256:a3e3ba1d0636f75ccf3dad0e90fc08baa80e3ff10ed0fd67b7ae802c9be991c3",
+    "production/handoff/handoff.md": "sha256:9981cc7b4654f713db3e5f3550fc978ad631f570e7b2116a0b20e7fa5d6c09ea",
+    "script/master/script.fountain": "sha256:269e2f0722eb7dc1adb9aaefb6b5e6af593ef7167f755bd8e9efe5349a05909a"
+  },
+  "profile": "final",
+  "command": "validate_project strict",
+  "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
+  "schema_digest": "sha256:7f1ac4b232ae74788e6ed070921d9a3d906c4e1c4d7842ccb14ce7296fabedd0",
+  "findings": [],
+  "result": "PASS",
+  "timestamp": "2026-08-01T06:05:13.150445+00:00"
+}

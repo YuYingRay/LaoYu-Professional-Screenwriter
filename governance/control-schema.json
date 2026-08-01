@@ -211,6 +211,19 @@
     "owner",
     "status"
   ],
+  "finding_acceptance_required_fields": [
+    "acceptance_owner",
+    "acceptance_until",
+    "compensation_plan",
+    "reverification_plan"
+  ],
+  "production_ready": {
+    "minimum_project_stage": "PREP",
+    "required_handoff_upstream_types": ["STORY_BIBLE", "SCRIPT_MASTER", "REVIEW", "ASSET"],
+    "compatibility_record_fence": "compatibility",
+    "compatibility_record_id_field": "compatibility_id",
+    "allowed_review_decisions": ["RECOMMEND", "PASS"]
+  },
   "notice": {
     "coupling_values": ["UPSTREAM", "BASELINE", "SCHEMA", "RIGHTS", "PRODUCTION"],
     "constraints": [

@@ -15,8 +15,10 @@ from typing import Any
 
 try:
     from .ownership import classify_path
+    from . import run_protocol
 except ImportError:
     from ownership import classify_path
+    import run_protocol
 
 
 ARTIFACT_STATUSES = {
@@ -37,6 +39,7 @@ ARTIFACT_PREFIXES = {
     "OUTLINE": "DEL-",
     "SEASON_MAP": "DEL-",
     "VERTICAL_EPISODE": "EP-",
+    "ASSET": "ASSET-",
 }
 PLACEHOLDER_RE = re.compile(
     r"\[\[[^\[\]\r\n]{1,200}\]\]|\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|\bTBD\b|待定|见最新版本"
@@ -119,6 +122,10 @@ def version_key(value: Any) -> tuple[int, ...] | None:
 
 def empty_value(value: Any) -> bool:
     return value is None or value == "" or value == [] or value == ()
+
+
+def ref_artifact_id(value: Any) -> str:
+    return str(value or "").partition("#")[0]
 
 
 def notice_affected_set(
@@ -309,6 +316,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     finding_records: dict[str, tuple[str, dict[str, Any]]] = {}
     continuity_records: list[tuple[Path, dict[str, Any]]] = []
     closure_notices: list[tuple[Path, dict[str, Any]]] = []
+    production_handoffs: list[tuple[Path, dict[str, Any]]] = []
 
     for path, meta in metas.items():
         if path.name in {"input-brief.md", "change-log.md", "control-plane-file-map.md"}:
@@ -385,17 +393,21 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                 if field not in meta or meta[field] in {None, "", "HUMAN_REVIEW_REQUIRED"}:
                     findings.append(Finding("P0", "LOCK_GATE", rel, f"{field} is required for {meta.get('status')}"))
             if meta.get("status") == "LOCKED":
+                if empty_value(meta.get("lock_scope")):
+                    findings.append(Finding("P0", "LOCK_GATE", rel, "lock_scope is required for LOCKED"))
                 digest = meta.get("content_digest")
-                if not digest or not str(digest).startswith("sha256:"):
-                    findings.append(Finding("P0", "DIGEST_MISSING", rel, "LOCKED artifact requires sha256 content_digest"))
-                elif write_digests:
+                if write_digests:
                     set_digest(path, canonical_digest(path))
+                elif not digest or not str(digest).startswith("sha256:"):
+                    findings.append(Finding("P0", "DIGEST_MISSING", rel, "LOCKED artifact requires sha256 content_digest"))
                 elif digest != canonical_digest(path):
                     findings.append(Finding("P0", "DIGEST_MISMATCH", rel, "content_digest does not match canonical content"))
             if PLACEHOLDER_RE.search(text):
                 findings.append(Finding("P0", "PLACEHOLDER_LOCKED", rel, "placeholder remains in approved/locked artifact"))
         if atype == "SCENE_CARD" and aid:
             scene_card_ids.add(str(aid))
+        if atype == "PRODUCTION_HANDOFF" and meta.get("conformance_level") == "PRODUCTION_READY":
+            production_handoffs.append((path, meta))
         if atype == "SCRIPT_MASTER":
             script_scene_ids.update(SCENE_RE.findall(path.read_text(encoding="utf-8")))
         if atype == "REVIEW" and "findings" in meta:
@@ -421,6 +433,20 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                         "P1", "FINDING_STATUS_ENUM", rel,
                         f"invalid finding status: {record.get('status')}",
                     ))
+                if record.get("severity") == "P1":
+                    finding_status = record.get("status")
+                    if finding_status == "ACCEPTED_RISK":
+                        for field in control_schema["finding_acceptance_required_fields"]:
+                            if empty_value(record.get(field)):
+                                findings.append(Finding(
+                                    "P1", "P1_ACCEPTANCE_FIELD", rel,
+                                    f"{finding_id or '<missing-id>'} accepted risk requires {field}",
+                                ))
+                    elif finding_status != "FIXED":
+                        findings.append(Finding(
+                            "P1", "UNACCEPTED_P1", rel,
+                            f"{finding_id or '<missing-id>'} remains {finding_status or '<missing-status>'}",
+                        ))
                 if finding_id:
                     if finding_id in finding_records:
                         findings.append(Finding("P0", "DUPLICATE_FINDING_ID", rel, finding_id))
@@ -454,6 +480,87 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
         findings.extend(validate_notice_closure(
             path, meta, metas, artifact_ids, control_schema, root
         ))
+
+    production_config = control_schema["production_ready"]
+    if manifest.get("conformance_level") == "PRODUCTION_READY":
+        stages = control_schema["project_stages"]
+        stage = manifest.get("project_stage")
+        minimum = production_config["minimum_project_stage"]
+        if stage not in stages or stages.index(stage) < stages.index(minimum):
+            findings.append(Finding(
+                "P0", "PRODUCTION_STAGE", str(manifest_path.relative_to(root)),
+                f"PRODUCTION_READY requires project_stage {minimum} or later",
+            ))
+        if not production_handoffs:
+            findings.append(Finding(
+                "P0", "PRODUCTION_EVIDENCE_TYPE", str(manifest_path.relative_to(root)),
+                "PRODUCTION_READY manifest requires a PRODUCTION_READY handoff",
+            ))
+
+    for handoff_path, handoff in production_handoffs:
+        rel = str(handoff_path.relative_to(root))
+        if handoff.get("status") != "LOCKED":
+            findings.append(Finding("P0", "PRODUCTION_EVIDENCE_STATE", rel, "production handoff must be LOCKED"))
+        for field in ("compatibility_matrix_ref", "rights_register_ref"):
+            if empty_value(handoff.get(field)):
+                findings.append(Finding("P0", "PRODUCTION_EVIDENCE_REF", rel, f"missing {field}"))
+        upstream_value = handoff.get("upstream_ids", [])
+        upstream_ids = [upstream_value] if isinstance(upstream_value, str) else list(upstream_value)
+        upstream_types = {
+            metas[artifact_ids[item]].get("artifact_type")
+            for item in upstream_ids if item in artifact_ids
+        }
+        for required_type in production_config["required_handoff_upstream_types"]:
+            if required_type not in upstream_types:
+                findings.append(Finding(
+                    "P0", "PRODUCTION_EVIDENCE_TYPE", rel,
+                    f"production handoff lacks {required_type} upstream evidence",
+                ))
+
+        compatibility_ref = str(handoff.get("compatibility_matrix_ref", ""))
+        compatibility_artifact, separator, compatibility_id = compatibility_ref.partition("#")
+        compatibility_records = fenced_records(
+            handoff_path.read_text(encoding="utf-8"),
+            production_config["compatibility_record_fence"],
+        )
+        compatibility_ids = {
+            str(record.get(production_config["compatibility_record_id_field"], ""))
+            for record in compatibility_records
+        }
+        if (
+            compatibility_artifact != handoff.get("artifact_id")
+            or not separator
+            or compatibility_id not in compatibility_ids
+        ):
+            findings.append(Finding(
+                "P0", "PRODUCTION_EVIDENCE_REF", rel,
+                "compatibility_matrix_ref must resolve to a structured record in the handoff",
+            ))
+
+        rights_id = ref_artifact_id(handoff.get("rights_register_ref"))
+        rights_path = artifact_ids.get(rights_id)
+        rights_meta = metas.get(rights_path, {}) if rights_path else {}
+        if (
+            rights_meta.get("artifact_type") != "ASSET"
+            or rights_meta.get("status") != "LOCKED"
+            or rights_meta.get("conformance_level") not in {"HUMAN_REVIEWED", "PRODUCTION_READY"}
+        ):
+            findings.append(Finding(
+                "P0", "PRODUCTION_EVIDENCE_REF", rel,
+                "rights_register_ref must resolve to a human-reviewed locked ASSET",
+            ))
+        for upstream_id in upstream_ids:
+            upstream_path = artifact_ids.get(upstream_id)
+            upstream_meta = metas.get(upstream_path, {}) if upstream_path else {}
+            if upstream_meta.get("artifact_type") == "REVIEW":
+                if (
+                    upstream_meta.get("conformance_level") not in {"HUMAN_REVIEWED", "PRODUCTION_READY"}
+                    or upstream_meta.get("review_decision") not in production_config["allowed_review_decisions"]
+                ):
+                    findings.append(Finding(
+                        "P0", "PRODUCTION_EVIDENCE_STATE", rel,
+                        "linked review is not accepted for production",
+                    ))
 
     if script_scene_ids != scene_card_ids:
         missing = sorted(scene_card_ids - script_scene_ids)
@@ -508,6 +615,20 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                     f"review record is missing or not accepted: {review_ref}",
                 ))
 
+    if not write_digests:
+        run_ids = {
+            str(meta.get("test_run_id"))
+            for meta in metas.values()
+            if meta.get("status") == "LOCKED" and not empty_value(meta.get("test_run_id"))
+        }
+        for run_id in sorted(run_ids):
+            run_path = root / "runs" / f"{run_id}.json"
+            result = run_protocol.final_check(root, run_path, control_schema_path)
+            for item in result["findings"]:
+                findings.append(Finding(
+                    "P0", str(item["code"]), str(item["path"]), str(item.get("message", "")),
+                ))
+
     return findings
 
 
@@ -517,6 +638,7 @@ def main() -> int:
     parser.add_argument("--write-digests", action="store_true")
     parser.add_argument("--json", action="store_true")
     parser.add_argument("--baseline", choices=["active", "candidate"], default="active")
+    parser.add_argument("--mode", choices=["audit", "strict"], default="audit")
     args = parser.parse_args()
     findings = validate(
         args.root.resolve(), write_digests=args.write_digests, baseline_mode=args.baseline
@@ -529,7 +651,8 @@ def main() -> int:
         else:
             for item in findings:
                 print(f"{item.severity} {item.code} {item.path}: {item.message}")
-    return 1 if any(item.severity == "P0" for item in findings) else 0
+    blocking_severities = {"P0", "P1"} if args.mode == "strict" else {"P0"}
+    return 1 if any(item.severity in blocking_severities for item in findings) else 0
 
 
 if __name__ == "__main__":

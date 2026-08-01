@@ -1,0 +1,110 @@
+[
+  {
+    "id": "E2E-FEATURE-ORPHAN",
+    "source": "feature",
+    "mutation": "orphan_scene",
+    "baseline": "active",
+    "expected_code": "ORPHAN_SCRIPT_SCENE",
+    "expected_severity": "P0",
+    "expected_path": "script",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-FEATURE-BASELINE",
+    "source": "feature",
+    "mutation": "baseline_drift",
+    "baseline": "active",
+    "expected_code": "BASELINE_DRIFT",
+    "expected_severity": "P0",
+    "expected_path": "production/handoff/handoff.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-VERTICAL-PLACEHOLDER",
+    "source": "vertical",
+    "mutation": "locked_placeholder",
+    "baseline": "active",
+    "expected_code": "PLACEHOLDER_LOCKED",
+    "expected_severity": "P0",
+    "expected_path": "production/handoff/handoff.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-P1-STRICT",
+    "source": "feature",
+    "mutation": "unaccept_p1",
+    "baseline": "active",
+    "expected_code": "UNACCEPTED_P1",
+    "expected_severity": "P1",
+    "expected_path": "development/review-reports/REVIEW-001.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-PRODUCTION-EVIDENCE",
+    "source": "production",
+    "mutation": "delete_rights",
+    "baseline": "active",
+    "expected_code": "PRODUCTION_EVIDENCE_TYPE",
+    "expected_severity": "P0",
+    "expected_path": "production/handoff/handoff.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-CHANGE-POSITIVE",
+    "source": "change",
+    "mutation": "complete_change",
+    "baseline": "candidate",
+    "expected_code": null,
+    "expected_severity": null,
+    "expected_path": null,
+    "project_exit": 0,
+    "check_all_exit": 0,
+    "ci_conclusion": "PASS"
+  },
+  {
+    "id": "E2E-CHANGE-OMIT-DIRECT-DOWNSTREAM",
+    "source": "change",
+    "mutation": "omit_outline",
+    "baseline": "candidate",
+    "expected_code": "NOTICE_AFFECTED_SET_MISSING",
+    "expected_severity": "P0",
+    "expected_path": "governance/notices/NOTICE-CHANGE-001.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-CHANGE-OMIT-TRANSITIVE-DOWNSTREAM",
+    "source": "change",
+    "mutation": "omit_asset",
+    "baseline": "candidate",
+    "expected_code": "NOTICE_AFFECTED_SET_MISSING",
+    "expected_severity": "P0",
+    "expected_path": "governance/notices/NOTICE-CHANGE-001.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  },
+  {
+    "id": "E2E-CHANGE-OMIT-BASELINE-SELECTOR",
+    "source": "change",
+    "mutation": "omit_handoff",
+    "baseline": "candidate",
+    "expected_code": "NOTICE_AFFECTED_SET_MISSING",
+    "expected_severity": "P0",
+    "expected_path": "governance/notices/NOTICE-CHANGE-001.md",
+    "project_exit": 1,
+    "check_all_exit": 1,
+    "ci_conclusion": "FAIL"
+  }
+]

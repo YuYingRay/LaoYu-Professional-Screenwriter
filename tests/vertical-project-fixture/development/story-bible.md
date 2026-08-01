@@ -11,7 +11,8 @@ approver: fixture.vertical.approver
 review_id: REVIEW-001
 test_run_id: RUN-VERTICAL-BASELINE
 conformance_level: HUMAN_REVIEWED
-content_digest: sha256:c7af8b5d435f23a7316f401a70ea4ece005544fb0b4bd612b213640d6d572285
+lock_scope: FULL
+content_digest: sha256:721eb79d0f177498474ce74226c23573d727426382388bf75be1a5493d77916d
 upstream_ids: [PROJECT-VERTICAL-001]
 ---
 

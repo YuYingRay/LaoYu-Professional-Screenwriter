@@ -9,8 +9,9 @@ owner: fixture.vertical.owner
 reviewer: fixture.vertical.reviewer
 approver: fixture.vertical.approver
 test_run_id: RUN-VERTICAL-BASELINE
-conformance_level: PRODUCTION_READY
-content_digest: sha256:2c3def5c8dfaf0b20f413753027848145411ce896ff136bb9172b36bfed1ccd5
+conformance_level: HUMAN_REVIEWED
+lock_scope: FULL
+content_digest: sha256:bdb110b4e237abe1cc8dc87efdc8e75a60a1e7b8b43c976d62f4ffe00539c12c
 upstream_ids: []
 project_stage: DEVELOPMENT
 ---
