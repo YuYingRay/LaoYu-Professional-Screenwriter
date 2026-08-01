@@ -1,0 +1,4 @@
+source_path	section	source_location	actual_responsibility	difference_migrated_to	target_anchor	decision	reviewer
+references/short-drama-playbook.md	8	f5dc6ed:425-500	钩子定义、五类钩子、弱钩子修复与强度测试	既有hook引擎#5/#6/#15已覆盖，类型库更完整	references/hook-paywall-engine.md#5	MERGE_ADAPTATION_THEN_POINTER	Codex-semantic-review
+references/short-drama-playbook.md	12	f5dc6ed:630-673	付费原则、适合节点与五问审查	既有hook引擎#7/#8/#15已覆盖且含设计卡和兑现窗口	references/hook-paywall-engine.md#7	MERGE_ADAPTATION_THEN_POINTER	Codex-semantic-review
+references/short-drama-playbook.md	16	f5dc6ed:826-882	滑走、重复、强行拖延、付费反证与人物尊严	30/60/85检查、20-30秒阈值、冲突维度转换与尊严测试迁入#14.6	references/hook-paywall-engine.md#14.6	MERGE_ADAPTATION_THEN_POINTER	Codex-semantic-review

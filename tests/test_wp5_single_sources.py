@@ -167,5 +167,33 @@ class DirectoryStructureSingleSourceTests(unittest.TestCase):
         self.assertEqual({row["decision"] for row in rows}, {"REPLACE_WITH_STRUCT_LAYERED_POINTER"})
 
 
+class HookPaywallSingleSourceTests(unittest.TestCase):
+    def test_engine_contains_migrated_short_drama_adaptations(self) -> None:
+        text = (ROOT / "references" / "hook-paywall-engine.md").read_text(encoding="utf-8")
+        for required in [
+            "## 14.6 短剧压力与人物尊严反证",
+            "30%、60%、85%",
+            "超过 20–30 秒",
+            "改变冲突维度",
+            "弱势人物",
+        ]:
+            self.assertIn(required, text)
+
+    def test_playbook_three_sections_are_routes_not_duplicate_rules(self) -> None:
+        text = (ROOT / "references" / "short-drama-playbook.md").read_text(encoding="utf-8")
+        for heading in ["# 8. 钩子设计", "# 12. 付费点与追更点", "# 16. 短剧专用对抗式审查"]:
+            self.assertIn(heading, text)
+        for removed_subheading in ["## 8.2 五类强钩子", "## 12.2 适合设置的节点", "## 16.2 重复测试"]:
+            self.assertNotIn(removed_subheading, text)
+        self.assertGreaterEqual(text.count("references/hook-paywall-engine.md"), 3)
+
+    def test_hook_migration_map_records_all_three_sections(self) -> None:
+        path = ROOT / "governance" / "wp5-hook-paywall-map.tsv"
+        with path.open(encoding="utf-8", newline="") as handle:
+            rows = list(csv.DictReader(handle, delimiter="\t"))
+        self.assertEqual({row["section"] for row in rows}, {"8", "12", "16"})
+        self.assertEqual({row["decision"] for row in rows}, {"MERGE_ADAPTATION_THEN_POINTER"})
+
+
 if __name__ == "__main__":
     unittest.main()
