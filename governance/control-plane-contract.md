@@ -220,6 +220,13 @@ coupling：`UPSTREAM`, `BASELINE`, `SCHEMA`, `RIGHTS`, `PRODUCTION`
 同一集不得映射到多个别名或 canonical ID。`artifact_id`、
 `upstream_ids` 以及 Notice 中承担规范引用职责的字段不得写入 `VE*`。
 
+### 3.1 标识符门禁正则
+
+标识符门禁不得使用依赖 Unicode `\w` 语义的 `\b`。数字 ID 与纯字母 token 的左右边界
+统一用负向前后断言排除 ASCII 字母和数字；机器模式以验证器源码及参数化测试为准。
+因此中文与下划线邻接保持可见，而 ASCII 字母数字邻接不应误命中。每个新增门禁模式必须
+同时提供正例与负例；发现性扫描可以更宽，但结果必须人工分类，不得直接升级为阻断结论。
+
 ## 4. 通用 Artifact 元数据
 
 正式 Artifact 必须声明：

@@ -42,9 +42,10 @@ ARTIFACT_PREFIXES = {
     "ASSET": "ASSET-",
 }
 PLACEHOLDER_RE = re.compile(
-    r"\[\[[^\[\]\r\n]{1,200}\]\]|\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|\bTBD\b|待定|见最新版本"
+    r"\[\[[^\[\]\r\n]{1,200}\]\]|\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|(?<![0-9A-Za-z])TBD(?![0-9A-Za-z])|待定|见最新版本"
 )
-SCENE_RE = re.compile(r"\bSC-\d{3,}\b")
+SCENE_RE = re.compile(r"(?<![0-9A-Za-z])SC-\d{3,}(?![0-9A-Za-z])")
+LEGACY_NOTICE_RE = re.compile(r"(?<![0-9A-Za-z])UN-\d+(?![0-9A-Za-z])")
 DIGEST_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
@@ -385,7 +386,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                         ))
             if notice_status in {"VERIFIED", "CLOSED"}:
                 closure_notices.append((path, meta))
-        if re.search(r"\bUN-\d+\b", path.read_text(encoding="utf-8")):
+        if LEGACY_NOTICE_RE.search(path.read_text(encoding="utf-8")):
             findings.append(Finding("P1", "LEGACY_NOTICE_ID", rel, "legacy UN-* notice ID found; use NOTICE-*"))
         if meta.get("status") in {"LOCKED", "APPROVED"}:
             text = path.read_text(encoding="utf-8")

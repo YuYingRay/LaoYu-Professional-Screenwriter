@@ -10,6 +10,9 @@ import sys
 from pathlib import Path
 
 
+LEGACY_NOTICE_RE = re.compile(r"(?<![0-9A-Za-z])UN-\d+(?![0-9A-Za-z])")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("root", type=Path)
@@ -49,6 +52,8 @@ def main() -> int:
         "templates/production-handoff.md",
         "scripts/validate_project.py",
         "scripts/run_e2e.py",
+        "scripts/export_handoff.py",
+        "scripts/verify_handoff.py",
         "scripts/gen_contract_tables.py",
         "scripts/lint_repo.py",
         "scripts/check_all.py",
@@ -56,6 +61,7 @@ def main() -> int:
         "agents/openai.yaml",
         "tests/feature-project-fixture/governance/project-manifest.md",
         "tests/vertical-project-fixture/governance/project-manifest.md",
+        "tests/production-ready-fixture/governance/project-manifest.md",
     ]
     for rel in required:
         if not (root / rel).exists():
@@ -92,7 +98,7 @@ def main() -> int:
         rel = str(path.relative_to(root))
         if re.search(r"\[web:\d+\]", text):
             errors.append(f"internal web artifact remains: {rel}")
-        if re.search(r"\bUN-\d+\b", text):
+        if LEGACY_NOTICE_RE.search(text):
             errors.append(f"legacy UN-* notice ID remains: {rel}")
 
     if errors:
