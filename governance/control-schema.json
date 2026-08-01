@@ -217,8 +217,8 @@
       {"notice_status": "DRAFT", "require": []},
       {"notice_status": "OPEN", "require": ["affected_ids", "affected_paths", "coupling"]},
       {"notice_status": "IN_PROGRESS", "require": ["affected_ids", "affected_paths", "coupling", "migration_tasks"]},
-      {"notice_status": "VERIFIED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs"]},
-      {"notice_status": "CLOSED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs", "closed_by_run_id"]}
+      {"notice_status": "VERIFIED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs", "change_records"]},
+      {"notice_status": "CLOSED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs", "change_records", "closed_by_run_id"]}
     ]
   },
   "ownership": {

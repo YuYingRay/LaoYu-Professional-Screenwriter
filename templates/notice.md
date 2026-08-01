@@ -11,6 +11,9 @@ notice_status: DRAFT
 affected_ids: []
 affected_paths: []
 coupling: []
+changed_baseline:
+changed_schema_sections: []
+change_records: []
 change_level: L1 / L2 / L3 / L4
 priority: P0 / P1 / P2
 ---
@@ -42,6 +45,19 @@ priority: P0 / P1 / P2
 | 下游 Artifact | 影响类型 | 必须动作 | 负责人 | 复验方式 | 状态 |
 |---|---|---|---|---|---|
 | SC-[[ID]] | 因果/连续性/制作 |  |  |  | OPEN |
+
+每个 `affected_ids` 项必须对应一个结构化记录：
+
+```change-record
+record_id: CHG-[[NNN]]
+artifact_id: [[AFFECTED-ARTIFACT-ID]]
+old_version: v1.0.0
+new_version: v1.0.1
+old_digest: sha256:[[OLD-DIGEST]]
+new_digest: sha256:[[NEW-DIGEST]]
+disposition: CONTENT_CHANGED / NO_CONTENT_CHANGE
+reason: [[WHY-CHANGED-OR-WHY-NO-CONTENT-CHANGE]]
+```
 
 ## 4. 迁移与回滚
 

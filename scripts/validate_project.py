@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import sys
+from collections import defaultdict, deque
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
@@ -41,6 +42,7 @@ PLACEHOLDER_RE = re.compile(
     r"\[\[[^\[\]\r\n]{1,200}\]\]|\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|\bTBD\b|待定|见最新版本"
 )
 SCENE_RE = re.compile(r"\bSC-\d{3,}\b")
+DIGEST_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 
 
 @dataclass
@@ -110,6 +112,162 @@ def set_digest(path: Path, digest: str) -> None:
     path.write_text(text, encoding="utf-8", newline="\n")
 
 
+def version_key(value: Any) -> tuple[int, ...] | None:
+    match = re.fullmatch(r"v(\d+(?:\.\d+)*)", str(value or ""))
+    return tuple(int(item) for item in match.group(1).split(".")) if match else None
+
+
+def empty_value(value: Any) -> bool:
+    return value is None or value == "" or value == [] or value == ()
+
+
+def notice_affected_set(
+    notice_id: str,
+    notice_meta: dict[str, Any],
+    metas: dict[Path, dict[str, Any]],
+    artifact_ids: dict[str, Path],
+    control_schema: dict[str, Any],
+) -> tuple[set[str], list[Finding]]:
+    findings: list[Finding] = []
+    reverse: dict[str, set[str]] = defaultdict(set)
+    for meta in metas.values():
+        child_id = meta.get("artifact_id")
+        refs = meta.get("upstream_ids", [])
+        if isinstance(refs, str):
+            refs = [refs]
+        if child_id:
+            for ref in refs:
+                if ref in artifact_ids:
+                    reverse[str(ref)].add(str(child_id))
+
+    seeds = notice_meta.get("upstream_ids", [])
+    if isinstance(seeds, str):
+        seeds = [seeds]
+    expected = {str(item) for item in seeds if item in artifact_ids}
+    queue = deque(sorted(expected))
+    while queue:
+        current = queue.popleft()
+        for downstream in sorted(reverse.get(current, set())):
+            if downstream not in expected:
+                expected.add(downstream)
+                queue.append(downstream)
+
+    for selector in control_schema.get("baseline_impact_selectors", []):
+        source_field = selector["value_from"]
+        source_value = notice_meta.get(source_field)
+        if empty_value(source_value):
+            continue
+        for meta in metas.values():
+            artifact_id = meta.get("artifact_id")
+            if not artifact_id:
+                continue
+            if selector["kind"] == "metadata_equals" and meta.get(selector["field"]) == source_value:
+                expected.add(str(artifact_id))
+            elif selector["kind"] == "metadata_intersects":
+                actual = meta.get(selector["field"], [])
+                actual_values = {actual} if isinstance(actual, str) else set(actual)
+                source_values = {source_value} if isinstance(source_value, str) else set(source_value)
+                if actual_values & source_values:
+                    expected.add(str(artifact_id))
+
+    expected.discard(notice_id)
+    return expected, findings
+
+
+def validate_notice_closure(
+    path: Path,
+    meta: dict[str, Any],
+    metas: dict[Path, dict[str, Any]],
+    artifact_ids: dict[str, Path],
+    control_schema: dict[str, Any],
+    root: Path,
+) -> list[Finding]:
+    rel = str(path.relative_to(root))
+    notice_id = str(meta.get("artifact_id", ""))
+    expected, findings = notice_affected_set(
+        notice_id, meta, metas, artifact_ids, control_schema
+    )
+    coupling = meta.get("coupling", [])
+    coupling_values = {coupling} if isinstance(coupling, str) else set(coupling)
+    required_selector_fields = {
+        "BASELINE": "changed_baseline",
+        "SCHEMA": "changed_schema_sections",
+    }
+    for coupling_value, field in required_selector_fields.items():
+        value = meta.get(field)
+        if coupling_value in coupling_values and empty_value(value):
+            findings.append(Finding(
+                "P0", "NOTICE_SELECTOR_INPUT", rel,
+                f"{coupling_value} coupling requires {field}",
+            ))
+
+    actual_value = meta.get("affected_ids", [])
+    actual = {str(actual_value)} if isinstance(actual_value, str) else {str(item) for item in actual_value}
+    missing = sorted(expected - actual)
+    extra = sorted(actual - expected)
+    if missing:
+        findings.append(Finding(
+            "P0", "NOTICE_AFFECTED_SET_MISSING", rel,
+            "missing affected artifact(s): " + ", ".join(missing),
+        ))
+    if extra:
+        findings.append(Finding(
+            "P0", "NOTICE_AFFECTED_SET_EXTRA", rel,
+            "unexpected affected artifact(s): " + ", ".join(extra),
+        ))
+
+    records = fenced_records(path.read_text(encoding="utf-8"), "change-record")
+    declared_value = meta.get("change_records", [])
+    declared = [declared_value] if isinstance(declared_value, str) else list(declared_value)
+    record_ids = [str(record.get("record_id", "")) for record in records]
+    if sorted(str(item) for item in declared) != sorted(record_ids):
+        findings.append(Finding(
+            "P0", "NOTICE_CHANGE_DECLARATION", rel,
+            "frontmatter change_records must equal structured change-record blocks",
+        ))
+    records_by_artifact: dict[str, dict[str, Any]] = {}
+    for record in records:
+        artifact_id = str(record.get("artifact_id", ""))
+        if not artifact_id or artifact_id in records_by_artifact:
+            findings.append(Finding("P0", "NOTICE_CHANGE_RECORD", rel, "change record artifact_id is missing or duplicated"))
+            continue
+        records_by_artifact[artifact_id] = record
+
+    for artifact_id in sorted(expected):
+        record = records_by_artifact.get(artifact_id)
+        artifact_path = artifact_ids.get(artifact_id)
+        if record is None or artifact_path is None:
+            findings.append(Finding(
+                "P0", "NOTICE_CHANGE_RECORD", rel,
+                f"affected artifact lacks change record: {artifact_id}",
+            ))
+            continue
+        old_version = version_key(record.get("old_version"))
+        new_version = version_key(record.get("new_version"))
+        current_version = version_key(metas[artifact_path].get("artifact_version"))
+        old_digest = str(record.get("old_digest", ""))
+        new_digest = str(record.get("new_digest", ""))
+        disposition = record.get("disposition")
+        reason = str(record.get("reason", "")).strip()
+        if new_version is None or current_version != new_version:
+            findings.append(Finding("P0", "NOTICE_CHANGE_VERSION", rel, f"new_version does not match {artifact_id}"))
+        if not DIGEST_RE.fullmatch(old_digest) or not DIGEST_RE.fullmatch(new_digest):
+            findings.append(Finding("P0", "NOTICE_CHANGE_DIGEST", rel, f"invalid digest for {artifact_id}"))
+        elif new_digest != canonical_digest(artifact_path):
+            findings.append(Finding("P0", "NOTICE_CHANGE_DIGEST", rel, f"new_digest does not match {artifact_id}"))
+        if disposition == "CONTENT_CHANGED":
+            if old_version is None or new_version is None or new_version <= old_version:
+                findings.append(Finding("P0", "NOTICE_CHANGE_VERSION", rel, f"version did not increase for {artifact_id}"))
+            if old_digest == new_digest:
+                findings.append(Finding("P0", "NOTICE_CHANGE_DIGEST", rel, f"digest did not change for {artifact_id}"))
+        elif disposition == "NO_CONTENT_CHANGE":
+            if old_digest != new_digest or not reason:
+                findings.append(Finding("P0", "NOTICE_NO_CONTENT_CHANGE", rel, f"NO_CONTENT_CHANGE needs equal digests and reason for {artifact_id}"))
+        else:
+            findings.append(Finding("P0", "NOTICE_CHANGE_DISPOSITION", rel, f"invalid disposition for {artifact_id}"))
+    return findings
+
+
 def validate(root: Path, write_digests: bool = False, baseline_mode: str = "active") -> list[Finding]:
     findings: list[Finding] = []
     files = sorted(p for p in root.rglob("*") if p.suffix.lower() in {".md", ".fountain"})
@@ -150,6 +308,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     script_scene_ids: set[str] = set()
     finding_records: dict[str, tuple[str, dict[str, Any]]] = {}
     continuity_records: list[tuple[Path, dict[str, Any]]] = []
+    closure_notices: list[tuple[Path, dict[str, Any]]] = []
 
     for path, meta in metas.items():
         if path.name in {"input-brief.md", "change-log.md", "control-plane-file-map.md"}:
@@ -216,6 +375,8 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                             "P0", "NOTICE_STATE_FIELD", rel,
                             f"{notice_status} notice requires non-empty field: {field}",
                         ))
+            if notice_status in {"VERIFIED", "CLOSED"}:
+                closure_notices.append((path, meta))
         if re.search(r"\bUN-\d+\b", path.read_text(encoding="utf-8")):
             findings.append(Finding("P1", "LEGACY_NOTICE_ID", rel, "legacy UN-* notice ID found; use NOTICE-*"))
         if meta.get("status") in {"LOCKED", "APPROVED"}:
@@ -288,6 +449,11 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
         for ref in refs:
             if ref not in artifact_ids and not str(ref).startswith(("CON-", "ASM-", "CLM-", "SRC-", "RGT-", "TP-", "RISK-")):
                 findings.append(Finding("P1", "BROKEN_REFERENCE", str(path.relative_to(root)), f"unknown upstream_id: {ref}"))
+
+    for path, meta in closure_notices:
+        findings.extend(validate_notice_closure(
+            path, meta, metas, artifact_ids, control_schema, root
+        ))
 
     if script_scene_ids != scene_card_ids:
         missing = sorted(scene_card_ids - script_scene_ids)

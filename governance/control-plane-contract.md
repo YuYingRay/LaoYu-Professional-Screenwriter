@@ -179,8 +179,8 @@ coupling：`UPSTREAM`, `BASELINE`, `SCHEMA`, `RIGHTS`, `PRODUCTION`
 | `DRAFT` | — |
 | `OPEN` | `affected_ids`, `affected_paths`, `coupling` |
 | `IN_PROGRESS` | `affected_ids`, `affected_paths`, `coupling`, `migration_tasks` |
-| `VERIFIED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs` |
-| `CLOSED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs`, `closed_by_run_id` |
+| `VERIFIED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs`, `change_records` |
+| `CLOSED` | `affected_ids`, `affected_paths`, `coupling`, `verification_refs`, `change_records`, `closed_by_run_id` |
 
 <!-- GENERATED:schema END -->
 
