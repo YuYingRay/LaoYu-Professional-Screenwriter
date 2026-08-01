@@ -16,7 +16,7 @@ SCRIPTS = ROOT / "scripts"
 
 def write_project(root: Path, *, candidate: str | None, artifact_baseline: str) -> None:
     (root / "governance").mkdir(parents=True)
-    (root / "story").mkdir(parents=True)
+    (root / "development").mkdir(parents=True)
     candidate_line = f"candidate_baseline: {candidate}\n" if candidate else ""
     (root / "governance" / "project-manifest.md").write_text(
         "---\n"
@@ -33,7 +33,7 @@ def write_project(root: Path, *, candidate: str | None, artifact_baseline: str) 
         encoding="utf-8",
         newline="\n",
     )
-    (root / "story" / "story-bible.md").write_text(
+    (root / "development" / "story-bible.md").write_text(
         "---\n"
         "artifact_id: BIBLE-TOY-001\n"
         "artifact_type: STORY_BIBLE\n"
@@ -159,7 +159,7 @@ class BootstrapGateTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="psw-run-test-") as temp_dir:
             root = Path(temp_dir)
             write_project(root, candidate=None, artifact_baseline="BASELINE-A")
-            artifact = root / "story" / "story-bible.md"
+            artifact = root / "development" / "story-bible.md"
             text = artifact.read_text(encoding="utf-8")
             text = text.replace("status: DRAFT", "status: LOCKED")
             text = text.replace("owner: TEST", "owner: TEST\nreviewer: TEST\napprover: TEST\ntest_run_id: RUN-TOY-001\nconformance_level: HUMAN_REVIEWED\nlock_scope: FULL\ncontent_digest: PENDING")
