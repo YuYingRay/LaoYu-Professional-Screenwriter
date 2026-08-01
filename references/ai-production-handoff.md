@@ -1171,6 +1171,39 @@ AI 可以高效辅助：
 - [ ] 未使用未授权的人脸、声音、品牌、角色或版权素材
 - [ ] 成片可以让观众在不读制作文档的情况下理解剧情
 
+## 15.3 确定性导出包使用说明
+
+本节说明如何使用导出包，不重新定义其机器格式。权威边界如下：
+
+- `governance/control-schema.json` 的 `export_scope` 决定 selector、必需 Artifact 类型、
+  上游引用闭包、路径映射、固定排除与路径安全规则；
+- WP4b 提供的 exporter/verifier 实现决定实际 CLI、manifest 序列化、摘要字节与错误码；
+- 本 reference 只解释工作流程。schema 与实现不一致时必须阻断并修复，不能由本文任选一方覆盖另一方。
+
+使用者准备四项输入：源项目根、目标 baseline、scope selector 和输出目录。selector 取值为
+`project / season / episode`；对应必需 Artifact 类型必须已经存在并属于目标 baseline。
+
+最小流程：
+
+```text
+锁定目标 baseline
+→ 选择 project / season / episode
+→ 从源项目按 schema 独立推导 expected set
+→ exporter 写入临时输出并生成 manifest 与摘要 sidecar
+→ verifier 再从源项目独立推导 expected set
+→ 比较 expected set == manifest set == actual output set
+→ 验证逐文件摘要、包摘要、路径和引用闭包
+→ 原子发布通过验证的导出目录
+```
+
+输出目录必须位于源项目 payload 树之外；源与输出任一方向嵌套都应拒绝。payload 路径使用
+UTF-8 与 POSIX `/`，保持源项目相对路径，并拒绝绝对路径、`..`、symlink 或 junction 越界。
+`manifest.sha256` 与包摘要 sidecar 是验证材料，不属于 payload 本身。
+
+当前阶段只建立了 schema 合同，WP4b 尚未提供可执行 exporter/verifier。因此现在不得手工复制后宣称 VERIFIED，
+也不得根据本节臆造命令行。实现落地后，应先查看实现的 `--help`，再按上述四项输入和
+三方集合不变量执行；若实现缺失或 verifier 不能独立推导 expected set，导出只能标记为人工草案。
+
 ---
 
 # 16. 与主 Skill 的协作

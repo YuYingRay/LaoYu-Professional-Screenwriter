@@ -325,5 +325,23 @@ class PackageReadmeBoundaryTests(unittest.TestCase):
         self.assertIn("RENAME_TESTING_GUIDE", {row["decision"] for row in rows})
 
 
+class ExportPackageUsageTests(unittest.TestCase):
+    def test_handoff_reference_explains_export_usage_without_inventing_cli(self) -> None:
+        text = (ROOT / "references" / "ai-production-handoff.md").read_text(encoding="utf-8")
+        section = text.split("## 15.3 确定性导出包使用说明", 1)[1]
+        for required in [
+            "governance/control-schema.json",
+            "export_scope",
+            "project / season / episode",
+            "expected set == manifest set == actual output set",
+            "输出目录必须位于源项目 payload 树之外",
+            "WP4b",
+            "尚未提供可执行 exporter/verifier",
+            "不得手工复制后宣称 VERIFIED",
+        ]:
+            self.assertIn(required, section)
+        self.assertNotIn("python scripts/export_handoff.py", section)
+
+
 if __name__ == "__main__":
     unittest.main()
