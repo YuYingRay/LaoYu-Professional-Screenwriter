@@ -1200,9 +1200,16 @@ AI 可以高效辅助：
 UTF-8 与 POSIX `/`，保持源项目相对路径，并拒绝绝对路径、`..`、symlink 或 junction 越界。
 `manifest.sha256` 与包摘要 sidecar 是验证材料，不属于 payload 本身。
 
-当前阶段只建立了 schema 合同，WP4b 尚未提供可执行 exporter/verifier。因此现在不得手工复制后宣称 VERIFIED，
-也不得根据本节臆造命令行。实现落地后，应先查看实现的 `--help`，再按上述四项输入和
-三方集合不变量执行；若实现缺失或 verifier 不能独立推导 expected set，导出只能标记为人工草案。
+WP4b 已提供可执行 exporter/verifier。先查看 `--help`，再使用以下真实入口；不得手工复制后宣称 VERIFIED：
+
+```powershell
+python -X utf8 scripts/export_handoff.py <SOURCE> <OUTPUT> --baseline <BASELINE> --selector project --schema governance/control-schema.json
+python -X utf8 scripts/verify_handoff.py <SOURCE> <OUTPUT> --baseline <BASELINE> --selector project --schema governance/control-schema.json
+```
+
+只有 verifier 返回 `PASS`，且 `expected set == manifest set == actual output set` 时，导出目录才可进入发布流程。
+`season` 与 `episode` 当前是 schema 定义的类型范围配置，不含单季／单集 ID 过滤语义；不得把它们解释为
+“自动选择某一集”。如需该能力，先通过 Notice 扩展 schema，再更新两条 CLI 与负向测试。
 
 ---
 

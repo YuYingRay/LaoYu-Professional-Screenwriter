@@ -97,7 +97,7 @@
 | E2E-REWRITE | PLANNED | 场景/对白重写 | 场景目标、对抗、潜台词、转折、知识状态与连续性 |
 | E2E-CHANGE | IMPLEMENTED | 上游事实变更 | Notice、影响分析、下游同步、复验、Change Log、Manifest 更新 |
 | E2E-RIGHTS | PLANNED | 权利/来源变化 | Source、TP/资产权利、替换、生产与发布阻断 |
-| E2E-HANDOFF | PLANNED | 制作交接 | 锁定剧本、资产、镜头、声音、字幕、版本与风险一致性 |
+| E2E-HANDOFF | IMPLEMENTED | 制作交接 | 锁定剧本、资产、镜头、声音、字幕、版本与风险一致性 |
 | E2E-ADVERSARIAL | PLANNED | 对抗式审查 | 主动寻找因果、人物、信息、连续性、制作与权利失败点 |
 
 ## 1.2 最小测试夹具
