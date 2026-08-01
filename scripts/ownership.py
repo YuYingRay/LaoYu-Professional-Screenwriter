@@ -62,13 +62,18 @@ def _git_paths(root: Path, *args: str) -> set[str]:
 def _ignored_paths(root: Path, paths: list[str]) -> set[str]:
     if not paths:
         return set()
+    payload = "\0".join(paths) + "\0"
     result = subprocess.run(
-        ["git", "check-ignore", "--stdin"], cwd=root, input="\n".join(paths) + "\n",
+        ["git", "check-ignore", "-z", "--stdin"], cwd=root, input=payload,
         text=True, encoding="utf-8", errors="replace", capture_output=True, check=False,
     )
     if result.returncode not in {0, 1}:
         return set()
-    return {line.replace("\\", "/").strip("/") for line in result.stdout.splitlines() if line}
+    return {
+        path.replace("\\", "/").strip("/")
+        for path in result.stdout.split("\0")
+        if path
+    }
 
 
 def _fixture_owner(path: str, owner: str) -> str:
@@ -91,10 +96,17 @@ def classify_path(
         if any(matches_pattern(path, pattern) for pattern in rule["patterns"])
     ]
     excluded = next((rule for rule in rules if rule["id"] == "OWN-EXCLUDED"), None)
-    if ignored and excluded is not None and excluded not in matches:
+    if (
+        ignored
+        and excluded is not None
+        and excluded.get("include_gitignored", False)
+        and excluded not in matches
+    ):
         matches.append(excluded)
 
     findings: list[OwnershipFinding] = []
+    if excluded is not None and excluded in matches:
+        return OwnershipRecord(path, excluded["owner"], tracked, (excluded["id"],)), findings
     if len(matches) > 1:
         code = ownership.get("multi_match_error", "MULTI_OWNED_FILE")
         findings.append(OwnershipFinding(

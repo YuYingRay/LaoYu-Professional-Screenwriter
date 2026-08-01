@@ -5,8 +5,16 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from subprocess import CompletedProcess
+from unittest.mock import patch
 
-from scripts.ownership import analyze_ownership, hygiene_findings, template_closure_findings
+from scripts.ownership import (
+    _ignored_paths,
+    analyze_ownership,
+    classify_path,
+    hygiene_findings,
+    template_closure_findings,
+)
 from scripts.validate_project import validate
 
 
@@ -39,6 +47,48 @@ def write_manifest(root: Path) -> None:
 
 
 class OwnershipTests(unittest.TestCase):
+    def test_excluded_cache_precedes_tooling_owner(self) -> None:
+        record, findings = classify_path(
+            "scripts/__pycache__/module.pyc",
+            schema()["ownership"],
+            tracked=False,
+            ignored=True,
+        )
+        self.assertEqual(record.owner, "excluded")
+        self.assertEqual(record.matched_rules, ("OWN-EXCLUDED",))
+        self.assertEqual(findings, [])
+
+    def test_gitignored_host_runtime_is_excluded_without_allowlist(self) -> None:
+        data = schema()["ownership"]
+        self.assertEqual(data["untracked_allowlist"], [])
+        record, findings = classify_path(
+            ".claude/scheduled_tasks.lock",
+            data,
+            tracked=False,
+            ignored=True,
+        )
+        self.assertEqual(record.owner, "excluded")
+        self.assertEqual(findings, [])
+
+    def test_ignored_path_query_uses_nul_protocol(self) -> None:
+        completed = CompletedProcess(
+            args=[], returncode=0,
+            stdout=".claude/scheduled_tasks.lock\0scripts/__pycache__/module.pyc\0",
+            stderr="",
+        )
+        with patch("scripts.ownership.subprocess.run", return_value=completed) as run:
+            ignored = _ignored_paths(
+                ROOT,
+                [".claude/scheduled_tasks.lock", "scripts/__pycache__/module.pyc"],
+            )
+        command = run.call_args.args[0]
+        self.assertIn("-z", command)
+        self.assertIn("\0", run.call_args.kwargs["input"])
+        self.assertEqual(
+            ignored,
+            {".claude/scheduled_tasks.lock", "scripts/__pycache__/module.pyc"},
+        )
+
     def test_overlap_reports_multi_owned_file(self) -> None:
         data = schema()
         duplicate = copy.deepcopy(data["ownership"]["rules"][2])
@@ -121,6 +171,15 @@ class TemplateClosureTests(unittest.TestCase):
     def test_hygiene_audit_is_clean_after_readme_boundary_migration(self) -> None:
         findings = hygiene_findings(ROOT, schema())
         self.assertEqual(findings, [])
+
+
+class StrictHygieneTests(unittest.TestCase):
+    def test_schema_enables_strict_ownership(self) -> None:
+        self.assertEqual(schema()["ownership"]["enforcement"], "strict")
+
+    def test_real_installation_ownership_is_clean(self) -> None:
+        report = analyze_ownership(ROOT, schema())
+        self.assertEqual(report.findings, ())
 
 
 if __name__ == "__main__":

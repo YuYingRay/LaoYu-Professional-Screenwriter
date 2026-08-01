@@ -223,8 +223,8 @@
   },
   "ownership": {
     "view": "installation_root_filesystem",
-    "match_policy": "exactly_one_non_fallback_rule",
-    "enforcement": "audit",
+    "match_policy": "excluded_precedes_exactly_one_non_fallback_rule",
+    "enforcement": "strict",
     "rules": [
       {
         "id": "OWN-EXCLUDED",
