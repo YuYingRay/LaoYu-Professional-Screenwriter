@@ -120,6 +120,20 @@
     "NOTICE": ["[[CHANGED-UPSTREAM-ID]]"],
     "PRODUCTION_HANDOFF": ["[[BIBLE-ID]]", "[[SCRIPT-ID]]", "[[REVIEW-ID]]"]
   },
+  "template_closure": {
+    "templates/governance/project-manifest.md": {"kind": "scenario", "scenario": "project-manifest", "artifact_type": "PROJECT_MANIFEST"},
+    "templates/governance/source-links.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "SOURCE_REGISTER"},
+    "templates/governance/upstream-notices.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "NOTICE_INDEX"},
+    "templates/governance/change-log.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "CHANGE_LOG"},
+    "templates/story-bible.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "STORY_BIBLE"},
+    "templates/episode-outline.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "OUTLINE"},
+    "templates/vertical-episode.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "VERTICAL_EPISODE"},
+    "templates/scene-card.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "SCENE_CARD"},
+    "templates/review-report.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "REVIEW"},
+    "templates/notice.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "NOTICE"},
+    "templates/production-handoff.md": {"kind": "scenario", "scenario": "draft-artifact", "artifact_type": "PRODUCTION_HANDOFF"},
+    "templates/feature-screenplay.fountain": {"kind": "scenario", "scenario": "feature-screenplay", "artifact_type": "SCRIPT_MASTER", "scene_card_policy": "match_script_scenes", "activation": "WP3A_SCENE_IDS"}
+  },
   "id_prefixes": {
     "PROJECT_MANIFEST": {"prefix": "PROJECT-", "example": "PROJECT-TIDELINE-001"},
     "CONSTRAINT": {"prefix": "CON-", "example": "CON-001"},
@@ -207,6 +221,7 @@
   "ownership": {
     "view": "installation_root_filesystem",
     "match_policy": "exactly_one_non_fallback_rule",
+    "enforcement": "audit",
     "rules": [
       {
         "id": "OWN-EXCLUDED",
@@ -259,6 +274,7 @@
     },
     "untracked_allowlist": [],
     "declared_empty_directories": [],
+    "reserved_install_names": ["README.md", "CHANGELOG.md", "INSTALLATION_GUIDE.md", "QUICK_REFERENCE.md"],
     "empty_directory_error": "UNDECLARED_EMPTY_DIR",
     "multi_match_error": "MULTI_OWNED_FILE"
   },

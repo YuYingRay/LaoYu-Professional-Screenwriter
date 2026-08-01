@@ -4,16 +4,23 @@
 from __future__ import annotations
 
 import argparse
+import json
 import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+
+try:
+    from .ownership import analyze_ownership, hygiene_findings, template_closure_findings
+except ImportError:
+    from ownership import analyze_ownership, hygiene_findings, template_closure_findings
 
 
 @dataclass(frozen=True)
 class LintFinding:
     code: str
     message: str
+    deferred: bool = False
 
 
 def lint(root: Path) -> list[LintFinding]:
@@ -42,6 +49,14 @@ def lint(root: Path) -> list[LintFinding]:
         detail = (generated.stdout + generated.stderr).strip()
         code = "GENERATED_BLOCK_MISSING" if "GENERATED_BLOCK_MISSING" in detail else "GENERATED_BLOCK_DRIFT"
         findings.append(LintFinding(code, detail))
+
+    schema_path = root / "governance" / "control-schema.json"
+    if schema_path.is_file():
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        deferred = schema["ownership"].get("enforcement") != "strict"
+        report = analyze_ownership(root, schema)
+        for item in [*report.findings, *template_closure_findings(root, schema), *hygiene_findings(root, schema)]:
+            findings.append(LintFinding(item.code, f"{item.path}: {item.message}", deferred))
     return findings
 
 
@@ -57,10 +72,13 @@ def main() -> int:
     if args.mode == "audit":
         print(f"PASS: lint_repo audit ({len(findings)} finding(s), non-blocking)")
         return 0
-    if findings:
-        print(f"FAIL: lint_repo strict ({len(findings)} finding(s))")
+    blocking = [finding for finding in findings if not finding.deferred]
+    if blocking:
+        print(f"FAIL: lint_repo strict ({len(blocking)} blocking finding(s))")
         return 1
-    print("PASS: lint_repo strict")
+    deferred = sum(finding.deferred for finding in findings)
+    suffix = f" ({deferred} audit finding(s), non-blocking)" if deferred else ""
+    print(f"PASS: lint_repo strict{suffix}")
     return 0
 
 

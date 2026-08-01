@@ -29,6 +29,7 @@ def load_schema(path: Path) -> dict[str, Any]:
         "deprecation_statuses",
         "rights_statuses",
         "upstream_defaults",
+        "template_closure",
         "id_prefixes",
         "required_fields",
         "finding_required_fields",
@@ -123,6 +124,19 @@ def render_schema_tables(schema: dict[str, Any]) -> str:
     ])
     for artifact_type, values in schema["upstream_defaults"].items():
         lines.append(f"| `{artifact_type}` | {code_list(values)} |")
+
+    lines.extend([
+        "",
+        "### Template 实例化闭包",
+        "",
+        "| Template | 类型 | 场景 | Scene Card 策略 |",
+        "|---|---|---|---|",
+    ])
+    for path, entry in schema["template_closure"].items():
+        lines.append(
+            f"| `{path}` | `{entry['artifact_type']}` | `{entry['scenario']}` | "
+            f"`{entry.get('scene_card_policy', 'n/a')}` |"
+        )
 
     lines.extend([
         "",

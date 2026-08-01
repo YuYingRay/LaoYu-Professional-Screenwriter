@@ -148,6 +148,23 @@ evidence_refs: [NOTICE-CONTRACT-001]
 | `NOTICE` | `[[CHANGED-UPSTREAM-ID]]` |
 | `PRODUCTION_HANDOFF` | `[[BIBLE-ID]]`, `[[SCRIPT-ID]]`, `[[REVIEW-ID]]` |
 
+### Template 实例化闭包
+
+| Template | 类型 | 场景 | Scene Card 策略 |
+|---|---|---|---|
+| `templates/governance/project-manifest.md` | `PROJECT_MANIFEST` | `project-manifest` | `n/a` |
+| `templates/governance/source-links.md` | `SOURCE_REGISTER` | `draft-artifact` | `n/a` |
+| `templates/governance/upstream-notices.md` | `NOTICE_INDEX` | `draft-artifact` | `n/a` |
+| `templates/governance/change-log.md` | `CHANGE_LOG` | `draft-artifact` | `n/a` |
+| `templates/story-bible.md` | `STORY_BIBLE` | `draft-artifact` | `n/a` |
+| `templates/episode-outline.md` | `OUTLINE` | `draft-artifact` | `n/a` |
+| `templates/vertical-episode.md` | `VERTICAL_EPISODE` | `draft-artifact` | `n/a` |
+| `templates/scene-card.md` | `SCENE_CARD` | `draft-artifact` | `n/a` |
+| `templates/review-report.md` | `REVIEW` | `draft-artifact` | `n/a` |
+| `templates/notice.md` | `NOTICE` | `draft-artifact` | `n/a` |
+| `templates/production-handoff.md` | `PRODUCTION_HANDOFF` | `draft-artifact` | `n/a` |
+| `templates/feature-screenplay.fountain` | `SCRIPT_MASTER` | `feature-screenplay` | `match_script_scenes` |
+
 ### Notice 状态与耦合
 
 notice_status：`DRAFT`, `OPEN`, `IN_PROGRESS`, `VERIFIED`, `CLOSED`

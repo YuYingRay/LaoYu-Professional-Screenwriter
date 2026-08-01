@@ -12,6 +12,11 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
 
+try:
+    from .ownership import classify_path
+except ImportError:
+    from ownership import classify_path
+
 
 ARTIFACT_STATUSES = {
     "DRAFT", "IN_REVIEW", "APPROVED", "LOCKED", "SUPERSEDED", "BLOCKED"
@@ -95,6 +100,15 @@ def set_digest(path: Path, digest: str) -> None:
 def validate(root: Path, write_digests: bool = False, baseline_mode: str = "active") -> list[Finding]:
     findings: list[Finding] = []
     files = sorted(p for p in root.rglob("*") if p.suffix.lower() in {".md", ".fountain"})
+    schema_path = root / "governance" / "control-schema.json"
+    if schema_path.is_file():
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        files = [
+            path for path in files
+            if classify_path(
+                path.relative_to(root).as_posix(), schema["ownership"], tracked=True
+            )[0].owner == "root-project"
+        ]
     manifest_path = root / "governance" / "project-manifest.md"
     if not manifest_path.exists():
         return [Finding("P0", "MISSING_MANIFEST", str(manifest_path), "project-manifest.md is required")]
@@ -119,7 +133,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     script_scene_ids: set[str] = set()
 
     for path, meta in metas.items():
-        if path.name in {"input-brief.md", "README.md", "change-log.md", "control-plane-file-map.md"}:
+        if path.name in {"input-brief.md", "change-log.md", "control-plane-file-map.md"}:
             continue
         if not meta:
             continue
@@ -170,7 +184,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
             script_scene_ids.update(SCENE_RE.findall(path.read_text(encoding="utf-8")))
 
     for path, meta in metas.items():
-        if not meta or path.name in {"input-brief.md", "README.md", "change-log.md"}:
+        if not meta or path.name in {"input-brief.md", "change-log.md"}:
             continue
         refs = meta.get("upstream_ids", [])
         if isinstance(refs, str):
