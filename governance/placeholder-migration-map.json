@@ -1,0 +1,190 @@
+{
+  "work_package": "WP3b-placeholders",
+  "source_ref": "phase-2-complete-v1.0.7",
+  "rule": "Each listed MIGRATE occurrence changes only [slot] to [[slot]]; PRESERVE entries are syntax or fixed facts.",
+  "summary": {
+    "candidate_occurrences": 2509,
+    "migrated_occurrences": 1199,
+    "preserved_occurrences": 1310,
+    "changed_files": 28
+  },
+  "protected_counts": {
+    "checkbox_markers_before": 1221,
+    "markdown_links_before": 3,
+    "frontmatter_list_lines_before": 44,
+    "checkbox_markers_after": 1221,
+    "markdown_links_after": 3,
+    "frontmatter_list_lines_after": 44
+  },
+  "files": [
+    {
+      "path": "LICENSES/README.md",
+      "before_sha256": "F4CD99F2AA02CF244D142284A3BB59EB95E1DA7DC91A4DE01CF1198D809A6041",
+      "after_sha256": "73B72430B4211F6A86CB1E6580A8999820591FB0547A729CB426BCE73DCF93BB",
+      "migrated_occurrences": 2
+    },
+    {
+      "path": "LICENSES/asset-rights-register.md",
+      "before_sha256": "14081AB25EDABF4E89E31634D30A0AA236354CA93BB7116F5632E6FB7184E123",
+      "after_sha256": "948813FFD6A1A020A969DE63B53F65F532826A1C664926C5FB11306EA91EB17D",
+      "migrated_occurrences": 60
+    },
+    {
+      "path": "LICENSES/skill-license.md",
+      "before_sha256": "7ECD013AC7E3B06586F99E338D42AB7FF86E9322A30A2B16EAB96454957A856B",
+      "after_sha256": "9B82B9E0BD5852E79457286F6F630DA7BA0C50F04364A8E63FF4191CCA6D7F10",
+      "migrated_occurrences": 9
+    },
+    {
+      "path": "LICENSES/third-party-notices.md",
+      "before_sha256": "83D49504FCE6F243F61F7FBEACD168BA17592AB69AD17012C7CA6705AB745A0B",
+      "after_sha256": "128297FDC7A049DFD03C94EB6ED22471617AB3B442581C37663333264939AE5C",
+      "migrated_occurrences": 16
+    },
+    {
+      "path": "README.md",
+      "before_sha256": "8B8DCFE0A021702686052C69EFD1472BA06E2CE67A26E61639DC928F56168F54",
+      "after_sha256": "6A0E6B6749230A21722020E48843D4FEFEE1170612C09D26E6855FF1A1517373",
+      "migrated_occurrences": 5
+    },
+    {
+      "path": "governance/change-log.md",
+      "before_sha256": "9D516FA1543F024E38721EDA4EFAC6DDC833A5569F054A4FFE8FDDFC54EE96C2",
+      "after_sha256": "B4616582980E92B3E7AD6EEEBA52A31B46B5089FA13B49322AF2A780AEB35F2D",
+      "migrated_occurrences": 159
+    },
+    {
+      "path": "governance/compatibility-matrix.md",
+      "before_sha256": "82DD154EA2AF724454252258F9855B6C0D4B5DF2FDD040D653EED7DE2B7276D1",
+      "after_sha256": "CA0CE4F20900158383FCCAC400991F4B46C7920D9CDA6334E1DB16334DCC8FD4",
+      "migrated_occurrences": 12
+    },
+    {
+      "path": "governance/control-plane-contract.md",
+      "before_sha256": "E89DAE8824295AB48F228C64A05F675F7A95F9FBC9AA594B3127CBA106EB57F3",
+      "after_sha256": "EBCDA5AC181666B979B5483958572BBEB5234FF91D9965EC9BA2144023E850B1",
+      "migrated_occurrences": 2
+    },
+    {
+      "path": "governance/project-manifest.md",
+      "before_sha256": "63F58EFB55D401FE302BB628CC2F257C7DB8F670F6CFFFDDE1F5E4CD792B59F8",
+      "after_sha256": "E446B705C2DF66641B35E2C5C0D2FAA162F8EEC8F2DA0E3D7D021DAFB0F35D6D",
+      "migrated_occurrences": 53
+    },
+    {
+      "path": "governance/source-links.md",
+      "before_sha256": "A1257782F4EC8B0212D64BCC7EB5AD51877F8BAC29EBB0337D065D2007B9FF0A",
+      "after_sha256": "AD887078B4F0FEEE2864B4E4E59976421AEC9074CCCA54632D14BC127BB553B6",
+      "migrated_occurrences": 39
+    },
+    {
+      "path": "governance/upstream-notices.md",
+      "before_sha256": "32606F16B17B0E81CF30E98D19D25C5562102DF7A72A0C5B41D53838841B0611",
+      "after_sha256": "BF4F7DFCADDACBC1D6C6260CB2F979106C1363BF8CF622FB4653EBFA5B71F958",
+      "migrated_occurrences": 40
+    },
+    {
+      "path": "governance/upstream-notices/README.md",
+      "before_sha256": "B097F28611A300283088589EDAD5454196819BBE91BA76919F89B0EC248BED04",
+      "after_sha256": "11F7A50B713A5E337ECD660EC839E9F85318256545A60E027737DE8BB9531600",
+      "migrated_occurrences": 3
+    },
+    {
+      "path": "references/ai-production-handoff.md",
+      "before_sha256": "498D8D2932CE80E7AB5F30BEB57BF7C9F6F8401DDCE2F43EBD35BA3314D18038",
+      "after_sha256": "E4C1C41E96217C6C39745AC2E57374A02AAEB30BBA87B0580A4CF4831DCFAEAA",
+      "migrated_occurrences": 15
+    },
+    {
+      "path": "references/story-bible-templates.md",
+      "before_sha256": "92A0F64CDB583A7F1B9E43E8E280A225CF829660B283BC8B182D11D616DD6057",
+      "after_sha256": "FB456F7AAF5FEECCD696D2CE6902E4108E79A50AA43370BBCA5C42ACB05B3025",
+      "migrated_occurrences": 1
+    },
+    {
+      "path": "templates/episode-outline.md",
+      "before_sha256": "5EFBD720489F8CA37A2165AFA86FA2CB16A31D19D22B035FC387A63C1F598969",
+      "after_sha256": "F4D560773EFB1B6564A253CA8D4346375616990E88ADB341C0B5DA7A5DDA493C",
+      "migrated_occurrences": 67
+    },
+    {
+      "path": "templates/feature-screenplay.fountain",
+      "before_sha256": "162EC96356A05A57C0AF07C0AB832099705ED80D899C1EEEEA420BFBCBC52D3A",
+      "after_sha256": "F3FC5061F2BEC3A2C25F67CA0C9C733AE6AEFCC8D762ED8F72949D335B1EC559",
+      "migrated_occurrences": 186
+    },
+    {
+      "path": "templates/governance/change-log.md",
+      "before_sha256": "401B5E6A7A6DD0CC885353D099562FFC6B49EC7C93B6FBF9E72ACD4689D3F1DD",
+      "after_sha256": "364BCA6374D771D57ADF53ED100EF64C9C6056723EAF9E1254D5DEA1DF4D3B70",
+      "migrated_occurrences": 162
+    },
+    {
+      "path": "templates/governance/project-manifest.md",
+      "before_sha256": "A0311A7CC3175DEAD528CE35B32C17A1406F2F885F5D428095CBB798A4A003B1",
+      "after_sha256": "4D53BEA4B81A47BD11C5BFA94BF37D20FA33061BA7322DE6B354EAB792CE9D75",
+      "migrated_occurrences": 57
+    },
+    {
+      "path": "templates/governance/source-links.md",
+      "before_sha256": "EE14A7309E9C4ECCEB504629CFB1CBCB83D9D4FF2F589B76B547D4854C7C065E",
+      "after_sha256": "947F8A7A4064716FA176BED2138162226D969706E3B42D8CA8F337F1414DB4F4",
+      "migrated_occurrences": 42
+    },
+    {
+      "path": "templates/governance/upstream-notices.md",
+      "before_sha256": "5CFC171E52A121E2AEF44F2BED7F8E08D1BCE53ADA476F4D14EBC43342399ABE",
+      "after_sha256": "2AAAADC06259FB0D2C6DC650B987601CDEF46E4DA2175DE5488F85257B373AEE",
+      "migrated_occurrences": 43
+    },
+    {
+      "path": "templates/notice.md",
+      "before_sha256": "F464537D8E076A6DA8FAF580D0EFB478EC5A5480813ECA42AAF95A156CA9CC64",
+      "after_sha256": "F758C811B99DF6BEC1C7303D2A283C3DD1C62EB32CC6AF004F37E70648FEF598",
+      "migrated_occurrences": 8
+    },
+    {
+      "path": "templates/production-handoff.md",
+      "before_sha256": "3C15AFD7D38AB62E937E67BC9326E0AE593D31D3402B7ADEAAD121CE0479A930",
+      "after_sha256": "2A595DA0FFD348EC4D014864A71354078081A59AC85C6485CD5C95D4156E9095",
+      "migrated_occurrences": 14
+    },
+    {
+      "path": "templates/review-report.md",
+      "before_sha256": "7E87D1B0A48A6233BF8FC44AC193AE8003C5ECCE3F2C073F442B2316605ED90B",
+      "after_sha256": "0BF3DD9B09B048D19A65207FD0F613458FFABC087F5CF955F0B7F91AF64A1E90",
+      "migrated_occurrences": 39
+    },
+    {
+      "path": "templates/scene-card.md",
+      "before_sha256": "179FB481E5417DD2E766437890ACE96E01FA1DCB264EA4D2E42CEA4F1188F55E",
+      "after_sha256": "3218E79B5B4634FB8020F05026C4B9CE1BA69130A57FA815AF38326A2805DFD7",
+      "migrated_occurrences": 44
+    },
+    {
+      "path": "templates/story-bible.md",
+      "before_sha256": "03CC962619F73184C1418A4F32DA7DA35598D264AA272EFA6AA1A4444507EED0",
+      "after_sha256": "25A309C339D6296B0BAAB6AA5AC37FF0D13715D8BB080EBEA8A56146E52CA7C3",
+      "migrated_occurrences": 61
+    },
+    {
+      "path": "templates/vertical-episode.md",
+      "before_sha256": "CAD1ED4F7FF0EAFFD69A8D247F8E2BEFBF4CF8634B126C9237C40D41BEBBFE1F",
+      "after_sha256": "7BFB85078B06349247BD9EE20A6E798170CB99261BFEC038878E2E3BD43F3D04",
+      "migrated_occurrences": 45
+    },
+    {
+      "path": "tests/README.md",
+      "before_sha256": "B1DEED4CD74C3BA297BA72653270C069683D9A102C22F738D246740BD25D2DCD",
+      "after_sha256": "2A269796DE180AB689CC3990DDC62D3CDC88D976CD93C882769448B01AF061A4",
+      "migrated_occurrences": 9
+    },
+    {
+      "path": "tests/expected-deliverables.md",
+      "before_sha256": "AE4F2BCADC9568F5F893E218AC7BC001A0A0268559269073568F9642D344E7BD",
+      "after_sha256": "3423E893BBE1C92DEB260A30CECAF69AD876410FC3B549792A961BADB3F28D40",
+      "migrated_occurrences": 6
+    }
+  ],
+  "entries_file": "governance/placeholder-migration-entries.tsv"
+}

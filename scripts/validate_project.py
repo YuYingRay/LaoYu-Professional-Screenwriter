@@ -32,7 +32,9 @@ ARTIFACT_PREFIXES = {
     "SEASON_MAP": "DEL-",
     "VERTICAL_EPISODE": "EP-",
 }
-PLACEHOLDER_RE = re.compile(r"\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|\bTBD\b|待定|见最新版本")
+PLACEHOLDER_RE = re.compile(
+    r"\[\[[^\[\]\r\n]{1,200}\]\]|\[填写|\[PROJECT_ID\]|\[ID\]|\[ROLE\]|\bTBD\b|待定|见最新版本"
+)
 SCENE_RE = re.compile(r"\bSC-\d{3,}\b")
 
 

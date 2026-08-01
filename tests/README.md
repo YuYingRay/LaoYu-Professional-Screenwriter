@@ -173,13 +173,13 @@ tests/
 ```text
 tests/
 ├── scripts/
-│   ├── validate-structure.[ext]
-│   ├── validate-ids.[ext]
-│   ├── validate-links.[ext]
-│   └── validate-baselines.[ext]
+│   ├── validate-structure.[[ext]]
+│   ├── validate-ids.[[ext]]
+│   ├── validate-links.[[ext]]
+│   └── validate-baselines.[[ext]]
 │
 ├── reports/
-│   ├── test-run-[RUN-ID].md
+│   ├── test-run-[[RUN-ID]].md
 │   └── regression-summary.md
 │
 ├── fixtures/
@@ -369,12 +369,12 @@ tests/
 建议输出路径：
 
 ```text
-tests/reports/[RUN-ID]/
+tests/reports/[[RUN-ID]]/
 ├── inputs/
 ├── outputs/
 ├── review/
 ├── evidence/
-└── test-run-[RUN-ID].md
+└── test-run-[[RUN-ID]].md
 ```
 
 示例：
@@ -955,11 +955,11 @@ Fixture 不得：
 每次测试可使用以下最小记录：
 
 ```md
-# Test Run: [RUN-ID]
+# Test Run: [[RUN-ID]]
 
 | 字段 | 内容 |
 |---|---|
-| 日期 | [YYYY-MM-DD] |
+| 日期 | [[YYYY-MM-DD]] |
 | Skill 版本 | |
 | Fixture | |
 | 输入版本 | |

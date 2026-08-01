@@ -340,8 +340,8 @@ third-party-notices.md
 LICENSES/
 ├── asset-rights-register.md
 ├── third-party-notices.md
-├── [必要的许可证原文或 NOTICE]
-└── [授权书/购买凭证/许可证明的安全存储路径]
+├── [[必要的许可证原文或 NOTICE]]
+└── [[授权书/购买凭证/许可证明的安全存储路径]]
 ```
 
 如果项目包含代码、插件、模型、字体、素材包或可下载资产：

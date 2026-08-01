@@ -548,7 +548,7 @@ REPLACED
 每个主要角色单独建文件：
 
 ```text
-02_characters/char-[id].md
+02_characters/char-[[id]].md
 ```
 
 ```md

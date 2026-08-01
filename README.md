@@ -67,7 +67,7 @@
 建议为每一个独立影视项目创建独立项目根目录：
 
 ```text
-[project-root]/
+[[project-root]]/
 ├── governance/
 ├── development/
 ├── script/
@@ -81,7 +81,7 @@
 ```text
 1. governance/project-manifest.md
 2. development/story-bible.md
-3. development/[项目形式]-outline.md
+3. development/[[项目形式]]-outline.md
 4. governance/source-links.md（如涉及外部事实）
 5. governance/review-report.md
 ```
@@ -355,7 +355,7 @@ Skill 的执行入口与路由规则。
 本 Skill 是“可复用方法与模板库”；具体创作项目应位于独立项目根目录中。
 
 ```text
-[project-root]/
+[[project-root]]/
 ├── README.md
 │
 ├── governance/
@@ -378,7 +378,7 @@ Skill 的执行入口与路由规则。
 │
 ├── script/
 │   ├── master/
-│   │   └── [project].fountain
+│   │   └── [[project]].fountain
 │   ├── revisions/
 │   └── exports/
 │
@@ -536,7 +536,7 @@ development/scene-cards/
 剧本主源应只在大纲、人物状态、信息状态与场景功能可追溯时进入。
 
 ```text
-script/master/[project].fountain
+script/master/[[project]].fountain
 ```
 
 写作要求：

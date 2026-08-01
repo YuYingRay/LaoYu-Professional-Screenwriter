@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import subprocess
 import sys
 import unittest
@@ -75,13 +76,19 @@ class CandidateContractTests(unittest.TestCase):
 
     def test_four_blank_governance_templates_are_separate(self) -> None:
         template_root = ROOT / "templates" / "governance"
+        migration = json.loads(
+            (ROOT / "governance" / "placeholder-migration-map.json").read_text(encoding="utf-8")
+        )
+        migration_files = {record["path"]: record for record in migration["files"]}
         for name, expected_digest in PRE_WP2B_TEMPLATE_SHA256.items():
             path = template_root / name
             self.assertTrue(path.is_file(), name)
-            self.assertIn("PROJECT-[SLUG]", path.read_text(encoding="utf-8"), name)
+            self.assertIn("PROJECT-[[SLUG]]", path.read_text(encoding="utf-8"), name)
             current = path.read_bytes().replace(b"\r\n", b"\n")
-            self.assertEqual(hashlib.sha256(current).hexdigest().upper(), expected_digest, name)
-        self.assertNotIn("PROJECT-[SLUG]", frontmatter(ROOT / "governance" / "project-manifest.md")["project_id"])
+            record = migration_files[path.relative_to(ROOT).as_posix()]
+            self.assertEqual(record["before_sha256"], expected_digest, name)
+            self.assertEqual(hashlib.sha256(current).hexdigest().upper(), record["after_sha256"], name)
+        self.assertNotIn("[[SLUG]]", frontmatter(ROOT / "governance" / "project-manifest.md")["project_id"])
 
     def test_root_governance_instances_use_concrete_identity(self) -> None:
         for name in ["project-manifest.md", "source-links.md", "upstream-notices.md", "change-log.md"]:

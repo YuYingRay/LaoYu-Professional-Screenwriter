@@ -26,7 +26,7 @@
 > 项目级副本建议：
 >
 > ```text
-> [project-root]/LICENSES/third-party-notices.md
+> [[project-root]]/LICENSES/third-party-notices.md
 > ```
 >
 > 本文件登记：
@@ -83,19 +83,19 @@
 | 字段 | 内容 |
 |---|---|
 | 项目/Skill 名称 | Professional Screenwriter Skill |
-| 项目 ID | [PROJECT_ID / SKILL_ID] |
-| 当前文档版本 | v[MAJOR].[MINOR].[PATCH] |
+| 项目 ID | [[PROJECT_ID / SKILL_ID]] |
+| 当前文档版本 | v[[MAJOR]].[[MINOR]].[[PATCH]] |
 | 文档状态 | DRAFT / IN_REVIEW / APPROVED / LOCKED / SUPERSEDED / BLOCKED |
-| 负责人 | [姓名 / 角色] |
-| 权利审阅负责人 | [姓名 / 角色 / 律师或法务团队] |
-| 最后更新 | [YYYY-MM-DD] |
+| 负责人 | [[姓名 / 角色]] |
+| 权利审阅负责人 | [[姓名 / 角色 / 律师或法务团队]] |
+| 最后更新 | [[YYYY-MM-DD]] |
 | 适用范围 | Skill / 项目 / 发布包 / 内部材料 / 其他 |
 | 关联主许可 | `LICENSES/skill-license.md` |
 | 关联资产登记 | `LICENSES/asset-rights-register.md` |
 | 关联来源日志 | `governance/source-links.md` |
 | 关联变更日志 | `governance/change-log.md` |
 | 关联上游通知 | `governance/upstream-notices.md` |
-| 审阅辖区/发行地 | [国家/地区；如适用] |
+| 审阅辖区/发行地 | [[国家/地区；如适用]] |
 | 保密等级 | 公开 / 内部 / 受限 / 法务审阅 |
 
 ## 适用声明
@@ -249,26 +249,26 @@
 
 # 4. 第三方材料详细卡
 
-## TP-[编号]：[材料名称]
+## TP-[[编号]]：[[材料名称]]
 
 ### 基础信息
 
 | 字段 | 内容 |
 |---|---|
-| TP ID | TP-[编号] |
+| TP ID | TP-[[编号]] |
 | 材料名称/描述 |  |
 | 类别 | 文本 / 图像 / 视频 / 音乐 / 音效 / 字体 / 软件 / 商标 / 人格 / 地图 / 数据 / AI / 其他 |
 | 版本/文件名 |  |
 | 来源 URL / 获取路径 |  |
-| 发现日期 | [YYYY-MM-DD] |
+| 发现日期 | [[YYYY-MM-DD]] |
 | 获取人 |  |
 | 所属项目/Skill |  |
 | 是否实际进入项目 | 是 / 否 / 计划中 |
 | 当前使用状态 | 见 §2.1 |
 | 风险等级 | P0 / P1 / P2 / INFO |
-| 关联资产 ID | ASSET-[编号] |
-| 关联来源 ID | SRC-[编号]（仅当同时被用作事实来源） |
-| 关联上游通知 | NOTICE-[编号]（如状态改变影响项目） |
+| 关联资产 ID | ASSET-[[编号]] |
+| 关联来源 ID | SRC-[[编号]]（仅当同时被用作事实来源） |
+| 关联上游通知 | NOTICE-[[编号]]（如状态改变影响项目） |
 | 关联权利文件 | 合同 / 授权书 / 发票 / 邮件 / 平台条款 / 其他 |
 
 ### 使用描述

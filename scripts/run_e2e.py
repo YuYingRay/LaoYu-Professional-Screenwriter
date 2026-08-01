@@ -46,7 +46,7 @@ def mutate_baseline(root: Path) -> None:
 
 def mutate_placeholder(root: Path) -> None:
     path = root / "production" / "handoff.md"
-    path.write_text(path.read_text(encoding="utf-8") + "\n[ID]\n", encoding="utf-8")
+    path.write_text(path.read_text(encoding="utf-8") + "\n[[未填写字段]]\n", encoding="utf-8")
 
 
 def main() -> int:

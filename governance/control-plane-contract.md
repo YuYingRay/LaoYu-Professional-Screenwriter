@@ -162,8 +162,8 @@ coupling：`UPSTREAM`, `BASELINE`, `SCHEMA`, `RIGHTS`, `PRODUCTION`
 
 逻辑 ID 一旦创建不得因排序、删场或重排而复用或重编号。展示编号可以变化。
 
-竖屏短剧允许用 `VE[集数]` 作为文件名与叙述层的展示别名，但集的 canonical ID
-始终使用 `EP-[NNN]`。两者按相同集数建立一一映射，例如 `VE01 ↔ EP-001`；
+竖屏短剧允许用 `VE[[集数]]` 作为文件名与叙述层的展示别名，但集的 canonical ID
+始终使用 `EP-[[NNN]]`。两者按相同集数建立一一映射，例如 `VE01 ↔ EP-001`；
 同一集不得映射到多个别名或 canonical ID。`artifact_id`、
 `upstream_ids` 以及 Notice 中承担规范引用职责的字段不得写入 `VE*`。
 

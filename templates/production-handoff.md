@@ -1,11 +1,11 @@
 ---
-artifact_id: DEL-[PROJECT_ID]-[NNN]
+artifact_id: DEL-[[PROJECT_ID]]-[[NNN]]
 artifact_type: PRODUCTION_HANDOFF
-project_id: PROJECT-[SLUG]-001
+project_id: PROJECT-[[SLUG]]-001
 project_baseline: PROJECT-v1.0.0
 artifact_version: v1.0.0
 status: DRAFT
-owner: [ROLE]
+owner: [[ROLE]]
 upstream_ids: [SCRIPT-v1.0.0, BIBLE-v1.0.0, REVIEW-001]
 conformance_level: STRUCTURAL_CONFORMANCE
 ---
@@ -16,7 +16,7 @@ conformance_level: STRUCTURAL_CONFORMANCE
 
 | 字段 | 内容 |
 |---|---|
-| 交接 ID | `HANDOFF-[PROJECT_ID]-[NNN]` |
+| 交接 ID | `HANDOFF-[[PROJECT_ID]]-[[NNN]]` |
 | 项目基线 |  |
 | 剧本版本 |  |
 | Story Bible 版本 |  |
@@ -31,31 +31,31 @@ conformance_level: STRUCTURAL_CONFORMANCE
 
 | ID | 类型 | 不可改变内容 | 事实源 | 关联场景 |
 |---|---|---|---|---|
-| BIBLE-[ID] | 角色/规则/时间/道具 |  |  | SC-[ID] |
+| BIBLE-[[ID]] | 角色/规则/时间/道具 |  |  | SC-[[ID]] |
 
 ## 2. 场景与镜头接口
 
 | Scene ID | 场景版本 | 镜头范围 | 角色 | 地点 | 关键动作 | 连续性锚点 |
 |---|---|---|---|---|---|---|
-| SC-[ID] |  | SHOT-[ID] |  |  |  |  |
+| SC-[[ID]] |  | SHOT-[[ID]] |  |  |  |  |
 
 ## 3. 资产清单
 
 | Asset ID | 类型 | 来源 | 版本 | 权利状态 | 生成/拍摄限制 | 责任人 |
 |---|---|---|---|---|---|---|
-| ASSET-[ID] | 角色/地点/道具/声音/UI |  |  | RGT-[ID] |  |  |
+| ASSET-[[ID]] | 角色/地点/道具/声音/UI |  |  | RGT-[[ID]] |  |  |
 
 ## 4. 角色一致性
 
 | Character ID | 外形锚点 | 服装 | 伤病/污损 | 道具 | 禁止漂移项 |
 |---|---|---|---|---|---|
-| CHAR-[ID] |  |  |  |  |  |
+| CHAR-[[ID]] |  |  |  |  |  |
 
 ## 5. 风险与降级
 
 | 风险 ID | 风险 | 触发条件 | 最小降级方案 | 是否改变故事事实 | 批准人 |
 |---|---|---|---|---|---|
-| RISK-[ID] |  |  |  | 是 / 否 |  |
+| RISK-[[ID]] |  |  |  | 是 / 否 |  |
 
 ## 6. 交接门禁
 

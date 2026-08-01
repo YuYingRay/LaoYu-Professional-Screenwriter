@@ -7,8 +7,8 @@
 
 | 字段 | 内容 |
 |---|---|
-| 项目 ID | PROJECT-[SLUG]-001 |
-| 当前项目基线 | PROJECT-[SLUG]-v1.0.0 |
+| 项目 ID | PROJECT-[[SLUG]]-001 |
+| 当前项目基线 | PROJECT-[[SLUG]]-v1.0.0 |
 | 生成日期 | YYYY-MM-DD |
 | 生成方式 | `scripts/validate_project.py` |
 | 总体结果 | PASS / CONDITIONAL_PASS / BLOCKED / FAIL |
@@ -17,9 +17,9 @@
 
 | Artifact ID | 类型 | Artifact 版本 | 依据基线 | 已验证基线 | 状态 | Test Run | 备注 |
 |---|---|---|---|---|---|---|---|
-| BIBLE-v1.0.0 | STORY_BIBLE | v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PASS | RUN-[ID] |  |
-| SCRIPT-v1.0.0 | SCRIPT_MASTER | v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PASS | RUN-[ID] |  |
-| DEL-[ID] | PRODUCTION_HANDOFF | v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PROJECT-[SLUG]-v1.0.0 | PASS | RUN-[ID] |  |
+| BIBLE-v1.0.0 | STORY_BIBLE | v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PASS | RUN-[[ID]] |  |
+| SCRIPT-v1.0.0 | SCRIPT_MASTER | v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PASS | RUN-[[ID]] |  |
+| DEL-[[ID]] | PRODUCTION_HANDOFF | v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PROJECT-[[SLUG]]-v1.0.0 | PASS | RUN-[[ID]] |  |
 
 ## 3. 失效条件
 

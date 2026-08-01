@@ -175,8 +175,8 @@ Professional Screenwriter Skill 的原创内容，
 ```text
 基于 Professional Screenwriter Skill 的原创模板与工作流，
 采用 CC BY 4.0。
-原始来源：[URL 或仓库路径]
-修改说明：[已修改 / 已翻译 / 已扩展 / 未修改]
+原始来源：[[URL 或仓库路径]]
+修改说明：[[已修改 / 已翻译 / 已扩展 / 未修改]]
 ```
 
 ## 中文示例
@@ -207,7 +207,7 @@ Changes: Adapted the feature-development workflow for vertical short drama.
 ```text
 Source: Professional Screenwriter Skill
 License: CC BY 4.0
-Changes: [简述]
+Changes: [[简述]]
 ```
 
 ---
@@ -434,19 +434,19 @@ governance/source-links.md
 推荐文件头：
 
 ```text
-# [衍生 Skill 名称]
+# [[衍生 Skill 名称]]
 
 基于 Professional Screenwriter Skill 改编。
 
 原始材料：
-- 原始来源：[URL]
+- 原始来源：[[URL]]
 - 原始许可：CC BY 4.0
 
 本衍生版本：
-- 维护者：[名称]
-- 修改日期：[YYYY-MM-DD]
-- 修改摘要：[内容]
-- 新增内容许可：[许可；如与原始部分不同，必须清楚区分]
+- 维护者：[[名称]]
+- 修改日期：[[YYYY-MM-DD]]
+- 修改摘要：[[内容]]
+- 新增内容许可：[[许可；如与原始部分不同，必须清楚区分]]
 ```
 
 ## 禁止误导性表述
