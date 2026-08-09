@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.0
+artifact_version: v0.2.1
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809]
 ---
 
 # 项目变更日志
@@ -107,6 +107,32 @@ evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801]
 在被测 candidate 上通过；该维度的改善不能覆盖质量或 token 门禁失败。按冻结计划 E.7，先对
 T2/D1 与 T1/T2/T4 的实际加载归因集做定向诊断；在修复和对应任务重跑 PASS 前，合同保持
 `IN_REVIEW`，Manifest 不切换，Notice 不 `CLOSED`，也不产生 activation commit。
+
+### E.7 T2 两轮定向补救（2026-08-09）
+
+归因集不为空。两轮均只修改 T2 实际加载且本轮改过的 `templates/review-report.md`，
+原始 T2 Prompt、模型、高推理配置、基线三次成绩和 `E.4.1-C` 均保持不变。
+
+| 轮次 | 候选提交 | D1 候选 / 差值 | D4 候选 / 差值 | 裁决 |
+|---|---|---|---|---|
+| R1 | `ba26f79c01fbbaa9fbb040fe3f92fcd01dc3578d` | `4/5/4` / `−1/0/−1` | `4/4/4` / `−1/0/−1` | **FAIL** |
+| R2 | `70cee95a4fb932a27c8f991ce4edf922aff95190` | `4/5/5` / `−1/0/0` | `4/4/4` / `−1/0/−1` | **FAIL** |
+
+R1 决策摘要：
+`sha256:9536852470A16BE2F4BE7EC76F626346513CDD42AD56F7272D68D9CDBD28C2CA`；
+R2 决策摘要：
+`sha256:CCDEA45FFC59F349355D02DBED75D4B644D435A6DA7964533F160781D43D1A58`。
+
+R2 的 D1 有局部改善，但仍满足“全部配对差值不大于 0 且至少一项小于 0”的方向一致性
+下降条件；D4 没有改善。按冻结计划 E.7 第 5 级，停止继续修复，不得自行接受质量例外，
+等待用户在“记录非劣例外”与“回退整个内容层、只保留控制层”之间裁决。
+
+本轮两组重跑均把评分 Prompt、匿名输出、原始 CLI stdout/stderr、结构化分数与逐文件哈希回执
+存入各自 sealed store；隐藏模型推理不可见。该做法需在下轮协议中升为强制条款。另保留两项
+协议债：评分输入移除或后置 `run_index`；同步 auxiliary README 与实际评分轮数。
+
+原 E.5 Token FAIL 属结构性成本，未用 E.7 内容修复覆盖。只有用户先裁决质量处置后，才可进入
+“接受 Token 例外并立项瘦身”或“激活前先瘦身”的下一层决策。
 
 ---
 
