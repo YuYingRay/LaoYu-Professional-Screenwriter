@@ -320,7 +320,7 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     production_handoffs: list[tuple[Path, dict[str, Any]]] = []
 
     for path, meta in metas.items():
-        if path.name in {"input-brief.md", "change-log.md", "control-plane-file-map.md"}:
+        if path.name in {"input-brief.md", "control-plane-file-map.md"}:
             continue
         if not meta:
             continue

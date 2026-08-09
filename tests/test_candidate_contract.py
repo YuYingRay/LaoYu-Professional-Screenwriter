@@ -101,6 +101,15 @@ class CandidateContractTests(unittest.TestCase):
         skip_line = next(line for line in source.splitlines() if "input-brief.md" in line)
         self.assertNotIn("control-plane-contract.md", skip_line)
 
+    def test_project_validator_registers_formal_change_log(self) -> None:
+        source = (ROOT / "scripts" / "validate_project.py").read_text(encoding="utf-8")
+        registry_skip_line = next(
+            line
+            for line in source.splitlines()
+            if "input-brief.md" in line and "control-plane-file-map.md" in line
+        )
+        self.assertNotIn("change-log.md", registry_skip_line)
+
     def test_candidate_aggregate_gate_is_strict_clean(self) -> None:
         result = subprocess.run(
             [sys.executable, str(ROOT / "scripts" / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "strict", "--skip-unit-tests", "--skip-e2e"],

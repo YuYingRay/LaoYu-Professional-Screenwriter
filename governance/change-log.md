@@ -2,11 +2,14 @@
 artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
-project_baseline: CONTRACT-v0.1.0
-artifact_version: v0.1.0
-status: DRAFT
+project_baseline: CONTRACT-v0.2.0
+artifact_version: v0.2.0
+status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
-upstream_ids: []
+upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
+review_id: REVIEW-CONTRACT-001
+review_decision: HOLD
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801]
 ---
 
 # 项目变更日志
@@ -57,6 +60,53 @@ upstream_ids: []
 > Git / 文件历史
 > = 原始修改历史，不等于人类可读、可决策的变更日志。
 > ```
+
+## CONTRACT-v0.2.0 候选质量门禁（2026-08-09）
+
+**结论：`HOLD`。** 本轮未在盲评创作质量与 token 指标上测得整体非劣，
+`CONTRACT-v0.2.0` 不得激活；active baseline 继续保持 `CONTRACT-v0.1.0`。
+
+### 测量身份
+
+- baseline：`f807fcc232fd5c6dcdbd04be14fb672dbea690b3`；
+- candidate：`f8a1626e3e075c9550f4b7953219bb139cc6a65f`；
+- protocol digest：`1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E`；
+- 24 份产物：T1–T4 × baseline/candidate × 3 次，均为独立会话并通过生成证据完整性检查；
+- 评分者身份在生成结束、任何评分值与版本密钥被读取前，由用户授权从“用户本人”修订为
+  T1/T3 每样本三轮零上下文独立 LLM 并取逐维中位数；v1.0.8 已据此重冻结。
+
+### 创作质量：E.4.1-C
+
+| 任务 | 关键维度 | 结果 | 阻断证据 |
+|---|---|---|---|
+| T1 | D1 因果链、D2 主角主动性 | PASS | 无关键维度触发方向一致下降 |
+| T2 | D1 因果链、D4 知识边界 | **FAIL** | D1 三次配对差值为 `−1 / 0 / −1`；baseline 中位数 5，candidate 中位数 4 |
+| T3 | D1 因果链、D7 钩子公平兑现 | PASS | 无关键维度触发方向一致下降 |
+| T4 | D5 连续性、D8 生产与降级 | PASS | 无关键维度触发方向一致下降 |
+
+总分及非关键维度只报告，不覆盖 T2/D1 的关键维度 FAIL。揭盲质量摘要：
+`sha256:C4019A58E6DFFFFB73D906E11651EEA69A86AE84BB75CC2D3956DEBAA8AFD2CA`。
+
+### 实际加载量：E.5
+
+两版所有任务均完成同一必需交付范围，没有可从候选版合法剥离的范围扩张 token。
+
+| 任务 | baseline 中位输入 token | candidate 中位输入 token | 差值 | 结果 |
+|---|---:|---:|---:|---|
+| T1 | 482,818 | 706,407 | +223,589 | **FAIL** |
+| T2 | 513,402 | 564,832 | +51,430 | **FAIL** |
+| T3 | 352,779 | 347,380 | −5,399 | PASS |
+| T4 | 295,772 | 614,360 | +318,588 | **FAIL** |
+
+揭盲 token 摘要：
+`sha256:F2DCBF5499C4B65C2326349A46AF36E723C185799251C40028D41A3E3E393B13`。
+
+### 控制平面正确性与下一步
+
+控制平面的严格校验、127 项单测、9 行 E2E、Skill Creator quick validator 与标识符双引擎诊断
+在被测 candidate 上通过；该维度的改善不能覆盖质量或 token 门禁失败。按冻结计划 E.7，先对
+T2/D1 与 T1/T2/T4 的实际加载归因集做定向诊断；在修复和对应任务重跑 PASS 前，合同保持
+`IN_REVIEW`，Manifest 不切换，Notice 不 `CLOSED`，也不产生 activation commit。
 
 ---
 
