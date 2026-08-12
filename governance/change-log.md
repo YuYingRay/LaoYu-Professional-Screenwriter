@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.2
+artifact_version: v0.2.3
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK]
 ---
 
 # 项目变更日志
@@ -60,6 +60,64 @@ evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-
 > Git / 文件历史
 > = 原始修改历史，不等于人类可读、可决策的变更日志。
 > ```
+
+## 内容层回退候选复测（2026-08-12）
+
+**结论：`HOLD`。** 本轮未在盲评创作质量/token 指标上测得改善。
+该结论不等于“候选无用户价值”，只表示候选未通过预注册激活门禁。
+
+### 测量身份与证据完整性
+
+- baseline：`f807fcc232fd5c6dcdbd04be14fb672dbea690b3`；
+- 回退后 candidate：`23704af77d198c7193ddd6ad87950a160bab9f27`；
+- frozen plan：`v1.0.8`，`sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B`；
+- protocol：`sha256:1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E`；
+- 24/24 份有效产物、24 个唯一生成会话、48 份有效评分、48 个唯一评分会话；
+- 生成完整性、预揭盲审计、必需范围回执和 T2/T4 验证器均 PASS；
+- 一次外层 shell 超时后原生成会话继续并成为有效样本；随后误启的重复尝试因只读冲突失败，
+  仅重复尝试作废，未替换原会话；一次 Claude 529 评分失败未产生分数，按授权原样新会话重试一次并成功。
+
+揭盲裁决：`sha256:C3C7BB93DB50DF5BEEF336E14AD667551FF75D19D54335780232C59F9A562ED1`；
+质量摘要：`sha256:D3B35CA5F2EE2CC74CA28F45AF533E30DE2A81F62E8EEBAB3F8C395C656593EA`；
+token 摘要：`sha256:CFBEB9F388F6EDF89A5EFC09F1BEB33CCB46F031B55F0773D68D66FF901B7943`。
+
+### 创作质量：E.4.1-C
+
+| 任务 | 关键维度 | 结果 | 阻断证据 |
+|---|---|---|---|
+| T1 | D1 因果链、D2 主角主动性 | **FAIL** | D1 配对差值 `−1/0/−1`；D2 配对差值 `0/0/−1` |
+| T2 | D1 因果链、D4 知识边界 | PASS | 无关键维度触发方向一致下降 |
+| T3 | D1 因果链、D7 钩子公平兑现 | PASS | 无关键维度触发方向一致下降 |
+| T4 | D5 连续性、D8 生产与降级 | PASS | 无关键维度触发方向一致下降 |
+
+T1 的 D2 中位数仍为 5，但冻结规则要求所有配对差值不大于 0 且至少一个小于 0 即 FAIL，
+不得在揭盲后改规则。评分证据反复指向控制区权限/访问路径、证人或对手转向的中间动机、
+事件恰时发生，以及一份样本把终局决定性执行交给配角所造成的局部因果与主动性闭合不足。
+
+### 实际加载量：E.5
+
+| 任务 | baseline 中位输入 token | candidate 中位输入 token | 差值 | 结果 |
+|---|---:|---:|---:|---|
+| T1 | 478,758 | 432,640 | −46,118 | PASS |
+| T2 | 585,862 | 376,286 | −209,576 | PASS |
+| T3 | 606,627 | 756,818 | +150,191 | **FAIL** |
+| T4 | 116,746 | 513,955 | +397,209 | **FAIL** |
+
+两版必需交付范围可比，`scope_expansion_tokens = 0`。T4 三次 candidate 均额外加载基线不存在的
+`rights-clearance-guide.md`、`asset-rights-method.md`、`third-party-rights-method.md`，候选加载字符
+为 `178,672/139,215/128,624`，基线为 `57,142/31,288/31,268`，构成结构性路由成本的直接证据。
+T3 两版读取同一任务级文件集且 token 方差很大；当前只足以确认 E.5 FAIL 和重复/分块读取迹象，
+不足以把成本归给某一个文件。
+
+### 归因边界与状态
+
+T1、T3、T4 的“实际加载文件 ∩ 本轮改动文件”均非空，不能按 E.7 归为归因集为空的采样噪声。
+完整归因报告：
+`sha256:98F7EA515C36E5BE048DC353AABA4F06DE0F7251F5EC420920EEB21C80978620`。
+
+控制平面证据完整性与验证器通过不能覆盖创作质量或 token 门禁失败。合同继续
+`IN_REVIEW / HOLD`，Manifest 不切换，Notice 不 `CLOSED`，不产生 activation commit。
+后续若修复，只能触碰对应归因集并只重跑受影响任务；加载集变化后不得复用本轮候选成绩。
 
 ## CONTRACT-v0.2.0 候选质量门禁（2026-08-09）
 
