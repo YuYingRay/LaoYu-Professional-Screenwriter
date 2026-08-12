@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.3
+artifact_version: v0.2.4
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812]
 ---
 
 # 项目变更日志
@@ -60,6 +60,24 @@ evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-
 > Git / 文件历史
 > = 原始修改历史，不等于人类可读、可决策的变更日志。
 > ```
+
+## 权利资料按需路由候选（2026-08-12）
+
+**状态：`IMPLEMENTED_PENDING_FULL_RETEST / HOLD`。** 上轮 T4 的三次候选运行均默认读取三份
+权利资料，已坐实为结构性路由成本；本轮只修复该控制层机制，不宣称 token 或创作质量已经改善。
+
+- `SKILL.md` 的“权利清理”默认入口收敛为 `references/rights-clearance-guide.md`；
+- 专项方法文件只允许由用户输入或既有资产清单中的具体事实触发，并且只选读相关章节；
+- 默认任务没有具体资产清单时，不得读取两份专项方法文件；不得用本轮生成的交付物反向触发；
+- 路由边界已有失败优先回归测试，修复后该测试与 A5 字节级迁移边界测试通过。
+
+由于补丁触碰共享 `SKILL.md`，`23704af` 上 T1–T4 的结果全部降为历史证据，不能与新候选合并。
+按冻结计划，新候选必须在全新隔离根目录中以固定 `n=3`、四任务双臂共 24 份从零重跑；运行前
+须在外部执行台账绑定候选提交、协议摘要、样本清单、工具摘要及停止条件。T4 的实现验收要求是：
+三个候选 trace 对两份专项方法文件的全文加载次数均为 0；E.5 仍是唯一正式成本门禁。
+
+即使全部门禁通过，也只能返回用户另行授权激活；本条记录不改变 Manifest、合同锁定状态或 Notice
+终态。
 
 ## 内容层回退候选复测（2026-08-12）
 

@@ -77,6 +77,34 @@ class A5LicenseBoundaryTests(unittest.TestCase):
         ]:
             self.assertEqual(schema["template_closure"][path]["kind"], "fragment")
 
+    def test_skill_routes_rights_clearance_through_one_default_entry(self) -> None:
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        row = next(line for line in skill.splitlines() if line.startswith("| 权利清理 |"))
+
+        self.assertIn("`references/rights-clearance-guide.md`", row)
+        self.assertNotIn("asset-rights-method.md", row)
+        self.assertNotIn("third-party-rights-method.md", row)
+
+    def test_guide_routes_method_files_only_from_existing_input_facts(self) -> None:
+        guide = (ROOT / "references" / "rights-clearance-guide.md").read_text(
+            encoding="utf-8"
+        )
+
+        required_contract = [
+            "未提供具体资产或材料清单",
+            "只读取本指南",
+            "输入中明确存在自有或委托资产",
+            "`references/asset-rights-method.md` 的相关章节",
+            "输入中明确存在第三方材料",
+            "`references/third-party-rights-method.md` 的相关章节",
+            "输入中明确同时存在两类资产",
+            "禁止默认通读任一方法文件",
+            "不得依据本轮生成的交付物反向触发",
+        ]
+        for clause in required_contract:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, guide)
+
 
 if __name__ == "__main__":
     unittest.main()
