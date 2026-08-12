@@ -13,12 +13,6 @@ FIXTURE = ROOT / "tests" / "feature-project-fixture"
 
 
 class A4EvidenceChainTests(unittest.TestCase):
-    def test_r03_wording_is_identical_at_both_locations(self) -> None:
-        text = (ROOT / "examples" / "vertical-drama-example.md").read_text(encoding="utf-8")
-        canonical = "旧门禁卡可开启档案室一次，但会留下访问日志"
-        self.assertEqual(text.count(canonical), 2)
-        self.assertNotIn("旧门禁卡可开启一次维护访问", text)
-
     def test_feature_fixture_has_structured_claim_and_nine_field_findings(self) -> None:
         findings = validate(FIXTURE, baseline_mode="active")
         self.assertFalse(findings, "\n".join(f"{item.code}: {item.message}" for item in findings))

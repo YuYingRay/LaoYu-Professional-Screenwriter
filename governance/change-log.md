@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.1
+artifact_version: v0.2.2
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812]
 ---
 
 # 项目变更日志
@@ -124,15 +124,31 @@ R2 决策摘要：
 `sha256:CCDEA45FFC59F349355D02DBED75D4B644D435A6DA7964533F160781D43D1A58`。
 
 R2 的 D1 有局部改善，但仍满足“全部配对差值不大于 0 且至少一项小于 0”的方向一致性
-下降条件；D4 没有改善。按冻结计划 E.7 第 5 级，停止继续修复，不得自行接受质量例外，
-等待用户在“记录非劣例外”与“回退整个内容层、只保留控制层”之间裁决。
+下降条件；D4 没有改善。按冻结计划 E.7 第 5 级停止继续修复。用户于 2026-08-12
+选择 B：回退整个内容层改动，只保留控制层；没有接受质量非劣例外。
 
 本轮两组重跑均把评分 Prompt、匿名输出、原始 CLI stdout/stderr、结构化分数与逐文件哈希回执
 存入各自 sealed store；隐藏模型推理不可见。该做法需在下轮协议中升为强制条款。另保留两项
 协议债：评分输入移除或后置 `run_index`；同步 auxiliary README 与实际评分轮数。
 
-原 E.5 Token FAIL 属结构性成本，未用 E.7 内容修复覆盖。只有用户先裁决质量处置后，才可进入
-“接受 Token 例外并立项瘦身”或“激活前先瘦身”的下一层决策。
+原 E.5 Token FAIL 属 `f8a1626` 候选的历史结果。内容层回退改变了四个任务的模型可见加载集，
+因此原质量与 Token 结果均不得直接复用于回退后的候选；在重新执行四任务质量与加载量测量前，
+不进入 Token 例外或激活裁决。
+
+### E.7 用户裁决 B：内容层回退（2026-08-12）
+
+回退采用“语义回退、结构保留”边界：撤销会改变模型创作判断的 A2 制作交接扩张、A3-b
+SKILL 语义去重、四角色与钩子/付费内容单源化、A4 示例措辞改写，以及 R1/R2 的 T2 诊断补丁；
+保留双括号占位符、枚举、ID、`upstream_ids`、STRUCT-LAYERED、控制契约、schema、Notice、
+RUN、ownership、export、CI、通用连续性验证和生产证据链。
+
+模型可见内容共回退 13 个文件：`SKILL.md`、三个 `examples/` 文件、三个 `references/`
+文件及六个 `templates/` 文件。与已撤销内容能力一一绑定的三份迁移映射和 15 项专用断言退役；
+通用控制门禁未删除或降级。回退后严格安装包门禁通过，保留的 113 项单测全部通过。
+
+本动作不是激活：合同继续 `IN_REVIEW`，Manifest 仍指 active `CONTRACT-v0.1.0`，Notice 不
+`CLOSED`，也不生成 activation commit。下一步必须把回退后候选作为新测量对象，重新执行
+T1–T4 的质量与 E.5 加载量门禁；旧 `f8a1626`、R1、R2 的评分只保留为历史证据。
 
 ---
 
