@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.4
+artifact_version: v0.2.5
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE]
 ---
 
 # 项目变更日志
@@ -61,23 +61,73 @@ evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-
 > = 原始修改历史，不等于人类可读、可决策的变更日志。
 > ```
 
-## 权利资料按需路由候选（2026-08-12）
+## 权利资料按需路由候选全量复测（2026-08-13）
 
-**状态：`IMPLEMENTED_PENDING_FULL_RETEST / HOLD`。** 上轮 T4 的三次候选运行均默认读取三份
-权利资料，已坐实为结构性路由成本；本轮只修复该控制层机制，不宣称 token 或创作质量已经改善。
+**结论：`QUALITY_FAIL / TOKEN_FAIL / RIGHTS_ROUTE_PASS / HOLD`。** 权利路由机制通过实测，
+但候选仍未通过预注册的质量与 E.5 零容差门禁；不得把机制修复解释为可激活。
 
-- `SKILL.md` 的“权利清理”默认入口收敛为 `references/rights-clearance-guide.md`；
-- 专项方法文件只允许由用户输入或既有资产清单中的具体事实触发，并且只选读相关章节；
-- 默认任务没有具体资产清单时，不得读取两份专项方法文件；不得用本轮生成的交付物反向触发；
-- 路由边界已有失败优先回归测试，修复后该测试与 A5 字节级迁移边界测试通过。
+### 测量身份与证据完整性
 
-由于补丁触碰共享 `SKILL.md`，`23704af` 上 T1–T4 的结果全部降为历史证据，不能与新候选合并。
-按冻结计划，新候选必须在全新隔离根目录中以固定 `n=3`、四任务双臂共 24 份从零重跑；运行前
-须在外部执行台账绑定候选提交、协议摘要、样本清单、工具摘要及停止条件。T4 的实现验收要求是：
-三个候选 trace 对两份专项方法文件的全文加载次数均为 0；E.5 仍是唯一正式成本门禁。
+- baseline：`f807fcc232fd5c6dcdbd04be14fb672dbea690b3`；
+- candidate：`cd14ba43aefd272f8b63399cc0d68a6178c391a6`；
+- frozen plan：`v1.0.8`，`sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B`；
+- protocol：`sha256:1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E`；
+- run plan：`sha256:97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7`；
+- 24/24 份生成产物有效，24 个生成会话唯一；48/48 份盲评分有效，48 个评分会话唯一；
+- 揭盲前审计 PASS，版本身份未提前访问，三轮评分最大极差为 1；审计回执：
+  `sha256:85AD7111FEDB54CD8213F6AD9082925AED1E306FAF5B6AD7B8E08BF294EE8E2A`；
+- 盲评进程在 15 份有效分数后被外部监控中断；恢复程序只跳过已存在分数并补齐剩余 33 份，
+  没有覆盖、替换、扩样或选择性停止；无 invalid grading attempt。
 
-即使全部门禁通过，也只能返回用户另行授权激活；本条记录不改变 Manifest、合同锁定状态或 Notice
-终态。
+最终裁决：`sha256:52A25673A857CF02F0D9533D071907C7538361F1BA872AE19FE0BC1BB17534B1`。
+
+### 质量门禁：E.4.1-C FAIL
+
+| 任务 | 关键维度 | 配对差值 | baseline/candidate 中位数 | 结果 |
+|---|---|---|---|---|
+| T1 | D1 / D2 | `(−1, 0, +1)` / `(0, 0, 0)` | `4/4` / `5/5` | PASS |
+| T2 | D1 / D4 | `(0, 0, +1)` / `(0, 0, −1)` | `4/4` / `4/4` | **FAIL（D4）** |
+| T3 | D1 / D7 | `(0, 0, 0)` / `(0, 0, 0)` | `4/4` / `5/5` | PASS |
+| T4 | D5 / D8 | `(0, 0, −1)` / `(0, 0, 0)` | `5/4` / `5/5` | **FAIL（D5）** |
+
+T2-D4 的失败样本中，candidate 正确标注了知识边界和媒介矛盾，但把多个信息获得时点继续留为
+未知；对应 baseline 将来源和获得时点绑定到具体场次。T4-D5 的失败样本中，candidate 的时间、
+道具和轴线连续性成立，但权限卡收纳位置及 Bible/Scene Card 上游回溯仍开放；对应 baseline 的
+跨交付锚点更完整。两项都是预注册规则下的失败，但只证明本轮样本不满足非劣门禁，不证明权利
+路由补丁必然导致质量退化。
+
+质量摘要：`sha256:0AFEA1B8E46A7911052BC47699928B03CC15AB41FA0798924590E8CBF7D8030E`。
+
+### 成本门禁：E.5 FAIL
+
+| 任务 | baseline 中位输入 token | candidate 中位输入 token | 差值 | 结果 |
+|---|---:|---:|---:|---|
+| T1 | 596,329 | 603,655 | +7,326 | **FAIL** |
+| T2 | 793,375 | 571,441 | −221,934 | PASS |
+| T3 | 928,799 | 369,946 | −558,853 | PASS |
+| T4 | 320,409 | 332,572 | +12,163 | **FAIL** |
+
+四任务的必需范围均可比，`scope_expansion_tokens = 0`，T2/T4 验证器集合完整。T4 虽然跳过
+专项权利方法文件，token 中位数仍高于 baseline，因此路由假说只能解释并消除旧的三文件默认
+加载，不能解释或消除本轮剩余成本回归；按停止条件不尝试第二种路由组合。T3 高方差继续只登记
+为未来协议假设，不追溯修改 E.5。
+
+Token 摘要：`sha256:08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C7B5D411`。
+
+### 权利路由机制：PASS
+
+三次 T4 candidate 对 `asset-rights-method.md` 与 `third-party-rights-method.md` 的命令引用总数为 0；
+正式路由回执：`sha256:2C53E131B25C836D57BCD1ECB619A791BDCF1E09D485F9E77521090388AC240C`。
+独立反例检查进一步确认：36 条命令中专项文件显式引用为 0、整目录或通配符读取为 0；以 238 条
+仅存在于专项方法文件的中文内容签名扫描三份 trace，命中为 0。该证据支持“默认只读取
+`rights-clearance-guide.md`”的机制结论。
+
+### 停止条件与当前状态
+
+预注册关键质量维触发 FAIL 后，本候选终局 `HOLD`，本轮不再修复、不再重跑、不扩样。
+Manifest 不切换，合同不 `LOCKED`，Notice 不 `CLOSED`，不产生 activation commit。下一项合法
+裁决仅为：用户接受记录在案的质量例外，或留待下一轮重设计；若以后接受质量例外，仍须另行裁决
+E.5 token 例外，不能自动激活。
 
 ## 内容层回退候选复测（2026-08-12）
 
