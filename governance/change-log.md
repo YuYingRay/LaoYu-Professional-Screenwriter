@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.5
+artifact_version: v0.2.6
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001]
 ---
 
 # 项目变更日志
@@ -128,6 +128,49 @@ Token 摘要：`sha256:08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C
 Manifest 不切换，合同不 `LOCKED`，Notice 不 `CLOSED`，不产生 activation commit。下一项合法
 裁决仅为：用户接受记录在案的质量例外，或留待下一轮重设计；若以后接受质量例外，仍须另行裁决
 E.5 token 例外，不能自动激活。
+
+### 用户接受质量非劣例外（2026-08-13）
+
+余老师已按冻结计划 E.7 第 5 级明确接受本轮质量非劣例外。该裁决只改变治理处置，不改变
+`E.4.1-C` 的正式结果：T2-D4 与 T4-D5 继续记录为 **FAIL**。现有设计没有同版本
+baseline-vs-baseline 零假设校准臂，也没有对同一候选执行预注册重复测量，因此无法区分真实局部
+回归、生成方差、评分方差或候选交互；本例外是在真实回归尚未排除的情况下接受残余质量风险，
+不得表述为已经证明门禁误报或采样噪声。
+
+以下信息只作诊断背景，不替代冻结判据：三轮中五个曾失败的关键格没有跨轮重复触发；本轮两格
+均为配对差 `(0, 0, −1)`；同一评测网格也出现过 `+1` 抖动；T2/T4 每个样本只有一个独立 LLM
+评分会话。三轮候选 revision 与生成输出不同，且失败格是在揭盲后汇总，所以这些历史轨迹不是
+E.4.1-A 校准数据，不能用于追溯改写本轮结论。
+
+```quality-exception
+exception_id: EX-QUALITY-001
+status: ACCEPTED_RISK
+acceptance_owner: YuYingRay
+accepted_at: 2026-08-13
+acceptance_until: CANDIDATE_BEHAVIOR_CHANGE_OR_NEXT_BENCHMARK_CYCLE
+candidate_ref: cd14ba43aefd272f8b63399cc0d68a6178c391a6
+baseline_ref: f807fcc232fd5c6dcdbd04be14fb672dbea690b3
+frozen_plan: v1.0.8 + sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B + 713 lines
+protocol_sha256: 1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E
+run_plan_sha256: 97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7
+quality_summary_sha256: 0AFEA1B8E46A7911052BC47699928B03CC15AB41FA0798924590E8CBF7D8030E
+formal_failures: T2-D4 | T4-D5
+known_consequence: 当前设计不能排除真实局部质量回归；例外不构成 E.4.1-C PASS。
+compensation_plan: 下一轮基准在候选生成前冻结 E.4.1-A 零假设校准工作包；校准未通过则协议 HOLD。
+reverification_plan: 使用同一 baseline 的独立 session 完成预注册 A/A 盲评；阈值若修改，必须用未参与调参的独立 A/A 数据复验。
+scope: 仅限上述 candidate、baseline、protocol、run plan 与失败格；不改变门禁，不构成先例。
+invalidation: 任何行为文件、路由或模型可见内容变化均使本例外失效并要求重新评估。
+user_evidence_ref: USER-QUALITY-EXCEPTION-20260813-001
+```
+
+下一轮协议债 `DEBT-E4.1-A-001` 保持 `OPEN / BLOCKING_NEXT_BENCHMARK`：协议负责人必须在下一
+候选生成前预注册 A/A 重复次数、允许虚警标准、评分者可靠性、阈值选择规则和独立复验数据；
+同一校准样本不得同时用于调阈值和宣布校准通过。未满足完成证据时，不得用该门禁判定下一候选。
+该债务只前瞻生效，对本轮没有追溯放行力。
+
+当前状态变为 `QUALITY_EXCEPTION_ACCEPTED / TOKEN_EXCEPTION_PENDING / HOLD`。T1 与 T4 的 E.5
+token FAIL 保持原判；质量例外不包含 token 例外，不授权 §11.1 拟签字节构造、Manifest 切换、
+合同 `LOCKED`、Notice `CLOSED` 或 activation commit。
 
 ## 内容层回退候选复测（2026-08-12）
 

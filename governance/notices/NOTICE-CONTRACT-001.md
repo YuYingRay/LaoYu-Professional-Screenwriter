@@ -3,13 +3,13 @@ artifact_id: NOTICE-CONTRACT-001
 artifact_type: NOTICE
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.1.20
+artifact_version: v0.1.21
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER]
 review_id: REVIEW-CONTRACT-001
 review_decision: PENDING
-evidence_refs: [PLAN-v1.0.8, PHASE-1-COMPLETE, PHASE-2-COMPLETE, A1-VE-MAPPING, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM, WP4A-OWNERSHIP-AUDIT, WP3A-FEATURE-SCENES, A2-HANDOFF-STRUCTURE, A3B-SKILL-DEDUP, A4-EVIDENCE-CHAIN, A5-LICENSE-BOUNDARY, WP5-SINGLE-SOURCES, WP1B-STRICT-HYGIENE, A6-IDENTIFIER-BOUNDARIES, WP4B-FULL-VALIDATION, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE]
+evidence_refs: [PLAN-v1.0.8, PHASE-1-COMPLETE, PHASE-2-COMPLETE, A1-VE-MAPPING, WP3B-PLACEHOLDERS, WP3B-ENUMS, WP3B-PLACEHOLDER-REPAIR, WP3B-UPSTREAM, WP4A-OWNERSHIP-AUDIT, WP3A-FEATURE-SCENES, A2-HANDOFF-STRUCTURE, A3B-SKILL-DEDUP, A4-EVIDENCE-CHAIN, A5-LICENSE-BOUNDARY, WP5-SINGLE-SOURCES, WP1B-STRICT-HYGIENE, A6-IDENTIFIER-BOUNDARIES, WP4B-FULL-VALIDATION, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001]
 notice_status: VERIFIED
 affected_ids: [CONTRACT-PROFESSIONAL-SCREENWRITER, PROJECT-PROFESSIONAL-SCREENWRITER, DEL-OPEN-QUESTIONS-001, DEL-SOURCE-INDEX-001, DEL-NOTICE-INDEX-001, DEL-CHANGELOG-001]
 affected_paths: [governance/**, templates/**, scripts/**, tests/**, LICENSES/**, SKILL.md, references/**, examples/**]
@@ -105,7 +105,11 @@ migration_tasks: [MIG-CONTRACT-001, MIG-A1-VE-MAPPING, MIG-WP3B-PLACEHOLDERS, MI
   三次 T4 candidate 均只读取 `rights-clearance-guide.md`，两份专项方法的显式引用、通配读取与
   专项内容签名命中均为 0，路由机制 PASS。目的层仍为 QUALITY FAIL（T2-D4、T4-D5）和
   E.5 FAIL（T1、T4），候选终局 HOLD；本轮不再修复、重跑或尝试第二种路由组合；
-- Notice 的控制迁移状态保持 `VERIFIED`，但原子激活质量门禁仍未通过；旧 `f8a1626`、R1、R2、
+- `EX-QUALITY-001`：`ACCEPTED_RISK / QUALITY_EXCEPTION_ACCEPTED`。余老师于 2026-08-13
+  按 E.7 第 5 级接受只绑定当前候选与测量摘要的质量非劣例外；T2-D4、T4-D5 的正式 FAIL
+  保留，真实局部回归尚未排除。该例外不改变门禁、不构成先例，也不包含 E.5 token 例外；
+- Notice 的控制迁移状态保持 `VERIFIED`；质量例外记录已满足 E.7 的替代处置，但 T1/T4 的
+  token 例外仍待用户独立裁决，当前不得进入拟签与激活。旧 `f8a1626`、R1、R2、
   `23704af` 与本轮 `cd14ba43` 的候选成绩分别绑定各自加载集，加载集变化后不得交叉复用；
 - `CLOSED` 仅允许与 Manifest 切换、合同 `LOCKED`、activation RUN 和 change-log
   最终摘要在同一 staging 事务中发生；
@@ -177,10 +181,10 @@ reason: Notice 索引迁入 v0.2.0，并收敛状态、命名与影响传播的�
 ```change-record
 record_id: CHG-CHANGELOG-001
 artifact_id: DEL-CHANGELOG-001
-old_version: v0.2.4
-new_version: v0.2.5
-old_digest: sha256:e2a9e0dad77e33ca68f080271106fb12ffb3f64a3d0c0a9e4ab16aa914e97a69
-new_digest: sha256:3870cb1cff15f3473998529b0f024daf954234ce1b678fc8fac6f49289a842ae
+old_version: v0.2.5
+new_version: v0.2.6
+old_digest: sha256:3870cb1cff15f3473998529b0f024daf954234ce1b678fc8fac6f49289a842ae
+new_digest: sha256:098842456369b70d4e1b8eae2fbaa5ad41160b840aa0406c171a1a7e64371973
 disposition: CONTENT_CHANGED
-reason: 将权利路由实测 PASS、全量复测的质量与 token FAIL、独立反例检查及终局 HOLD 写入 v0.2.5；active baseline 保持不变。
+reason: 将只绑定当前候选的质量非劣例外、正式 FAIL 保留、下一轮 E.4.1-A 阻断债及 token 待裁决状态写入 v0.2.6；active baseline 保持不变。
 ```
