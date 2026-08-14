@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.6
+artifact_version: v0.2.7
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
 review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001]
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001, USER-TOKEN-EXCEPTION-20260814-001]
 ---
 
 # 项目变更日志
@@ -171,6 +171,43 @@ user_evidence_ref: USER-QUALITY-EXCEPTION-20260813-001
 当前状态变为 `QUALITY_EXCEPTION_ACCEPTED / TOKEN_EXCEPTION_PENDING / HOLD`。T1 与 T4 的 E.5
 token FAIL 保持原判；质量例外不包含 token 例外，不授权 §11.1 拟签字节构造、Manifest 切换、
 合同 `LOCKED`、Notice `CLOSED` 或 activation commit。
+
+### 用户接受 Token 例外（2026-08-14）
+
+余老师已独立接受本轮 E.5 Token 例外。T1 输入 token 中位数由 `596,329` 增至 `603,655`，
+差值 `+7,326（+1.2%）`；T4 由 `320,409` 增至 `332,572`，差值 `+12,163（+3.8%）`。
+两项继续记录为正式 **FAIL**。T2/T3 的节省不得跨任务抵消，T3 的跨轮波动也不能证明 T1/T4
+增长属于测量噪声；本例外是在原因未识别的情况下接受当前候选的任务级输入成本风险。
+
+```token-exception
+exception_id: EX-TOKEN-001
+status: ACCEPTED_RISK
+acceptance_owner: YuYingRay
+accepted_at: 2026-08-14
+acceptance_until: CANDIDATE_BEHAVIOR_CHANGE_OR_NEXT_BENCHMARK_CYCLE
+candidate_ref: cd14ba43aefd272f8b63399cc0d68a6178c391a6
+baseline_ref: f807fcc232fd5c6dcdbd04be14fb672dbea690b3
+frozen_plan: v1.0.8 + sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B + 713 lines
+protocol_sha256: 1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E
+run_plan_sha256: 97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7
+token_summary_sha256: 08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C7B5D411
+formal_failures: T1 +7326 (+1.2%) | T4 +12163 (+3.8%)
+known_consequence: 当前候选在 T1/T4 的任务级实际加载输入高于 baseline；例外不构成 E.5 PASS。
+compensation_plan: 下一轮基准在候选生成前冻结同任务、同版本的 Token 容差与方差校准工作包；校准未完成则协议 HOLD。
+reverification_plan: 预注册重复次数、任务级容差单位、方差估计与聚合规则，并以未参与阈值选择的独立重复数据复验。
+scope: 仅限上述 candidate、baseline、protocol、run plan、token summary 与失败任务；不跨任务净额抵消，不改变门禁，不构成先例。
+invalidation: 任何影响测量加载路径、交付范围或模型可见行为的变化均使本例外失效并要求重新评估。
+user_evidence_ref: USER-TOKEN-EXCEPTION-20260814-001
+```
+
+下一轮协议债 `DEBT-E5-VARIANCE-001` 为 `OPEN / BLOCKING_NEXT_BENCHMARK`：协议负责人必须在下一
+候选生成前预注册同任务同版本重复设计、最小样本量、任务级容差单位、方差估计、聚合规则、允许
+虚警标准与独立复验数据；不得跨任务净额抵消，也不得在同一数据上调阈值并宣布通过。证据不完整
+或校准失败时协议 `HOLD`。该债务只前瞻生效，对本轮没有追溯放行力。
+
+当前状态变为 `QUALITY_AND_TOKEN_EXCEPTIONS_ACCEPTED / IN_REVIEW / PREPARE_ONLY_SIGNING_ALLOWED`。
+这满足进入 §11.1 拟签字节流程的前置条件，但仍不是激活批准：当前 Manifest 不切换，合同不
+`LOCKED`，Notice 不 `CLOSED`，不运行 activation RUN，也不产生 activation commit。
 
 ## 内容层回退候选复测（2026-08-12）
 
