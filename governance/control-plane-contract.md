@@ -4,7 +4,7 @@ artifact_type: CONTROL_PLANE_CONTRACT
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
 artifact_version: v0.2.0
-status: IN_REVIEW
+status: LOCKED
 owner: LaoYu-Professional-Screenwriter
 maintainer: YuYingRay
 license: CC BY 4.0
@@ -12,6 +12,12 @@ official_source: https://github.com/YuYingRay/LaoYu-Professional-Screenwriter
 upstream_ids: []
 review_id: REVIEW-CONTRACT-001
 review_decision: PENDING
+reviewer: YuYingRay
+approver: YuYingRay
+test_run_id: RUN-ACTIVATION-20260821-001
+conformance_level: HUMAN_REVIEWED
+lock_scope: FULL
+content_digest: sha256:79c539029a53fb18d0ac93d595735a6b6844eed072fe29830ce8e9f7615cf132
 evidence_refs: [NOTICE-CONTRACT-001]
 ---
 

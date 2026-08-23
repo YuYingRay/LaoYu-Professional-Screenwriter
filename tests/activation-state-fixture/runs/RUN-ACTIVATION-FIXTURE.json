@@ -1,0 +1,17 @@
+{
+  "run_id": "RUN-ACTIVATION-FIXTURE",
+  "source_snapshot_digest": "sha256:76c17f7ef88fa1f0e8859762bc635065c2d3438695b6b8d0317dfda32284909e",
+  "artifact_digests": {
+    "development/story-bible.md": "sha256:fac348c1bc03e0e911bb87b22459e02685e925ea13bc5c06c5f9d3004c8696aa",
+    "governance/control-plane-contract.md": "sha256:4f6df16b8c2965cad067370f61aa4894c7b3f0caeccb2eb0d97f3f80f16286ab",
+    "governance/notices/NOTICE-HISTORY-001.md": "sha256:dc262a013efdb9ba78d4c4a6d886357ab87fe80fdaade606827ffe94dbab0948",
+    "governance/project-manifest.md": "sha256:c4bdfa38abdc2756c8f9524210651fef28050f35947fec67896050bdc5e1b481"
+  },
+  "profile": "final",
+  "command": "python -X utf8 scripts/validate_project.py tests/activation-state-fixture --baseline active --mode strict",
+  "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
+  "schema_digest": "sha256:64363cd804c6be4f75ccd74ddcd7831ad0f002a7aec535b0e7b1aa6b1d38c843",
+  "findings": [],
+  "result": "PASS",
+  "timestamp": "2026-08-21T12:30:39.608842+00:00"
+}

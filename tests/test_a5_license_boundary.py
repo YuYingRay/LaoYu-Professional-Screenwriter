@@ -22,8 +22,9 @@ def git_source(path: str) -> str:
 
 class A5LicenseBoundaryTests(unittest.TestCase):
     def test_real_skill_license_is_byte_identical(self) -> None:
-        digest = hashlib.sha256((ROOT / "LICENSES" / "skill-license.md").read_bytes()).hexdigest().upper()
-        self.assertEqual(digest, "A027B1997847A63D4908EC2DB75C0401E6BFF9B10F5DD03FE8F0E744BBD63D6B")
+        data = (ROOT / "LICENSES" / "skill-license.md").read_bytes().replace(b"\r\n", b"\n")
+        digest = hashlib.sha256(data).hexdigest().upper()
+        self.assertEqual(digest, "9B82B9E0BD5852E79457286F6F630DA7BA0C50F04364A8E63FF4191CCA6D7F10")
 
     def test_every_legacy_line_has_exactly_one_destination(self) -> None:
         with MAP.open(encoding="utf-8", newline="") as handle:

@@ -3,13 +3,13 @@ artifact_id: DEL-CHANGELOG-001
 artifact_type: CHANGE_LOG
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
 project_baseline: CONTRACT-v0.2.0
-artifact_version: v0.2.7
+artifact_version: v0.2.8
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter
 upstream_ids: [PROJECT-PROFESSIONAL-SCREENWRITER, DEL-NOTICE-INDEX-001]
 review_id: REVIEW-CONTRACT-001
-review_decision: HOLD
-evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001, USER-TOKEN-EXCEPTION-20260814-001]
+review_decision: CONDITIONAL_RECOMMEND
+evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-R1-20260809, BENCH-PSW-E7-T2-R2-20260809, E7-CONTENT-ROLLBACK-20260812, BENCH-PSW-v1.0.0-20260812-ROLLBACK, E7-T4-RIGHTS-ROUTE-20260812, BENCH-PSW-v1.0.0-20260812-RIGHTS-ROUTE, USER-QUALITY-EXCEPTION-20260813-001, USER-TOKEN-EXCEPTION-20260814-001, PLAN-v1.0.9, ACT-TRUST-001, MANIFEST-VIEW-ANCHOR-20260821-001]
 ---
 
 # 项目变更日志
@@ -61,153 +61,23 @@ evidence_refs: [NOTICE-CONTRACT-001, BENCH-PSW-v1.0.0-20260801, BENCH-PSW-E7-T2-
 > = 原始修改历史，不等于人类可读、可决策的变更日志。
 > ```
 
-## 权利资料按需路由候选全量复测（2026-08-13）
+## 权利资料按需路由候选（2026-08-12）
 
-**结论：`QUALITY_FAIL / TOKEN_FAIL / RIGHTS_ROUTE_PASS / HOLD`。** 权利路由机制通过实测，
-但候选仍未通过预注册的质量与 E.5 零容差门禁；不得把机制修复解释为可激活。
+**状态：`IMPLEMENTED_PENDING_FULL_RETEST / HOLD`。** 上轮 T4 的三次候选运行均默认读取三份
+权利资料，已坐实为结构性路由成本；本轮只修复该控制层机制，不宣称 token 或创作质量已经改善。
 
-### 测量身份与证据完整性
+- `SKILL.md` 的“权利清理”默认入口收敛为 `references/rights-clearance-guide.md`；
+- 专项方法文件只允许由用户输入或既有资产清单中的具体事实触发，并且只选读相关章节；
+- 默认任务没有具体资产清单时，不得读取两份专项方法文件；不得用本轮生成的交付物反向触发；
+- 路由边界已有失败优先回归测试，修复后该测试与 A5 字节级迁移边界测试通过。
 
-- baseline：`f807fcc232fd5c6dcdbd04be14fb672dbea690b3`；
-- candidate：`cd14ba43aefd272f8b63399cc0d68a6178c391a6`；
-- frozen plan：`v1.0.8`，`sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B`；
-- protocol：`sha256:1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E`；
-- run plan：`sha256:97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7`；
-- 24/24 份生成产物有效，24 个生成会话唯一；48/48 份盲评分有效，48 个评分会话唯一；
-- 揭盲前审计 PASS，版本身份未提前访问，三轮评分最大极差为 1；审计回执：
-  `sha256:85AD7111FEDB54CD8213F6AD9082925AED1E306FAF5B6AD7B8E08BF294EE8E2A`；
-- 盲评进程在 15 份有效分数后被外部监控中断；恢复程序只跳过已存在分数并补齐剩余 33 份，
-  没有覆盖、替换、扩样或选择性停止；无 invalid grading attempt。
+由于补丁触碰共享 `SKILL.md`，`23704af` 上 T1–T4 的结果全部降为历史证据，不能与新候选合并。
+按冻结计划，新候选必须在全新隔离根目录中以固定 `n=3`、四任务双臂共 24 份从零重跑；运行前
+须在外部执行台账绑定候选提交、协议摘要、样本清单、工具摘要及停止条件。T4 的实现验收要求是：
+三个候选 trace 对两份专项方法文件的全文加载次数均为 0；E.5 仍是唯一正式成本门禁。
 
-最终裁决：`sha256:52A25673A857CF02F0D9533D071907C7538361F1BA872AE19FE0BC1BB17534B1`。
-
-### 质量门禁：E.4.1-C FAIL
-
-| 任务 | 关键维度 | 配对差值 | baseline/candidate 中位数 | 结果 |
-|---|---|---|---|---|
-| T1 | D1 / D2 | `(−1, 0, +1)` / `(0, 0, 0)` | `4/4` / `5/5` | PASS |
-| T2 | D1 / D4 | `(0, 0, +1)` / `(0, 0, −1)` | `4/4` / `4/4` | **FAIL（D4）** |
-| T3 | D1 / D7 | `(0, 0, 0)` / `(0, 0, 0)` | `4/4` / `5/5` | PASS |
-| T4 | D5 / D8 | `(0, 0, −1)` / `(0, 0, 0)` | `5/4` / `5/5` | **FAIL（D5）** |
-
-T2-D4 的失败样本中，candidate 正确标注了知识边界和媒介矛盾，但把多个信息获得时点继续留为
-未知；对应 baseline 将来源和获得时点绑定到具体场次。T4-D5 的失败样本中，candidate 的时间、
-道具和轴线连续性成立，但权限卡收纳位置及 Bible/Scene Card 上游回溯仍开放；对应 baseline 的
-跨交付锚点更完整。两项都是预注册规则下的失败，但只证明本轮样本不满足非劣门禁，不证明权利
-路由补丁必然导致质量退化。
-
-质量摘要：`sha256:0AFEA1B8E46A7911052BC47699928B03CC15AB41FA0798924590E8CBF7D8030E`。
-
-### 成本门禁：E.5 FAIL
-
-| 任务 | baseline 中位输入 token | candidate 中位输入 token | 差值 | 结果 |
-|---|---:|---:|---:|---|
-| T1 | 596,329 | 603,655 | +7,326 | **FAIL** |
-| T2 | 793,375 | 571,441 | −221,934 | PASS |
-| T3 | 928,799 | 369,946 | −558,853 | PASS |
-| T4 | 320,409 | 332,572 | +12,163 | **FAIL** |
-
-四任务的必需范围均可比，`scope_expansion_tokens = 0`，T2/T4 验证器集合完整。T4 虽然跳过
-专项权利方法文件，token 中位数仍高于 baseline，因此路由假说只能解释并消除旧的三文件默认
-加载，不能解释或消除本轮剩余成本回归；按停止条件不尝试第二种路由组合。T3 高方差继续只登记
-为未来协议假设，不追溯修改 E.5。
-
-Token 摘要：`sha256:08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C7B5D411`。
-
-### 权利路由机制：PASS
-
-三次 T4 candidate 对 `asset-rights-method.md` 与 `third-party-rights-method.md` 的命令引用总数为 0；
-正式路由回执：`sha256:2C53E131B25C836D57BCD1ECB619A791BDCF1E09D485F9E77521090388AC240C`。
-独立反例检查进一步确认：36 条命令中专项文件显式引用为 0、整目录或通配符读取为 0；以 238 条
-仅存在于专项方法文件的中文内容签名扫描三份 trace，命中为 0。该证据支持“默认只读取
-`rights-clearance-guide.md`”的机制结论。
-
-### 停止条件与当前状态
-
-预注册关键质量维触发 FAIL 后，本候选终局 `HOLD`，本轮不再修复、不再重跑、不扩样。
-Manifest 不切换，合同不 `LOCKED`，Notice 不 `CLOSED`，不产生 activation commit。下一项合法
-裁决仅为：用户接受记录在案的质量例外，或留待下一轮重设计；若以后接受质量例外，仍须另行裁决
-E.5 token 例外，不能自动激活。
-
-### 用户接受质量非劣例外（2026-08-13）
-
-余老师已按冻结计划 E.7 第 5 级明确接受本轮质量非劣例外。该裁决只改变治理处置，不改变
-`E.4.1-C` 的正式结果：T2-D4 与 T4-D5 继续记录为 **FAIL**。现有设计没有同版本
-baseline-vs-baseline 零假设校准臂，也没有对同一候选执行预注册重复测量，因此无法区分真实局部
-回归、生成方差、评分方差或候选交互；本例外是在真实回归尚未排除的情况下接受残余质量风险，
-不得表述为已经证明门禁误报或采样噪声。
-
-以下信息只作诊断背景，不替代冻结判据：三轮中五个曾失败的关键格没有跨轮重复触发；本轮两格
-均为配对差 `(0, 0, −1)`；同一评测网格也出现过 `+1` 抖动；T2/T4 每个样本只有一个独立 LLM
-评分会话。三轮候选 revision 与生成输出不同，且失败格是在揭盲后汇总，所以这些历史轨迹不是
-E.4.1-A 校准数据，不能用于追溯改写本轮结论。
-
-```quality-exception
-exception_id: EX-QUALITY-001
-status: ACCEPTED_RISK
-acceptance_owner: YuYingRay
-accepted_at: 2026-08-13
-acceptance_until: CANDIDATE_BEHAVIOR_CHANGE_OR_NEXT_BENCHMARK_CYCLE
-candidate_ref: cd14ba43aefd272f8b63399cc0d68a6178c391a6
-baseline_ref: f807fcc232fd5c6dcdbd04be14fb672dbea690b3
-frozen_plan: v1.0.8 + sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B + 713 lines
-protocol_sha256: 1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E
-run_plan_sha256: 97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7
-quality_summary_sha256: 0AFEA1B8E46A7911052BC47699928B03CC15AB41FA0798924590E8CBF7D8030E
-formal_failures: T2-D4 | T4-D5
-known_consequence: 当前设计不能排除真实局部质量回归；例外不构成 E.4.1-C PASS。
-compensation_plan: 下一轮基准在候选生成前冻结 E.4.1-A 零假设校准工作包；校准未通过则协议 HOLD。
-reverification_plan: 使用同一 baseline 的独立 session 完成预注册 A/A 盲评；阈值若修改，必须用未参与调参的独立 A/A 数据复验。
-scope: 仅限上述 candidate、baseline、protocol、run plan 与失败格；不改变门禁，不构成先例。
-invalidation: 任何行为文件、路由或模型可见内容变化均使本例外失效并要求重新评估。
-user_evidence_ref: USER-QUALITY-EXCEPTION-20260813-001
-```
-
-下一轮协议债 `DEBT-E4.1-A-001` 保持 `OPEN / BLOCKING_NEXT_BENCHMARK`：协议负责人必须在下一
-候选生成前预注册 A/A 重复次数、允许虚警标准、评分者可靠性、阈值选择规则和独立复验数据；
-同一校准样本不得同时用于调阈值和宣布校准通过。未满足完成证据时，不得用该门禁判定下一候选。
-该债务只前瞻生效，对本轮没有追溯放行力。
-
-当前状态变为 `QUALITY_EXCEPTION_ACCEPTED / TOKEN_EXCEPTION_PENDING / HOLD`。T1 与 T4 的 E.5
-token FAIL 保持原判；质量例外不包含 token 例外，不授权 §11.1 拟签字节构造、Manifest 切换、
-合同 `LOCKED`、Notice `CLOSED` 或 activation commit。
-
-### 用户接受 Token 例外（2026-08-14）
-
-余老师已独立接受本轮 E.5 Token 例外。T1 输入 token 中位数由 `596,329` 增至 `603,655`，
-差值 `+7,326（+1.2%）`；T4 由 `320,409` 增至 `332,572`，差值 `+12,163（+3.8%）`。
-两项继续记录为正式 **FAIL**。T2/T3 的节省不得跨任务抵消，T3 的跨轮波动也不能证明 T1/T4
-增长属于测量噪声；本例外是在原因未识别的情况下接受当前候选的任务级输入成本风险。
-
-```token-exception
-exception_id: EX-TOKEN-001
-status: ACCEPTED_RISK
-acceptance_owner: YuYingRay
-accepted_at: 2026-08-14
-acceptance_until: CANDIDATE_BEHAVIOR_CHANGE_OR_NEXT_BENCHMARK_CYCLE
-candidate_ref: cd14ba43aefd272f8b63399cc0d68a6178c391a6
-baseline_ref: f807fcc232fd5c6dcdbd04be14fb672dbea690b3
-frozen_plan: v1.0.8 + sha256:3D401F632CC909F64D6DFE7CFDF244A11CE314C7604D03223C3740280A34E80B + 713 lines
-protocol_sha256: 1C63C969F8A78A7F0CAE3A89292FDB0BD080CFA4582B5BBEE4677185D7C9D15E
-run_plan_sha256: 97E161249AEF020B368F4A75B4749F580BE2344B532C81593A3E0EDD78C94DA7
-token_summary_sha256: 08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C7B5D411
-formal_failures: T1 +7326 (+1.2%) | T4 +12163 (+3.8%)
-known_consequence: 当前候选在 T1/T4 的任务级实际加载输入高于 baseline；例外不构成 E.5 PASS。
-compensation_plan: 下一轮基准在候选生成前冻结同任务、同版本的 Token 容差与方差校准工作包；校准未完成则协议 HOLD。
-reverification_plan: 预注册重复次数、任务级容差单位、方差估计与聚合规则，并以未参与阈值选择的独立重复数据复验。
-scope: 仅限上述 candidate、baseline、protocol、run plan、token summary 与失败任务；不跨任务净额抵消，不改变门禁，不构成先例。
-invalidation: 任何影响测量加载路径、交付范围或模型可见行为的变化均使本例外失效并要求重新评估。
-user_evidence_ref: USER-TOKEN-EXCEPTION-20260814-001
-```
-
-下一轮协议债 `DEBT-E5-VARIANCE-001` 为 `OPEN / BLOCKING_NEXT_BENCHMARK`：协议负责人必须在下一
-候选生成前预注册同任务同版本重复设计、最小样本量、任务级容差单位、方差估计、聚合规则、允许
-虚警标准与独立复验数据；不得跨任务净额抵消，也不得在同一数据上调阈值并宣布通过。证据不完整
-或校准失败时协议 `HOLD`。该债务只前瞻生效，对本轮没有追溯放行力。
-
-当前状态变为 `QUALITY_AND_TOKEN_EXCEPTIONS_ACCEPTED / IN_REVIEW / PREPARE_ONLY_SIGNING_ALLOWED`。
-这满足进入 §11.1 拟签字节流程的前置条件，但仍不是激活批准：当前 Manifest 不切换，合同不
-`LOCKED`，Notice 不 `CLOSED`，不运行 activation RUN，也不产生 activation commit。
+即使全部门禁通过，也只能返回用户另行授权激活；本条记录不改变 Manifest、合同锁定状态或 Notice
+终态。
 
 ## 内容层回退候选复测（2026-08-12）
 
@@ -924,3 +794,39 @@ v1.2.0 通过门禁后可以变为 LOCKED；
 过期剧本、过期资产或过期研究结论，
 它只是格式漂亮的历史噪声。
 ```
+
+---
+
+## v0.2.8 - 2026-08-21 — v1.0.9 条件激活 staging
+
+**状态：** `PREPARE_ONLY / CONDITIONAL_RECOMMEND / ACTIVATION_HOLD`  
+**被测 candidate：** `cd14ba43aefd272f8b63399cc0d68a6178c391a6`  
+**baseline：** `f807fcc232fd5c6dcdbd04be14fb672dbea690b3`  
+**冻结计划：** `v1.0.9 + 200171F5EA4CC76F21FB03719F2E19345D3091EEE51E95E360628C7859FFC0F8 + 757 行`  
+**transition view：** `sha256:51AD6D8B6D4A46C1D023A12428750FF64078CD59178137F7421D0947D3AA0A3E`  
+
+### 测量与例外
+
+- 质量摘要 `sha256:0AFEA1B8E46A7911052BC47699928B03CC15AB41FA0798924590E8CBF7D8030E`：
+  T2-D4、T4-D5 按 `E.4.1-C` 正式 FAIL；用户于 2026-08-13 接受限定质量例外，真实局部回归
+  仍未排除；
+- Token 摘要 `sha256:08D7EEADAE412E4E622FCA5A35EE794DA5171E0FD573CE51DE6FBA10C7B5D411`：
+  T1 `+7,326（+1.2%）`、T4 `+12,163（+3.8%）` 按 `E.5` 正式 FAIL；用户于
+  2026-08-14 接受限定 Token 例外，不以 T2/T3 节省抵消；
+- 两项例外均只绑定当前 candidate、baseline、protocol、run plan 与对应摘要；不改变门禁，
+  不构成先例。下一 benchmark 前 `DEBT-E4.1-A-001` 与 `DEBT-E5-VARIANCE-001` 仍是前置阻断项。
+
+### O-1 与信任边界
+
+- 合同只允许七个 YAML 字段变化；Manifest 只允许 `project_baseline` 切换与删除
+  `candidate_baseline`；白名单外剩余原始字节必须与被测 candidate 相等；
+- `ACT-TRUST-001` 披露但尚未由用户随拟签 digest 接受。它是假设，不是“状态字段已证明行为中性”；
+- Notice/change-log 相对被测 candidate 只允许 frontmatter 受控更新与本文末尾追加；
+- 用户最终确认只写 skill 外 execution ledger，不得回填 staging payload。
+
+### 生效条件
+
+本记录描述拟激活最终 payload，但不自行授权激活。只有用户在同一外部 ledger 事件中明确确认
+精确 canonical digest 并接受 `ACT-TRUST-001`，随后 `RUN-ACTIVATION-20260821-001` 对同一冻结
+payload 完成 preflight/create/final PASS，才允许单提交原子激活。任一条件缺失或 payload 漂移，
+本 staging 作废并保持 active baseline `CONTRACT-v0.1.0`。

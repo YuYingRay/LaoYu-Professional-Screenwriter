@@ -1,0 +1,25 @@
+{
+  "run_id": "RUN-ACTIVATION-20260821-001",
+  "source_snapshot_digest": "sha256:bb2108c0efd4d4514bdc52112fe0664c0c4f73cb1c0e67f00023b4329879cfa5",
+  "artifact_digests": {
+    "governance/authorizations/AUTH-001.md": "sha256:27c29401b6df5bfbb0c305694b53508cfe7be9c04703e3136a7e5ffcf1614877",
+    "governance/change-log.md": "sha256:01b8e4725dead2413c174fd8623073bf34f2fff02983cefe7d85223b5a3a2ab9",
+    "governance/compatibility-matrix.md": "sha256:ca0ce4f20900158383fccac400991f4b46c7920d9cda6334e1db16334dcc8fd4",
+    "governance/control-plane-contract.md": "sha256:79c539029a53fb18d0ac93d595735a6b6844eed072fe29830ce8e9f7615cf132",
+    "governance/control-schema.json": "sha256:64363cd804c6be4f75ccd74ddcd7831ad0f002a7aec535b0e7b1aa6b1d38c843",
+    "governance/notices/NOTICE-CONTRACT-001.md": "sha256:c07b95d0312b21bf2bd5b0ef61061c83cdc4f3f11005106118ea6f308f010fb9",
+    "governance/notices/NOTICE-LIC-001-formal-licensor.md": "sha256:0488362f5bcae1996b57f665aff7c38504e1254c62a0269d9bd469c8c30cf9eb",
+    "governance/open-questions.md": "sha256:46f668a1476a58305b3b9ea3a86cf9e68f2e8308ef81b562c89ddf2b85858769",
+    "governance/placeholder-migration-map.json": "sha256:fb8503d44333fd0ef89d21531607bf0f379ef9ee432aaf2a31f0bf8ad56d606a",
+    "governance/project-manifest.md": "sha256:2ac1634100526a35c388e1616df1668ff95937953a86e60d816201c8b31ca5bf",
+    "governance/source-links.md": "sha256:0b6b7c70d152ba5d4d71c6d46eadaa46be68be1838367d34e5f5c2e50da8a9bc",
+    "governance/upstream-notices.md": "sha256:7a095957a85af809ca460971283158d08f228a6d4f1dbc8ae3d1db1701b9848c"
+  },
+  "profile": "final",
+  "command": "python -X utf8 scripts/check_all.py . --mode strict",
+  "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
+  "schema_digest": "sha256:64363cd804c6be4f75ccd74ddcd7831ad0f002a7aec535b0e7b1aa6b1d38c843",
+  "findings": [],
+  "result": "PASS",
+  "timestamp": "2026-08-21T14:25:06.011282+00:00"
+}

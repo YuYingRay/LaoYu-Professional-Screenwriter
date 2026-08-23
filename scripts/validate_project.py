@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import re
@@ -83,6 +84,61 @@ def metadata(path: Path) -> dict[str, Any]:
             parsed = [item.strip() for item in parsed.split(",") if item.strip()]
         result[key.lower()] = parsed
     return result
+
+
+def resolve_baseline_mode(manifest_path: Path, requested: str = "auto") -> tuple[str | None, Finding | None]:
+    text = manifest_path.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    values: list[Any] = []
+    if lines and lines[0].strip() == "---":
+        for line in lines[1:]:
+            if line.strip() == "---":
+                break
+            if ":" in line and not line.startswith(" "):
+                key, value = line.split(":", 1)
+                if key.strip() == "candidate_baseline":
+                    values.append(scalar(value))
+    if len(values) > 1 or (values and (not isinstance(values[0], str) or not values[0].strip())):
+        return None, Finding(
+            "P0", "BASELINE_STATE_INVALID", str(manifest_path),
+            "candidate_baseline must be absent or a single non-empty scalar",
+        )
+    inferred = "candidate" if values else "active"
+    if requested != "auto" and requested != inferred:
+        return None, Finding(
+            "P0", "BASELINE_MODE_MISMATCH", str(manifest_path),
+            f"requested {requested}, manifest implies {inferred}",
+        )
+    return inferred, None
+
+
+def placeholder_finding(
+    text: str,
+    project_id: Any,
+    relative_path: str,
+    control_schema: dict[str, Any],
+) -> tuple[str, str] | None:
+    actual = Counter(match.group(0) for match in PLACEHOLDER_RE.finditer(text))
+    project_inventory = control_schema.get("locked_placeholder_allowlist", {}).get(str(project_id), {})
+    entries = project_inventory.get(relative_path)
+    if entries is None:
+        return ("PLACEHOLDER_LOCKED", "placeholder remains in approved/locked artifact") if actual else None
+    expected: Counter[str] = Counter()
+    valid = isinstance(entries, list)
+    if valid:
+        for entry in entries:
+            if not isinstance(entry, dict):
+                valid = False
+                break
+            literal = entry.get("literal")
+            count = entry.get("exact_count")
+            if not isinstance(literal, str) or not isinstance(count, int) or count < 1:
+                valid = False
+                break
+            expected[literal] += count
+    if not valid or actual != expected:
+        return "PLACEHOLDER_ALLOWLIST_DRIFT", "locked placeholder multiset differs from the exact project/path inventory"
+    return None
 
 
 def fenced_records(text: str, fence: str) -> list[dict[str, Any]]:
@@ -276,7 +332,7 @@ def validate_notice_closure(
     return findings
 
 
-def validate(root: Path, write_digests: bool = False, baseline_mode: str = "active") -> list[Finding]:
+def validate(root: Path, write_digests: bool = False, baseline_mode: str = "auto") -> list[Finding]:
     findings: list[Finding] = []
     files = sorted(p for p in root.rglob("*") if p.suffix.lower() in {".md", ".fountain"})
     schema_path = root / "governance" / "control-schema.json"
@@ -295,6 +351,11 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
     manifest_path = root / "governance" / "project-manifest.md"
     if not manifest_path.exists():
         return [Finding("P0", "MISSING_MANIFEST", str(manifest_path), "project-manifest.md is required")]
+
+    resolved_mode, state_finding = resolve_baseline_mode(manifest_path, baseline_mode)
+    if state_finding:
+        return [state_finding]
+    baseline_mode = str(resolved_mode)
 
     metas: dict[Path, dict[str, Any]] = {p: metadata(p) for p in files}
     manifest = metas[manifest_path]
@@ -335,14 +396,23 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
         historical_policy = control_schema.get("notice", {}).get(
             "historical_compatibility", {}
         )
-        historical_notice = (
-            baseline_mode == "candidate"
-            and atype == "NOTICE"
-            and historical_policy.get("baseline") == "active_manifest_baseline"
-            and meta.get("project_baseline") == active_baseline
-            and meta.get("notice_status") in historical_policy.get("notice_statuses", [])
-            and meta.get("status") in historical_policy.get("artifact_statuses", [])
-        )
+        historical_notice = False
+        if atype == "NOTICE" and meta.get("notice_status") in historical_policy.get("notice_statuses", []) and meta.get("status") in historical_policy.get("artifact_statuses", []):
+            if baseline_mode == "candidate":
+                historical_notice = (
+                    historical_policy.get("baseline") == "active_manifest_baseline"
+                    and meta.get("project_baseline") == active_baseline
+                )
+            else:
+                chain = control_schema.get("historical_baseline_chains", {}).get(str(project_id), [])
+                notice_baseline = meta.get("project_baseline")
+                historical_notice = (
+                    isinstance(chain, list)
+                    and len(chain) == len(set(chain))
+                    and notice_baseline in chain
+                    and active_baseline in chain
+                    and chain.index(notice_baseline) < chain.index(active_baseline)
+                )
         if aid:
             if aid in artifact_ids:
                 findings.append(Finding("P0", "DUPLICATE_ID", rel, f"duplicate artifact_id: {aid}"))
@@ -363,7 +433,11 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
             findings.append(Finding("P1", "STATUS_ENUM", rel, f"invalid artifact status: {meta.get('status')}"))
         if meta.get("conformance_level") and meta.get("conformance_level") not in CONFORMANCE_LEVELS:
             findings.append(Finding("P1", "CONFORMANCE_ENUM", rel, f"invalid conformance level: {meta.get('conformance_level')}"))
-        if atype == "NOTICE" and baseline_mode == "candidate" and not historical_notice:
+        registered_active = (
+            baseline_mode == "active"
+            and str(project_id) in control_schema.get("historical_baseline_chains", {})
+        )
+        if atype == "NOTICE" and (baseline_mode == "candidate" or registered_active) and not historical_notice:
             notice_status = meta.get("notice_status")
             if notice_status not in control_schema["notice_statuses"]:
                 findings.append(Finding(
@@ -418,8 +492,11 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "acti
                     findings.append(Finding("P0", "DIGEST_MISSING", rel, "LOCKED artifact requires sha256 content_digest"))
                 elif digest != canonical_digest(path):
                     findings.append(Finding("P0", "DIGEST_MISMATCH", rel, "content_digest does not match canonical content"))
-            if PLACEHOLDER_RE.search(text):
-                findings.append(Finding("P0", "PLACEHOLDER_LOCKED", rel, "placeholder remains in approved/locked artifact"))
+            placeholder = placeholder_finding(
+                text, project_id, path.relative_to(root).as_posix(), control_schema
+            )
+            if placeholder:
+                findings.append(Finding("P0", placeholder[0], rel, placeholder[1]))
         if atype == "SCENE_CARD" and aid:
             scene_card_ids.add(str(aid))
         if atype == "PRODUCTION_HANDOFF" and meta.get("conformance_level") == "PRODUCTION_READY":
@@ -653,7 +730,7 @@ def main() -> int:
     parser.add_argument("root", type=Path)
     parser.add_argument("--write-digests", action="store_true")
     parser.add_argument("--json", action="store_true")
-    parser.add_argument("--baseline", choices=["active", "candidate"], default="active")
+    parser.add_argument("--baseline", choices=["auto", "active", "candidate"], default="auto")
     parser.add_argument("--mode", choices=["audit", "strict"], default="audit")
     args = parser.parse_args()
     findings = validate(

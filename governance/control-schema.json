@@ -240,6 +240,42 @@
       {"notice_status": "CLOSED", "require": ["affected_ids", "affected_paths", "coupling", "verification_refs", "change_records", "closed_by_run_id"]}
     ]
   },
+  "historical_baseline_chains": {
+    "PROJECT-PROFESSIONAL-SCREENWRITER": [
+      "CONTRACT-v0.1.0",
+      "CONTRACT-v0.2.0"
+    ],
+    "PROJECT-ACTIVATION-FIXTURE-001": [
+      "CONTRACT-v0.1.0",
+      "CONTRACT-v0.2.0"
+    ]
+  },
+  "locked_placeholder_allowlist": {
+    "PROJECT-PROFESSIONAL-SCREENWRITER": {
+      "governance/control-plane-contract.md": [
+        {"pattern_class": "NORMATIVE_PROHIBITED_LITERAL", "literal": "TBD", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[BIBLE-ID]]", "exact_count": 6},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[CHANGED-UPSTREAM-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[NNN]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[NOTICE-INDEX-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[OUTLINE-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[OUTLINE-OR-EPISODE-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[PROJECT-ID]]", "exact_count": 4},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[REVIEW-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[REVIEWED-ARTIFACT-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[SCRIPT-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[SEASON-MAP-ID]]", "exact_count": 1},
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[集数]]", "exact_count": 1},
+        {"pattern_class": "NORMATIVE_PROHIBITED_LITERAL", "literal": "待定", "exact_count": 1},
+        {"pattern_class": "NORMATIVE_PROHIBITED_LITERAL", "literal": "见最新版本", "exact_count": 1}
+      ]
+    },
+    "PROJECT-ACTIVATION-FIXTURE-001": {
+      "governance/control-plane-contract.md": [
+        {"pattern_class": "DOUBLE_BRACKET_METASYNTAX", "literal": "[[PROJECT-ID]]", "exact_count": 1}
+      ]
+    }
+  },
   "ownership": {
     "view": "installation_root_filesystem",
     "match_policy": "excluded_precedes_exactly_one_non_fallback_rule",

@@ -2,8 +2,7 @@
 artifact_id: PROJECT-PROFESSIONAL-SCREENWRITER
 artifact_type: PROJECT_MANIFEST
 project_id: PROJECT-PROFESSIONAL-SCREENWRITER
-project_baseline: CONTRACT-v0.1.0
-candidate_baseline: CONTRACT-v0.2.0
+project_baseline: CONTRACT-v0.2.0
 artifact_version: v0.2.0
 status: IN_REVIEW
 owner: LaoYu-Professional-Screenwriter

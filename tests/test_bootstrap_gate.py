@@ -61,13 +61,13 @@ def load_run_protocol():
 
 
 class BootstrapGateTests(unittest.TestCase):
-    def test_validate_project_selects_active_or_candidate_baseline(self) -> None:
+    def test_validate_project_auto_selects_candidate_and_rejects_mismatch(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-baseline-test-") as temp_dir:
             root = Path(temp_dir)
             write_project(root, candidate="BASELINE-B", artifact_baseline="BASELINE-B")
 
             candidate = subprocess.run(
-                [sys.executable, str(SCRIPTS / "validate_project.py"), str(root), "--baseline", "candidate"],
+                [sys.executable, str(SCRIPTS / "validate_project.py"), str(root)],
                 text=True,
                 capture_output=True,
                 check=False,
@@ -81,12 +81,20 @@ class BootstrapGateTests(unittest.TestCase):
                 check=False,
             )
             self.assertNotEqual(active.returncode, 0)
-            self.assertIn("BASELINE_DRIFT", active.stdout)
+            self.assertIn("BASELINE_MODE_MISMATCH", active.stdout)
 
-    def test_candidate_mode_fails_closed_without_candidate_baseline(self) -> None:
+    def test_validate_project_auto_selects_active_and_rejects_candidate_mismatch(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-baseline-test-") as temp_dir:
             root = Path(temp_dir)
             write_project(root, candidate=None, artifact_baseline="BASELINE-A")
+            auto = subprocess.run(
+                [sys.executable, str(SCRIPTS / "validate_project.py"), str(root)],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+            self.assertEqual(auto.returncode, 0, auto.stdout + auto.stderr)
+
             result = subprocess.run(
                 [sys.executable, str(SCRIPTS / "validate_project.py"), str(root), "--baseline", "candidate", "--json"],
                 text=True,
@@ -94,7 +102,7 @@ class BootstrapGateTests(unittest.TestCase):
                 check=False,
             )
             self.assertNotEqual(result.returncode, 0)
-            self.assertIn("CANDIDATE_BASELINE_MISSING", result.stdout)
+            self.assertIn("BASELINE_MODE_MISMATCH", result.stdout)
 
     def test_lint_audit_reports_but_does_not_block(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-lint-audit-") as temp_dir:
@@ -130,16 +138,16 @@ class BootstrapGateTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("PASS: minimum template instantiation", result.stdout)
 
-    def test_candidate_check_all_chains_bootstrap_tools(self) -> None:
+    def test_auto_check_all_chains_bootstrap_tools(self) -> None:
         result = subprocess.run(
-            [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
+            [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
             text=True,
             capture_output=True,
             check=False,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("PASS: lint_repo audit", result.stdout)
-        self.assertIn("PASS: root project candidate baseline", result.stdout)
+        self.assertIn("PASS: root project auto baseline", result.stdout)
         self.assertIn("PASS: feature-project-fixture active baseline", result.stdout)
         self.assertIn("PASS: production-ready-fixture active baseline", result.stdout)
         self.assertIn("PASS: vertical-project-fixture active baseline", result.stdout)
@@ -148,7 +156,7 @@ class BootstrapGateTests(unittest.TestCase):
     def test_check_all_is_independent_of_callers_working_directory(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-check-cwd-") as temp_dir:
             result = subprocess.run(
-                [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
+                [sys.executable, str(SCRIPTS / "check_all.py"), str(ROOT), "--mode", "audit", "--skip-unit-tests", "--skip-e2e"],
                 cwd=temp_dir,
                 text=True,
                 capture_output=True,

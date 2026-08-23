@@ -13,8 +13,8 @@
   "profile": "final",
   "command": "python -X utf8 scripts/validate_project.py tests/production-ready-fixture --baseline active --mode strict",
   "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
-  "schema_digest": "sha256:d9a73dbd4de4fa1574b827eb1a3479391072e5baba42e26fe83324a433f4edef",
+  "schema_digest": "sha256:64363cd804c6be4f75ccd74ddcd7831ad0f002a7aec535b0e7b1aa6b1d38c843",
   "findings": [],
   "result": "PASS",
-  "timestamp": "2026-08-01T06:38:44.282038+00:00"
+  "timestamp": "2026-08-21T12:30:39.987994+00:00"
 }

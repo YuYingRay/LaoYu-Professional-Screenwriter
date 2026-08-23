@@ -31,14 +31,19 @@ def frontmatter(path: Path) -> dict[str, str]:
 
 
 class CandidateContractTests(unittest.TestCase):
-    def test_contract_is_in_review_and_generated_from_schema(self) -> None:
+    def test_contract_state_matches_manifest_and_is_generated_from_schema(self) -> None:
         contract = ROOT / "governance" / "control-plane-contract.md"
+        manifest = frontmatter(ROOT / "governance" / "project-manifest.md")
+        is_candidate = "candidate_baseline" in manifest
         meta = frontmatter(contract)
         self.assertEqual(meta["project_baseline"], "CONTRACT-v0.2.0")
         self.assertEqual(meta["artifact_version"], "v0.2.0")
-        self.assertEqual(meta["status"], "IN_REVIEW")
+        self.assertEqual(meta["status"], "IN_REVIEW" if is_candidate else "LOCKED")
         self.assertEqual(meta["review_decision"], "PENDING")
-        self.assertNotIn("LOCKED", contract.read_text(encoding="utf-8").split("## 0.", 1)[0])
+        if is_candidate:
+            self.assertNotIn("LOCKED", contract.read_text(encoding="utf-8").split("## 0.", 1)[0])
+        else:
+            self.assertEqual(meta["test_run_id"], "RUN-ACTIVATION-20260821-001")
 
         generated = subprocess.run(
             [sys.executable, str(ROOT / "scripts" / "gen_contract_tables.py"), str(ROOT), "--check"],
@@ -55,12 +60,13 @@ class CandidateContractTests(unittest.TestCase):
         self.assertIn("approver", text)
         self.assertIn("可以是同一人", text)
 
-    def test_migration_notice_is_verified_and_coupled(self) -> None:
+    def test_migration_notice_state_matches_manifest_and_is_coupled(self) -> None:
         notice = ROOT / "governance" / "notices" / "NOTICE-CONTRACT-001.md"
+        manifest = frontmatter(ROOT / "governance" / "project-manifest.md")
         meta = frontmatter(notice)
         self.assertEqual(meta["artifact_id"], "NOTICE-CONTRACT-001")
         self.assertEqual(meta["status"], "IN_REVIEW")
-        self.assertEqual(meta["notice_status"], "VERIFIED")
+        self.assertEqual(meta["notice_status"], "VERIFIED" if "candidate_baseline" in manifest else "CLOSED")
         self.assertIn("SCHEMA", meta["coupling"])
         self.assertIn("BASELINE", meta["coupling"])
         self.assertNotEqual(meta["affected_paths"], "[]")
@@ -68,12 +74,19 @@ class CandidateContractTests(unittest.TestCase):
         self.assertNotEqual(meta["verification_refs"], "[]")
         self.assertNotEqual(meta["change_records"], "[]")
 
-    def test_real_manifest_keeps_active_and_declares_candidate(self) -> None:
+    def test_real_manifest_declares_exactly_one_current_state(self) -> None:
         meta = frontmatter(ROOT / "governance" / "project-manifest.md")
         self.assertEqual(meta["artifact_id"], "PROJECT-PROFESSIONAL-SCREENWRITER")
         self.assertEqual(meta["project_id"], "PROJECT-PROFESSIONAL-SCREENWRITER")
-        self.assertEqual(meta["project_baseline"], "CONTRACT-v0.1.0")
-        self.assertEqual(meta["candidate_baseline"], "CONTRACT-v0.2.0")
+        if "candidate_baseline" in meta:
+            self.assertEqual(meta["project_baseline"], "CONTRACT-v0.1.0")
+            self.assertEqual(meta["candidate_baseline"], "CONTRACT-v0.2.0")
+            self.assertFalse((ROOT / "governance" / "authorizations" / "AUTH-001.md").exists())
+            self.assertFalse((ROOT / "runs" / "RUN-ACTIVATION-20260821-001.json").exists())
+        else:
+            self.assertEqual(meta["project_baseline"], "CONTRACT-v0.2.0")
+            self.assertTrue((ROOT / "governance" / "authorizations" / "AUTH-001.md").is_file())
+            self.assertTrue((ROOT / "runs" / "RUN-ACTIVATION-20260821-001.json").is_file())
 
     def test_four_blank_governance_templates_are_separate(self) -> None:
         template_root = ROOT / "templates" / "governance"
@@ -110,9 +123,9 @@ class CandidateContractTests(unittest.TestCase):
         )
         self.assertNotIn("change-log.md", registry_skip_line)
 
-    def test_candidate_aggregate_gate_is_strict_clean(self) -> None:
+    def test_current_state_aggregate_gate_is_strict_clean(self) -> None:
         result = subprocess.run(
-            [sys.executable, str(ROOT / "scripts" / "check_all.py"), str(ROOT), "--baseline", "candidate", "--mode", "strict", "--skip-unit-tests", "--skip-e2e"],
+            [sys.executable, str(ROOT / "scripts" / "check_all.py"), str(ROOT), "--mode", "strict", "--skip-unit-tests", "--skip-e2e"],
             cwd=ROOT,
             text=True,
             capture_output=True,
