@@ -61,6 +61,13 @@ def load_run_protocol():
 
 
 class BootstrapGateTests(unittest.TestCase):
+    def test_ci_checkout_fetches_history_for_git_source_tests(self) -> None:
+        workflow = (ROOT / ".github" / "workflows" / "validate.yml").read_text(encoding="utf-8")
+        self.assertIn(
+            "- uses: actions/checkout@v4\n        with:\n          fetch-depth: 0",
+            workflow,
+        )
+
     def test_validate_project_auto_selects_candidate_and_rejects_mismatch(self) -> None:
         with tempfile.TemporaryDirectory(prefix="psw-baseline-test-") as temp_dir:
             root = Path(temp_dir)
