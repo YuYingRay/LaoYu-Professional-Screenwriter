@@ -3,8 +3,8 @@ README.md	它不适合	SKILL.md#使用边界	MIGRATE_RUNTIME_CONTENT	Behavior co
 README.md	使用示例 A/B/C	SKILL.md#典型输入与产出顺序	MIGRATE_RUNTIME_CONTENT	Input signals and dependency order preserved without duplicating full examples.
 README.md	重写一个场景或对白七问	references/adversarial-review-rubric.md#771-场景与对白重写七问	MIGRATE_RUNTIME_CONTENT	Rubric lacked the full POV-power-causal-interface set, so all seven questions were retained.
 README.md	推荐项目目录	references/project-directory-structure.md	MIGRATED_ALREADY	STRUCT-LAYERED was centralized before README removal.
-README.md	贡献与维护	C:/Users/YUYING/.claude/plans/professional-screenwriter-maintainer-notes.md	EXPORT_MAINTAINER_CONTENT	Exported outside install package for owner placement decision.
-README.md	当前架构状态	C:/Users/YUYING/.claude/plans/professional-screenwriter-maintainer-notes.md	EXPORT_MAINTAINER_CONTENT	Preserved as a historical maintainer checklist, not runtime truth.
+README.md	贡献与维护	OUTSIDE_REPOSITORY:professional-screenwriter-maintainer-notes.md	EXPORT_MAINTAINER_CONTENT	Exported outside install package; concrete local path intentionally omitted.
+README.md	当前架构状态	OUTSIDE_REPOSITORY:professional-screenwriter-maintainer-notes.md	EXPORT_MAINTAINER_CONTENT	Preserved outside the repository as a historical maintainer checklist, not runtime truth.
 README.md	remaining navigation workflow governance license and principles	SKILL.md; governance/control-plane-contract.md; references/**	DELETE_DUPLICATE	No unique runtime rule remained after reviewed migrations.
 tests/README.md	complete test operator guide	tests/testing-guide.md	RENAME_TESTING_GUIDE	Content retained; only reserved package filename changed.
 LICENSES/README.md	facts pointer shell	LICENSES/skill-license.md; LICENSES/third-party-notices.md; LICENSES/asset-rights-register.md; references/rights-clearance-guide.md	DELETE_POINTER_SHELL	A5 already separated facts methods and blank forms.

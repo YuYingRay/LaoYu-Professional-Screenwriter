@@ -1,8 +1,12 @@
 from __future__ import annotations
 
 import csv
+import json
+import re
 import unittest
 from pathlib import Path
+
+from scripts.run_protocol import managed_files
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -206,14 +210,32 @@ class SkillTriggerBoundaryTests(unittest.TestCase):
 
 
 class PackageReadmeBoundaryTests(unittest.TestCase):
-    def test_reserved_readme_files_are_removed_or_renamed(self) -> None:
-        self.assertFalse((ROOT / "README.md").exists())
+    def test_root_readme_is_repository_source_only(self) -> None:
+        readme = ROOT / "README.md"
+        self.assertTrue(readme.is_file())
+        schema = json.loads((ROOT / "governance" / "control-schema.json").read_text(encoding="utf-8"))
+        rule = next(item for item in schema["ownership"]["rules"] if item["id"] == "OWN-REPOSITORY-README")
+        self.assertEqual(rule["patterns"], ["README.md"])
+        self.assertEqual(rule["owner"], "repo-source")
+        self.assertFalse(rule["project_validation"])
+        self.assertFalse(rule["model_load"])
+        self.assertFalse(rule["run_payload"])
+        self.assertNotIn("README.md", schema["ownership"]["reserved_install_names"])
+
+    def test_root_readme_is_excluded_from_run_payload(self) -> None:
+        schema_path = ROOT / "governance" / "control-schema.json"
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        self.assertIn("README.md", schema["run_payload"]["exclude"])
+        managed = {path.relative_to(ROOT).as_posix() for path in managed_files(ROOT, schema_path)}
+        self.assertNotIn("README.md", managed)
+
+    def test_non_root_reserved_readmes_are_removed_or_renamed(self) -> None:
         self.assertFalse((ROOT / "LICENSES" / "README.md").exists())
         self.assertFalse((ROOT / "tests" / "README.md").exists())
         self.assertTrue((ROOT / "tests" / "testing-guide.md").is_file())
-        self.assertEqual(list(ROOT.rglob("README.md")), [])
+        self.assertEqual(list(ROOT.rglob("README.md")), [ROOT / "README.md"])
 
-    def test_runtime_content_survives_root_readme_removal(self) -> None:
+    def test_runtime_sources_remain_canonical_with_repository_readme(self) -> None:
         skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
         for required in [
             "## 使用边界",
@@ -239,6 +261,11 @@ class PackageReadmeBoundaryTests(unittest.TestCase):
         )
         self.assertIn("EXPORT_MAINTAINER_CONTENT", {row["decision"] for row in rows})
         self.assertIn("RENAME_TESTING_GUIDE", {row["decision"] for row in rows})
+
+    def test_readme_migration_map_has_no_local_absolute_paths(self) -> None:
+        path = ROOT / "governance" / "wp5-readme-boundary-map.tsv"
+        text = path.read_text(encoding="utf-8")
+        self.assertIsNone(re.search(r"(?m)(?:^|\t)[A-Za-z]:[\\/]", text))
 
 
 class ExportPackageUsageTests(unittest.TestCase):

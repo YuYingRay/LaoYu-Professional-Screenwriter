@@ -10,8 +10,8 @@
   "profile": "final",
   "command": "python -X utf8 scripts/validate_project.py tests/activation-state-fixture --baseline active --mode strict",
   "validator_digest": "sha256:aed8bfc78364688717046859b394f2de004ddbf1973514c9f45eee2b9fd9a551",
-  "schema_digest": "sha256:64363cd804c6be4f75ccd74ddcd7831ad0f002a7aec535b0e7b1aa6b1d38c843",
+  "schema_digest": "sha256:d5895d73f4d6ff36e332f4987b2265296de0fb281fbc122b284c2c0e8b222992",
   "findings": [],
   "result": "PASS",
-  "timestamp": "2026-08-21T12:30:39.608842+00:00"
+  "timestamp": "2026-08-23T14:08:14.901174+00:00"
 }

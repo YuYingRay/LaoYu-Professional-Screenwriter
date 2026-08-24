@@ -313,6 +313,14 @@
         "project_validation": false
       },
       {
+        "id": "OWN-REPOSITORY-README",
+        "patterns": ["README.md"],
+        "owner": "repo-source",
+        "project_validation": false,
+        "model_load": false,
+        "run_payload": false
+      },
+      {
         "id": "OWN-PACKAGE",
         "patterns": ["SKILL.md", "LICENSE", "LICENSES/**"],
         "owner": "repo-source",
@@ -332,7 +340,7 @@
     },
     "untracked_allowlist": [],
     "declared_empty_directories": [],
-    "reserved_install_names": ["README.md", "CHANGELOG.md", "INSTALLATION_GUIDE.md", "QUICK_REFERENCE.md"],
+    "reserved_install_names": ["CHANGELOG.md", "INSTALLATION_GUIDE.md", "QUICK_REFERENCE.md"],
     "empty_directory_error": "UNDECLARED_EMPTY_DIR",
     "multi_match_error": "MULTI_OWNED_FILE"
   },
@@ -348,6 +356,7 @@
     "exclude": [
       ".git/**",
       "**/__pycache__/**",
+      "README.md",
       "runs/**",
       "script/exports/**"
     ],
