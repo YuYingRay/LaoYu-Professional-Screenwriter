@@ -506,6 +506,26 @@ assets/characters/char-lin-xia.md
 
 ## 5.1 镜头表模板
 
+需要设计景别、观看位置、物理摄影路径、转场触发与模型降级时，同时读取
+`references/cinematography-director.md`；先完成 Camera Direction Card，再把批准字段回写镜头表。
+
+多节拍、多镜头、跨场景或完整短片不得直接从 Scene Card 跳到镜头表或 Prompt。先完成并批准：
+
+```text
+Beat Map
+→ Coverage Map
+→ Edit Map
+→ Shot Design
+→ Segment Packing
+→ Director Sequence Card
+→ 逐镜 Camera Direction Card
+→ 模型执行 Prompt
+```
+
+镜头表中的 `Segment` 表示一次模型提交产生的文件，不等于 `Shot`；一次 Segment 可以包含一个 Shot，
+也可以包含有入口证据和关键切点验收的多 Shot 结构。多镜头空间关系须引用 Screen Direction Map，
+持续镜头须引用 Timed Attention Path，承担 ESSENTIAL Beat 的镜头须写 Recovery Plan。
+
 ```md
 | 镜号 | 场次 | 版本 | 时长 | 画幅 | 景别 | 机位/角度 | 运动 | 主体 | 动作 | 台词/声音 | 叙事功能 | 起始状态 | 结束状态 | 角色/场景/道具 ID | 连续性锚点 | 生成策略 | QC 状态 |
 ```
@@ -634,6 +654,13 @@ assets/characters/char-lin-xia.md
 # 7. 提示词架构
 
 ## 7.1 提示词的目标
+
+镜头语言与运镜词不得从词库随机拼接。先按 `references/cinematography-director.md` 锁定叙事功能、
+空间轴、一个主运动、起止状态和降级方案，再翻译为下方提示词结构。
+
+采用 `NATIVE_MULTI_SHOT` 时，Prompt 包之前必须附当前平台入口的相近执行证据，或把任务明确标作 POC；
+没有相近证据且要求确定性剪辑时，默认采用 `INDEPENDENT_SHOTS`。模型未执行 `DIRECTOR_CRITICAL`
+切点且后期不可补救时，不得以 Prompt 格式正确代替成片失败。
 
 提示词不是文学描写，而是对生成变量的最小充分约束。
 
@@ -952,6 +979,10 @@ CHAR_LIN_XIA + WARDROBE_LIN_WORK_01 + LOC_PLANNING_OFFICE_NIGHT
 
 每个镜头至少执行三层审核：
 
+先处理安全、权利、严重身份错误与不可播放技术错误等不可抵消硬门；硬门通过后，实际裁决顺序是
+叙事可读性 → 可剪性与空间连续性 → 技术质量 → 风格微差。下列 A/B/C 是检查维度，不表示用技术瑕疵
+优先级覆盖叙事判断。
+
 ### A. 技术 QC
 
 - 分辨率、帧率、时长、编码是否正确？
@@ -1141,6 +1172,9 @@ AI 可以高效辅助：
 
 ## 预制作
 - [ ] 场景拆解表
+- [ ] 多节拍任务的 Director Sequence Card
+- [ ] 关键 Shot 的 Camera Direction Card
+- [ ] Beat / Coverage / Edit / Segment 编译记录
 - [ ] 镜头表
 - [ ] 轴线/视线表
 - [ ] 分镜与关键帧
@@ -1159,6 +1193,9 @@ AI 可以高效辅助：
 ## 15.2 最终放行门禁
 
 - [ ] 每个镜头都对应锁定剧本中的叙事功能
+- [ ] 每个 ESSENTIAL Beat 有可读 Coverage 和 Recovery Plan
+- [ ] 每个 DIRECTOR_CRITICAL 切点已执行或可确定性补救
+- [ ] 持续镜头有 Timed Attention Path；多镜头空间关系有 Screen Direction Map
 - [ ] 每个主要角色有批准的参考资产
 - [ ] 每个常驻场景有空间与光线参考
 - [ ] 服装、伤病、道具、时间、方向均可追踪

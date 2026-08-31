@@ -1,6 +1,6 @@
 ---
 name: professional-screenwriter
-description: Use for developing, outlining, diagnosing, rewriting, reviewing, versioning, or production-planning film, series, short film, vertical short drama, or AI-video screenplay projects. Apply first-principles story design, Full Bible control, causal scene design, adversarial review, continuity tracking, rights-aware change propagation, and production handoff; trigger on screenplay work, script doctoring, story diagnostics, red-team review, or requests for ultrathink or adversarial review in a screenwriting, story-development, or screen-production context.
+description: Use for developing, outlining, diagnosing, rewriting, reviewing, versioning, production-planning, storyboarding, shot-directing, or writing cinematography prompts for film, series, short film, vertical short drama, or AI-video screenplay projects. Apply first-principles story design, Full Bible control, causal scene design, adversarial review, continuity tracking, rights-aware change propagation, camera-direction planning, and production handoff; trigger on screenplay work, script doctoring, story diagnostics, shot language or camera movement design, AI-video directing, red-team review, or requests for ultrathink or adversarial review in a screenwriting, story-development, or screen-production context.
 ---
 
 # Professional Screenwriter
@@ -215,11 +215,18 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 - 场景资产表；
 - 角色一致性卡；
 - 镜头表；
+- 关键镜头的镜头导演卡；
 - 声音、字幕和 UI 清单；
 - AI/实拍提示词与降级策略；
 - 权利和风险记录。
 
 制作降级优先保留人物选择和情绪结果，最后才修改核心因果。
+
+用户要求镜头导演、分镜运镜或 AI 视频摄影 Prompt 时，先读取
+`references/cinematography-director.md`。单一镜头先输出并批准 Camera Direction Card，再写模型执行 Prompt。
+多节拍、多镜头、跨场景或完整短片必须先完成 Beat Map → Coverage Map → Edit Map → Shot Design →
+Segment Packing，批准上层 Director Sequence Card 后，再逐镜批准 Camera Direction Card，最后才写模型执行 Prompt。
+不得从镜头词库随机拼接“电影感”术语替代叙事、空间关系与可剪设计。
 
 ## 自动验证与人工判断
 
@@ -237,6 +244,7 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 | 剧本格式 | `references/screenplay-format-cn-en.md` | `^# 3\. 中文文学剧本格式$` |
 | 审查重写 | `references/adversarial-review-rubric.md`、`templates/review-report.md` | `^# 9\. 审查报告模板$` |
 | AI/实拍交接 | `references/ai-production-handoff.md`、`templates/production-handoff.md` | `^# 5\. 镜头表$` |
+| 镜头导演、分镜运镜与 AI 视频摄影 Prompt | `references/cinematography-director.md`、`references/ai-production-handoff.md` | 前者：`^# 2\. 镜头导演工作流$`；后者：`^# 5\. 镜头表$` |
 | 权利清理 | `references/rights-clearance-guide.md` | `^# 权利清理与 LICENSES 使用方法$` |
 | 项目目录 | `references/project-directory-structure.md` | `^# 1\. 唯一结构$`；`^# 2\. 合法子集$` |
 | 项目治理 | `governance/control-plane-contract.md`、`governance/project-manifest.md` | — |

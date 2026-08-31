@@ -288,5 +288,112 @@ class ExportPackageUsageTests(unittest.TestCase):
         self.assertNotIn("尚未提供可执行 exporter/verifier", section)
 
 
+def assert_in_order(test: unittest.TestCase, text: str, clauses: list[str]) -> None:
+    cursor = -1
+    for clause in clauses:
+        with test.subTest(clause=clause):
+            position = text.find(clause, cursor + 1)
+            test.assertGreater(position, cursor, clause)
+            cursor = position
+
+
+class DirectorModuleContractTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        cls.director = (ROOT / "references" / "cinematography-director.md").read_text(
+            encoding="utf-8"
+        )
+        cls.handoff = (ROOT / "references" / "ai-production-handoff.md").read_text(
+            encoding="utf-8"
+        )
+
+    def test_multi_beat_video_routes_through_sequence_design_before_prompt(self) -> None:
+        assert_in_order(
+            self,
+            self.skill,
+            [
+                "多节拍",
+                "Director Sequence Card",
+                "Camera Direction Card",
+                "模型执行 Prompt",
+            ],
+        )
+
+    def test_scene_beat_shot_segment_objects_are_not_interchangeable(self) -> None:
+        for clause in [
+            "`Scene`",
+            "`Beat`",
+            "`Sequence`",
+            "`Shot`",
+            "`Segment`",
+            "一个 Segment 可承载一个 Shot",
+            "一个 Sequence 可由一个或多个 Segment",
+        ]:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, self.director)
+
+    def test_continuous_take_requires_a_timed_attention_path(self) -> None:
+        for clause in [
+            "Timed Attention Path",
+            "观众先看什么",
+            "获得什么可见事实",
+            "观看距离/景别如何变化",
+            "不能覆盖全部 ESSENTIAL 信息",
+            "回到多 Shot Coverage",
+        ]:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, self.director)
+
+    def test_native_multi_shot_requires_entry_evidence_or_explicit_poc(self) -> None:
+        for clause in [
+            "NATIVE_MULTI_SHOT",
+            "INDEPENDENT_SHOTS",
+            "平台入口",
+            "预注册 Shot/关键切点数量",
+            "一条成功样本只证明可行性",
+            "明确标为 POC",
+        ]:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, self.director)
+
+    def test_editability_has_structured_direction_critical_cuts_and_recovery(self) -> None:
+        for clause in [
+            "DIRECTOR_CRITICAL",
+            "Screen Direction Map",
+            "Camera Side",
+            "Entry / Exit",
+            "Recovery Plan",
+            "ESSENTIAL Beat",
+        ]:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, self.director)
+
+    def test_handoff_compiles_story_logic_before_generation_prompt(self) -> None:
+        assert_in_order(
+            self,
+            self.handoff,
+            [
+                "Beat Map",
+                "Coverage Map",
+                "Edit Map",
+                "Shot Design",
+                "Segment Packing",
+                "Director Sequence Card",
+                "模型执行 Prompt",
+            ],
+        )
+
+    def test_review_uses_hard_veto_context_isolation_and_human_final_judgment(self) -> None:
+        for clause in [
+            "不可抵消硬门",
+            "上下文隔离",
+            "独立模型只能作为辅助证据",
+            "余老师保留最终审美和生产裁决",
+        ]:
+            with self.subTest(clause=clause):
+                self.assertIn(clause, self.director)
+
+
 if __name__ == "__main__":
     unittest.main()
