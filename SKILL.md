@@ -226,6 +226,9 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 `references/cinematography-director.md`。单一镜头先输出并批准 Camera Direction Card，再写模型执行 Prompt。
 多节拍、多镜头、跨场景或完整短片必须先完成 Beat Map → Coverage Map → Edit Map → Shot Design →
 Segment Packing，批准上层 Director Sequence Card 后，再逐镜批准 Camera Direction Card，最后才写模型执行 Prompt。
+上述批准是依赖与放行条件，不等于逐件请求用户回复。先按
+`references/ai-production-handoff.md` §2.3 核对有效委托；范围内自主完成中间产物与审查并记录依据，
+范围外、锁定约束变更或未授权重试才请求裁决。代理自检不得冒充用户逐件签字。
 不得从镜头词库随机拼接“电影感”术语替代叙事、空间关系与可剪设计。
 
 ## 自动验证与人工判断

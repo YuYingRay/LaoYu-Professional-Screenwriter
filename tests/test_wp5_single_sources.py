@@ -389,7 +389,7 @@ class DirectorModuleContractTests(unittest.TestCase):
             "不可抵消硬门",
             "上下文隔离",
             "独立模型只能作为辅助证据",
-            "余老师保留最终审美和生产裁决",
+            "用户指定的最终决策人保留最终审美和生产裁决",
         ]:
             with self.subTest(clause=clause):
                 self.assertIn(clause, self.director)
