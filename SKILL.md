@@ -222,6 +222,10 @@ P0 可以在 DEVELOPMENT 阶段被明确记录为 `ACCEPTED_RISK`，但不得进
 
 制作降级优先保留人物选择和情绪结果，最后才修改核心因果。
 
+正式剧情制作须以已同步的完整场景剧本为输入，不能用场景卡、历史待同步正文或已有素材替代。
+进入镜头与 Prompt 前执行交接参考 §2.1 的源头检查和 §7.5 的信息对照；概念验证不冒充正片放行。
+整集 AI 制作按该参考 §1.4 串联工作流；同场多图、原生多镜头 Prompt 与可操作交付分别见 §6.5、§7.2.1、§15.4。
+
 用户要求镜头导演、分镜运镜或 AI 视频摄影 Prompt 时，先读取
 `references/cinematography-director.md`。单一镜头先输出并批准 Camera Direction Card，再写模型执行 Prompt。
 多节拍、多镜头、跨场景或完整短片必须先完成 Beat Map → Coverage Map → Edit Map → Shot Design →
@@ -258,7 +262,7 @@ Segment Packing，批准上层 Director Sequence Card 后，再逐镜批准 Came
 | 典型输入 | 产出顺序 |
 |---|---|
 | 长片开发：题材、主角、目标受众、预算或时长约束 | Manifest → Story Bible → 长片因果大纲 → Scene Cards → Fountain 剧本 → Review → Production Handoff |
-| 竖屏付费短剧：集数、单集时长、画幅、付费节点 | Manifest → Story Bible → 钩子/兑现/付费地图 → 单集大纲 → Scene Cards → Review → 9:16 Production Handoff |
+| 竖屏付费短剧：集数、单集时长、画幅、付费节点 | Manifest → Story Bible → 钩子/兑现/付费地图 → 单集大纲 → Scene Cards → 完整场景剧本 → Review → 9:16 Production Handoff |
 | 场景或对白重写：场景文本及其剧情位置 | 定位当前基线 → Scene Card → 场景七问与对白审查 → Revision Map → 重写 → 局部回归 |
 
 这些顺序是交付依赖，不代表必须一次生成全部文件；先完成当前任务所需的最小闭包。
