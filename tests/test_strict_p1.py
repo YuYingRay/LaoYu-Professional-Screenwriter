@@ -13,7 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR = ROOT / "scripts" / "validate_project.py"
 
 
-def write_project(root: Path, *, status: str, acceptance: str = "") -> None:
+def write_project(
+    root: Path, *, status: str, acceptance: str = "",
+    severity: str = "P1", stage: str = "DEVELOPMENT",
+) -> None:
     governance = root / "governance"
     reviews = root / "development" / "review-reports"
     governance.mkdir(parents=True)
@@ -21,7 +24,8 @@ def write_project(root: Path, *, status: str, acceptance: str = "") -> None:
     (governance / "project-manifest.md").write_text(
         "---\nartifact_id: PROJECT-P1-001\nartifact_type: PROJECT_MANIFEST\n"
         "project_id: PROJECT-P1-001\nproject_baseline: BASELINE-A\n"
-        "artifact_version: v1.0.0\nstatus: DRAFT\nowner: TEST\nupstream_ids: []\n---\n",
+        "artifact_version: v1.0.0\nstatus: DRAFT\nowner: TEST\nupstream_ids: []\n"
+        f"project_stage: {stage}\n---\n",
         encoding="utf-8",
         newline="\n",
     )
@@ -31,7 +35,7 @@ def write_project(root: Path, *, status: str, acceptance: str = "") -> None:
         "artifact_version: v1.0.0\nstatus: DRAFT\nowner: TEST\nupstream_ids: []\n"
         "findings: [FIND-P1-001]\n---\n"
         "```finding\n"
-        "finding_id: FIND-P1-001\nseverity: P1\nevidence_location: SC-001\n"
+        f"finding_id: FIND-P1-001\nseverity: {severity}\nevidence_location: SC-001\n"
         "failure_mechanism: A production dependency is unresolved.\n"
         "downstream_impact: Delivery can drift.\nminimum_fix: Resolve the dependency.\n"
         "verification_method: Re-run the project gate.\nowner: TEST\n"

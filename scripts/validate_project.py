@@ -526,18 +526,24 @@ def validate(root: Path, write_digests: bool = False, baseline_mode: str = "auto
                         "P1", "FINDING_STATUS_ENUM", rel,
                         f"invalid finding status: {record.get('status')}",
                     ))
-                if record.get("severity") == "P1":
+                severity = record.get("severity")
+                if severity in {"P0", "P1"}:
                     finding_status = record.get("status")
                     if finding_status == "ACCEPTED_RISK":
                         for field in control_schema["finding_acceptance_required_fields"]:
                             if empty_value(record.get(field)):
                                 findings.append(Finding(
-                                    "P1", "P1_ACCEPTANCE_FIELD", rel,
+                                    severity, f"{severity}_ACCEPTANCE_FIELD", rel,
                                     f"{finding_id or '<missing-id>'} accepted risk requires {field}",
                                 ))
+                        if severity == "P0" and manifest.get("project_stage") != "DEVELOPMENT":
+                            findings.append(Finding(
+                                "P0", "P0_ACCEPTANCE_STAGE", rel,
+                                f"{finding_id or '<missing-id>'} accepted P0 is limited to DEVELOPMENT",
+                            ))
                     elif finding_status != "FIXED":
                         findings.append(Finding(
-                            "P1", "UNACCEPTED_P1", rel,
+                            severity, f"UNACCEPTED_{severity}", rel,
                             f"{finding_id or '<missing-id>'} remains {finding_status or '<missing-status>'}",
                         ))
                 if finding_id:
