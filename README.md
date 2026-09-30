@@ -9,6 +9,7 @@
 - [`SKILL.md`](SKILL.md)：Skill 运行入口与任务路由。
 - [`governance/control-plane-contract.md`](governance/control-plane-contract.md)：状态、权威层级与门禁的规范主源；变更等级见 [§7.2](governance/control-plane-contract.md#72-变更等级与最低门禁)。
 - [`tests/testing-guide.md`](tests/testing-guide.md)：本地验证与测试说明。
+- [当前维护上下文](.github/CONTEXT.md)：实施状态、未验证项及上下文保存点；[2026-09-30复盘账本](.github/reviews/2026-09-30-mv-retrospective.md)记录多轮反馈与交叉审核的采纳取舍。
 - [`LICENSE`](LICENSE)：CC BY 4.0 许可文本；第三方与资产权利记录见 [`LICENSES/`](LICENSES/)。
 
 ## 本地验证
